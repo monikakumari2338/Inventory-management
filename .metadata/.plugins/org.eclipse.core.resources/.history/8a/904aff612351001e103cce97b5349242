@@ -1,0 +1,44 @@
+package com.inventory.purchaseorder.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.inventory.purchaseorder.dto.ItemDetailsDto;
+import com.inventory.purchaseorder.dto.ItemsDto;
+import com.inventory.purchaseorder.service.ItemDetailsService;
+import com.inventory.purchaseorder.service.ItemsService;
+
+
+
+@RestController
+@RequestMapping("/purchaseOrder")
+public class ItemsController {
+
+	
+	@Autowired
+	private ItemsService itemsService;
+
+	@Autowired
+	private ItemDetailsService itemDetailsService;
+	
+	@PostMapping("/additems")
+	public ResponseEntity<ItemsDto> add_Products(@RequestBody ItemsDto itemsDto )
+	{
+		ItemsDto itemsDto1= itemsService.save(itemsDto);
+		return new ResponseEntity<>(itemsDto1,HttpStatus.OK);	
+	}
+	
+	@PostMapping("/additemDetails")
+	public ResponseEntity<ItemDetailsDto> additemDetails(@RequestBody ItemDetailsDto itemDetailsDto )
+	{
+		ItemDetailsDto itemsDto1= itemDetailsService.save(itemDetailsDto);
+		return new ResponseEntity<>(itemsDto1,HttpStatus.OK);	
+	}
+	
+	
+}

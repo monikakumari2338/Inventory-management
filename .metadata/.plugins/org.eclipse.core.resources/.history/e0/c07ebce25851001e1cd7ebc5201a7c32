@@ -1,0 +1,47 @@
+package com.inventory.purchaseorder.dto;
+
+import com.inventory.purchaseorder.entity.PurchaseOrderItems;
+import com.inventory.purchaseorder.entity.purchaseOrderItemDetails;
+
+public class PurchaseOrderCombineddto {
+
+	private PurchaseOrderItems purchaseOrderItemsdto;
+	private purchaseOrderItemDetails purchaseOrderItemDetailsdto;
+	
+	
+	public PurchaseOrderItems getPurchaseOrderItemsdto() {
+		return purchaseOrderItemsdto;
+	}
+
+
+	public void setPurchaseOrderItemsdto(PurchaseOrderItems purchaseOrderItemsdto) {
+		this.purchaseOrderItemsdto = purchaseOrderItemsdto;
+	}
+
+
+	public purchaseOrderItemDetails getPurchaseOrderItemDetailsdto() {
+		return purchaseOrderItemDetailsdto;
+	}
+
+
+	public void setPurchaseOrderItemDetailsdto(purchaseOrderItemDetails purchaseOrderItemDetailsdto) {
+		this.purchaseOrderItemDetailsdto = purchaseOrderItemDetailsdto;
+	}
+
+
+	public PurchaseOrderCombineddto(PurchaseOrderItems purchaseOrderItemsdto,
+			purchaseOrderItemDetails purchaseOrderItemDetailsdto) {
+		super();
+		this.purchaseOrderItemsdto = purchaseOrderItemsdto;
+		this.purchaseOrderItemDetailsdto = purchaseOrderItemDetailsdto;
+	}
+
+
+	public PurchaseOrderCombineddto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
+}

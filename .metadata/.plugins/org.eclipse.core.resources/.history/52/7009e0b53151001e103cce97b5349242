@@ -1,0 +1,50 @@
+package com.inventory.purchaseorder.serviceimpl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Service;
+
+import com.inventory.purchaseorder.entity.PurchaseOrderItems;
+import com.inventory.purchaseorder.dto.PurchaseOrderItemsdto;
+import com.inventory.purchaseorder.entity.PurchaseOrder;
+import com.inventory.purchaseorder.repository.PurchaseOrderItemDetailsRepo;
+import com.inventory.purchaseorder.repository.PurchaseOrderItemsRepo;
+import com.inventory.purchaseorder.repository.PurchaseOrderRepo;
+import com.inventory.purchaseorder.service.PurchaseOrderService;
+import com.inventory.purchaseorder.entity.purchaseOrderItemDetails;
+
+@Service
+public class PurchaseOrderServiceImpl implements PurchaseOrderService {
+
+	@Autowired
+	private PurchaseOrderItemsRepo itemsRepo;
+
+	@Autowired
+	private PurchaseOrderItemDetailsRepo itemDetailsRepo;
+
+	@Autowired
+	private PurchaseOrderRepo purchaseOrderRepo;
+
+	@Override
+	public PurchaseOrderItemsdto savePurchaseOrderItems(PurchaseOrderItemsdto PurchaseOrderItemsdto1) {
+		//System.out.print("id : "+PurchaseOrderitems.getPurchaseOrder().getPoId());
+		int po_id = purchaseOrderRepo.findByPoId(PurchaseOrderItemsdto1.getPoID());
+		PurchaseOrderItems items = new PurchaseOrderItems(
+				PurchaseOrderItemsdto1.getItemNumber(),PurchaseOrderItemsdto1.getItemName(), PurchaseOrderItemsdto1.getExpectedQty(),
+				PurchaseOrderItemsdto1.getCategory(), po_id);
+		PurchaseOrderItems item1 = itemsRepo.save(items);
+		return PurchaseOrderItemsdto1;
+	}
+
+	@Override
+	public purchaseOrderItemDetails savepurchaseOrderItemDetails(purchaseOrderItemDetails POitemDetails) {
+
+		PurchaseOrderItems items = itemsRepo.findByitemNumber(POitemDetails.getItems().getItemNumber());
+		purchaseOrderItemDetails itemDetails = new purchaseOrderItemDetails(POitemDetails.getColor(),
+				POitemDetails.getPrice(), POitemDetails.getStoreref(), POitemDetails.getSize(),
+				POitemDetails.getStock(), POitemDetails.getImageData(), items);
+		purchaseOrderItemDetails purchaseOrderItemDetails1=itemDetailsRepo.save(itemDetails);
+		return purchaseOrderItemDetails1;
+	}
+
+}

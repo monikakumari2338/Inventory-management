@@ -1,0 +1,54 @@
+package com.inventory.purchaseorder.dto;
+
+public class Productdto {
+
+	private String itemNumber;
+	private String itemName;
+	// private int categoryID;
+	private int categoryName;
+
+	public Productdto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(int categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public Productdto(String itemNumber, String itemName, int categoryName) {
+		super();
+		this.itemNumber = itemNumber;
+		this.itemName = itemName;
+		this.categoryName = categoryName;
+	}
+
+	public String getItemNumber() {
+		return itemNumber;
+	}
+
+	public void setItemNumber(String itemNumber) {
+		this.itemNumber = itemNumber;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	public int getCategoryID() {
+		return categoryID;
+	}
+
+	public void setCategoryID(int categoryID) {
+		this.categoryID = categoryID;
+	}
+
+}

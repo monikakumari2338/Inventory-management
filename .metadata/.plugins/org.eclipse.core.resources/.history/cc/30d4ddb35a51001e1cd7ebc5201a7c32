@@ -1,0 +1,11 @@
+package com.inventory.purchaseorder.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.inventory.purchaseorder.entity.purchaseOrderItemDetails;
+
+public interface PurchaseOrderItemDetailsRepo extends JpaRepository<purchaseOrderItemDetails, Integer> {
+
+	List<purchaseOrderItemDetails> findByItemNumber(String item_num);
+
+}

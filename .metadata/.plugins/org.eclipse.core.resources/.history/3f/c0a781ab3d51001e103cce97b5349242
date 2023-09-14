@@ -1,0 +1,12 @@
+package com.inventory.purchaseorder.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.inventory.purchaseorder.entity.Product;
+import com.inventory.purchaseorder.entity.purchaseOrderItemDetails;
+
+public interface CategoryRepo extends JpaRepository<Product, String> {
+
+	
+
+}

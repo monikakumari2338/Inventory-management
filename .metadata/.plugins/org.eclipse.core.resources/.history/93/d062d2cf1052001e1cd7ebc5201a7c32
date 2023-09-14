@@ -1,0 +1,16 @@
+package com.inventory.purchaseorder.repository;
+
+
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.inventory.purchaseorder.entity.Category;
+import com.inventory.purchaseorder.entity.Product;
+
+
+public interface ProductRepo extends JpaRepository<Product, String> {
+
+	Product findByitemNumber(String itemNumber);
+	Product findByCategory(Category cate);
+	
+}

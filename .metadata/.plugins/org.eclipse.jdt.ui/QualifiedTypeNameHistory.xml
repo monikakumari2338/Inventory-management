@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.ItemDetailsDto"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.ItemDetailsRepo"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.ItemDetails"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Items"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.service.ItemDetailsService"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.PurchaseOrderItemDetailsRepo"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.service.PurchaseOrderService"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.ProductRepo"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.ProductDetailsRepo"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.CategoryRepo"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.StoreRepo"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.purchaseOrderItemDetailsdto"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.PurchaseOrderItemsdto"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.PurchaseOrder"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.purchaseOrderItemDetails"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.PurchaseOrderCombineddto"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.PurchaseOrderItems"/>
+    <fullyQualifiedTypeName name="java.lang.System.Logger"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.service.ProductService"/>
+    <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="java.time.LocalDate"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.Productdto"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.ProductDetailsdto"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.ProductCombineddto"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Category"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Stores"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.ProductDetails"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Product"/>
+</qualifiedTypeNameHistroy>

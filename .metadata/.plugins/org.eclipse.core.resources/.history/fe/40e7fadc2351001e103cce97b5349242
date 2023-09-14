@@ -1,0 +1,60 @@
+package com.inventory.purchaseorder.dto;
+
+
+public class ItemsDto {
+
+	private String itemName;
+	private String itemNumber;
+	private int expectedQty;
+	private int poId;
+
+	
+
+	public ItemsDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public ItemsDto(String itemName, String itemNumber, int expectedQty, int poid) {
+		super();
+		this.itemName = itemName;
+		this.itemNumber = itemNumber;
+		this.expectedQty = expectedQty;
+		this.poId = poid;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	public String getItemNumber() {
+		return itemNumber;
+	}
+
+	public void setItemNumber(String itemNumber) {
+		this.itemNumber = itemNumber;
+	}
+
+	public int getExpectedQty() {
+		return expectedQty;
+	}
+
+	public void setExpectedQty(int expectedQty) {
+		this.expectedQty = expectedQty;
+	}
+
+	public int getPoId() {
+		return poId;
+	}
+
+	public void setPoId(int poId) {
+		this.poId = poId;
+	}
+
+
+
+}

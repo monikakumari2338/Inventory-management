@@ -1,0 +1,21 @@
+
+package com.inventory.purchaseorder.service;
+
+import java.util.List;
+
+import com.inventory.purchaseorder.dto.ProductCombineddto;
+import com.inventory.purchaseorder.dto.PurchaseOrderCombineddto;
+import com.inventory.purchaseorder.dto.PurchaseOrderItemsdto;
+import com.inventory.purchaseorder.dto.purchaseOrderItemDetailsdto;
+
+
+public interface PurchaseOrderService {
+
+//	PurchaseOrderItemsdto savePurchaseOrderItems(PurchaseOrderItemsdto itemsDto);
+//	
+//	purchaseOrderItemDetailsdto savepurchaseOrderItemDetails(purchaseOrderItemDetailsdto ItemDetailsDto);
+	
+	List<PurchaseOrderCombineddto> saveProducts(List<PurchaseOrderCombineddto> PurchaseOrderCombineddto);
+	
+	PurchaseOrderCombineddto displayPO(int po);
+}

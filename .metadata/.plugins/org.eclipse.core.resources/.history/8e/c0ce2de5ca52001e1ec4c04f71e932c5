@@ -1,0 +1,37 @@
+package com.inventory.purchaseorder.dto;
+
+import java.util.List;
+
+public class ProductCombineddto {
+
+	private List<Productdto> productdto;
+	private List<ProductDetailsdto> productDetailsdto;
+
+	public List<Productdto> getProductdto() {
+		return productdto;
+	}
+
+	public void setProductdto(List<Productdto> productdto) {
+		this.productdto = productdto;
+	}
+
+	public List<ProductDetailsdto> getProductDetailsdto() {
+		return productDetailsdto;
+	}
+
+	public void setProductDetailsdto(List<ProductDetailsdto> productDetailsdto) {
+		this.productDetailsdto = productDetailsdto;
+	}
+
+	public ProductCombineddto(List<Productdto> productdto, List<ProductDetailsdto> productDetailsdto) {
+		super();
+		this.productdto = productdto;
+		this.productDetailsdto = productDetailsdto;
+	}
+
+	public ProductCombineddto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+}

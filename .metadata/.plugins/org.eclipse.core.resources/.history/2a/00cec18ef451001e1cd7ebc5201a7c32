@@ -1,0 +1,43 @@
+package com.inventory.purchaseorder.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class ASN {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int asnId;
+	private int asnNumber;
+
+	public ASN(int asnId, int asnNumber) {
+		super();
+		this.asnId = asnId;
+		this.asnNumber = asnNumber;
+	}
+
+	public ASN() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getAsnId() {
+		return asnId;
+	}
+
+	public void setAsnId(int asnId) {
+		this.asnId = asnId;
+	}
+
+	public int getAsnNumber() {
+		return asnNumber;
+	}
+
+	public void setAsnNumber(int asnNumber) {
+		this.asnNumber = asnNumber;
+	}
+
+}

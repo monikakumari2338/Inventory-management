@@ -1,0 +1,13 @@
+package com.inventory.purchaseorder.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.inventory.purchaseorder.dto.ItemsDto;
+import com.inventory.purchaseorder.entity.PurchaseOrderItems;
+
+public interface ItemsRepo extends JpaRepository<PurchaseOrderItems, Integer> {
+
+	PurchaseOrderItems save(PurchaseOrderItems itemsDto);
+	PurchaseOrderItems findById(int id);
+
+}

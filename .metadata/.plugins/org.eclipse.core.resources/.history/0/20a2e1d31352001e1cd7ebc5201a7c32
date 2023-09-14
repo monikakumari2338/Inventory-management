@@ -1,0 +1,89 @@
+package com.inventory.purchaseorder.serviceimpl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Service;
+
+import com.inventory.purchaseorder.entity.Stores;
+import com.inventory.purchaseorder.dto.ProductCombineddto;
+import com.inventory.purchaseorder.dto.ProductDetailsdto;
+import com.inventory.purchaseorder.dto.Productdto;
+import com.inventory.purchaseorder.entity.Category;
+import com.inventory.purchaseorder.entity.Product;
+import com.inventory.purchaseorder.entity.ProductDetails;
+import com.inventory.purchaseorder.repository.CategoryRepo;
+import com.inventory.purchaseorder.repository.ProductDetailsRepo;
+import com.inventory.purchaseorder.repository.ProductRepo;
+import com.inventory.purchaseorder.repository.StoreRepo;
+import com.inventory.purchaseorder.service.ProductService;
+
+@Service
+public class ProductServiceImpl implements ProductService {
+
+	@Autowired
+	private ProductRepo productRepo;
+
+	@Autowired
+	private ProductDetailsRepo productDetailsRepo;
+
+	@Autowired
+	private CategoryRepo categoryRepo;
+
+	@Autowired
+	private StoreRepo storeRepo;
+
+//	@Override
+//	public Productdto saveProduct(Productdto Productdto) {
+//		Category category = categoryRepo.findByCategoryId(Productdto.getCategoryID());
+//		Product product = new Product(Productdto.getItemNumber(), Productdto.getItemName(), category);
+//		productRepo.save(product);
+//		return Productdto;
+//	}
+//
+//	@Override
+//	public ProductDetailsdto saveProductDetails(ProductDetailsdto ProductDetailsdto) {
+//
+//		Stores store = storeRepo.findByStoreId(ProductDetailsdto.getStoreref());
+//		Product product = productRepo.findByitemNumber(ProductDetailsdto.getItemNumber());
+//		ProductDetails productDetails = new ProductDetails(ProductDetailsdto.getColor(), ProductDetailsdto.getPrice(),
+//				ProductDetailsdto.getSize(), ProductDetailsdto.getStock(), ProductDetailsdto.getImageData(), store,
+//				product);
+//		productDetailsRepo.save(productDetails);
+//		return ProductDetailsdto;
+//	}
+
+	@Override
+	public ProductCombineddto saveProducts(ProductCombineddto productCombineddto) {
+
+//		System.out.print("category "+productCombineddto.getProductdto().getCategoryName());
+		Category category = categoryRepo.findByCategory(productCombineddto.getProductdto().getCategoryName());
+		Product product1 = new Product(productCombineddto.getProductdto().getItemNumber(),
+				productCombineddto.getProductdto().getItemName(), category);
+
+		Stores store = storeRepo.findByStoreId(productCombineddto.getProductDetailsdto().getStoreref());
+		System.out.print("store "+productCombineddto.getProductDetailsdto().getStoreref());
+		Product product = productRepo.findByitemNumber(productCombineddto.getProductDetailsdto().getItemNumber());
+		ProductDetails productDetails = new ProductDetails(productCombineddto.getProductDetailsdto().getColor(),
+				productCombineddto.getProductDetailsdto().getPrice(),
+				productCombineddto.getProductDetailsdto().getSize(),
+				productCombineddto.getProductDetailsdto().getStock(),
+				productCombineddto.getProductDetailsdto().getImageData(), store, product);
+
+		productRepo.save(product1);
+		productDetailsRepo.save(productDetails);
+
+		Productdto Productdto = new Productdto(product1.getItemNumber(), product1.getitemName(),
+				productCombineddto.getProductdto().getCategoryName());
+		ProductDetailsdto productDetailsdto = new ProductDetailsdto(productDetails.getColor(),
+				productDetails.getPrice(), productDetails.getSize(), productDetails.getStock(),
+				productDetails.getImageData(), productCombineddto.getProductDetailsdto().getStoreref(),
+				productCombineddto.getProductDetailsdto().getItemNumber());
+
+		ProductCombineddto productCombineddto1 = new ProductCombineddto();
+		productCombineddto1.setProductdto(Productdto);
+		productCombineddto1.setProductDetailsdto(productDetailsdto);
+
+		return productCombineddto1;
+	}
+
+}

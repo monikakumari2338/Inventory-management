@@ -1,0 +1,79 @@
+package com.inventory.purchaseorder.entity;
+
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
+public class ItemDetails {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String itemName;
+	private String itemNumber;
+	private int expectedQty;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "poId", referencedColumnName = "poId")
+	private PurchaseOrder purchaseOrder;
+	
+	public ItemDetails() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public ItemDetails(String itemName, String itemNumber, int expectedQty, PurchaseOrder purchaseOrder) {
+		super();
+		this.itemName = itemName;
+		this.itemNumber = itemNumber;
+		this.expectedQty = expectedQty;
+		this.purchaseOrder = purchaseOrder;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	public String getItemNumber() {
+		return itemNumber;
+	}
+
+	public void setItemNumber(String itemNumber) {
+		this.itemNumber = itemNumber;
+	}
+
+	public int getExpectedQty() {
+		return expectedQty;
+	}
+
+	public void setExpectedQty(int expectedQty) {
+		this.expectedQty = expectedQty;
+	}
+
+
+	public PurchaseOrder getPurchaseOrder() {
+		return purchaseOrder;
+	}
+
+	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+		this.purchaseOrder = purchaseOrder;
+	}	
+}

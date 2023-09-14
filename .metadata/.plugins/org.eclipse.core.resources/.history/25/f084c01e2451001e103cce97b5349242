@@ -1,0 +1,11 @@
+package com.inventory.purchaseorder.service;
+
+import com.inventory.purchaseorder.dto.ItemDetailsDto;
+import com.inventory.purchaseorder.dto.ItemsDto;
+
+public interface PurchaseOrderService {
+
+	ItemsDto save(ItemsDto itemsDto);
+	
+	ItemDetailsDto save(ItemDetailsDto ItemDetailsDto);
+}

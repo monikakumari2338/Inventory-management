@@ -1,0 +1,72 @@
+package com.inventory.purchaseorder.serviceimpl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Service;
+
+import com.inventory.purchaseorder.entity.PurchaseOrderItems;
+import com.inventory.purchaseorder.dto.PurchaseOrderCombineddto;
+import com.inventory.purchaseorder.dto.PurchaseOrderItemsdto;
+import com.inventory.purchaseorder.dto.purchaseOrderItemDetailsdto;
+import com.inventory.purchaseorder.entity.PurchaseOrder;
+import com.inventory.purchaseorder.repository.PurchaseOrderItemDetailsRepo;
+import com.inventory.purchaseorder.repository.PurchaseOrderItemsRepo;
+import com.inventory.purchaseorder.repository.PurchaseOrderRepo;
+import com.inventory.purchaseorder.service.PurchaseOrderService;
+import com.inventory.purchaseorder.entity.purchaseOrderItemDetails;
+
+@Service
+public class PurchaseOrderServiceImpl implements PurchaseOrderService {
+
+	@Autowired
+	private PurchaseOrderItemsRepo itemsRepo;
+
+	@Autowired
+	private PurchaseOrderItemDetailsRepo itemDetailsRepo;
+
+	@Autowired
+	private PurchaseOrderRepo purchaseOrderRepo;
+
+	@Override
+	public PurchaseOrderItemsdto savePurchaseOrderItems(PurchaseOrderItemsdto PurchaseOrderItemsdto1) {
+		PurchaseOrder item = purchaseOrderRepo.findByPoNumber(PurchaseOrderItemsdto1.getPoNumber());
+		PurchaseOrderItems items = new PurchaseOrderItems(
+				PurchaseOrderItemsdto1.getItemNumber(),PurchaseOrderItemsdto1.getItemName(), PurchaseOrderItemsdto1.getExpectedQty(),
+				PurchaseOrderItemsdto1.getCategory(), item);
+		PurchaseOrderItems item1 = itemsRepo.save(items);
+		return PurchaseOrderItemsdto1;
+	}
+
+	@Override
+	public purchaseOrderItemDetailsdto savepurchaseOrderItemDetails(purchaseOrderItemDetailsdto POitemDetails) {
+
+		PurchaseOrderItems items = itemsRepo.findByitemNumber(POitemDetails.getItemNumber());
+		purchaseOrderItemDetails itemDetails = new purchaseOrderItemDetails(POitemDetails.getColor(),
+				POitemDetails.getPrice(), POitemDetails.getStoreref(), POitemDetails.getSize(),
+				POitemDetails.getStock(), POitemDetails.getImageData(), items);
+		purchaseOrderItemDetails purchaseOrderItemDetails1=itemDetailsRepo.save(itemDetails);
+		return POitemDetails;
+	}
+
+	@Override
+	public PurchaseOrderCombineddto displayPO(int poNumber) {
+		PurchaseOrder purchaseOrder = purchaseOrderRepo.findByPoNumber(poNumber);
+		List<PurchaseOrderItems> purchaseOrderItems = itemsRepo.findAllByPurchaseOrder(purchaseOrder);
+		
+		List<purchaseOrderItemDetails> POItemDetail= new ArrayList<>();
+		for(int i=0;i<purchaseOrderItems.size();i++)
+		{
+			//String num=purchaseOrderItems.get(i).getItemNumber();
+			POItemDetail.addAll(itemDetailsRepo.findAllByItems(purchaseOrderItems.get(i)));
+			System.out.print(false);
+		}
+		PurchaseOrderCombineddto purchaseOrderCombineddto=new PurchaseOrderCombineddto();
+		purchaseOrderCombineddto.setPurchaseOrderItemsdto(purchaseOrderItems);
+		purchaseOrderCombineddto.setPurchaseOrderItemDetailsdto(POItemDetail);
+		return purchaseOrderCombineddto;
+	}
+
+}

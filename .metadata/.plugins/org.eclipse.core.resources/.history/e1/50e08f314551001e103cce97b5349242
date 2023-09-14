@@ -1,0 +1,60 @@
+package com.inventory.purchaseorder.entity;
+
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
+public class PurchaseOrder {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int poId;
+	private int poNumber;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "asnId", referencedColumnName = "asnId")
+	private ASN asn;
+	
+	public PurchaseOrder() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public PurchaseOrder(int poId, int poNumber, ASN asn) {
+		super();
+		this.poId = poId;
+		this.poNumber = poNumber;
+		this.asn = asn;
+	}
+
+	public int getPoId() {
+		return poId;
+	}
+
+	public void setPo_Id(int poId) {
+		this.poId = poId;
+	}
+
+	public int getPo_Number() {
+		return poNumber;
+	}
+
+	public void setPo_Number(int poNumber) {
+		this.poNumber = poNumber;
+	}
+
+	public ASN getAsn() {
+		return asn;
+	}
+
+	public void setAsn(ASN asn) {
+		this.asn = asn;
+	}
+
+}

@@ -1,0 +1,96 @@
+package com.inventory.purchaseorder.serviceimpl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Service;
+
+import com.inventory.purchaseorder.entity.Stores;
+import com.inventory.purchaseorder.dto.ProductCombineddto;
+import com.inventory.purchaseorder.dto.ProductDetailsdto;
+import com.inventory.purchaseorder.dto.Productdto;
+import com.inventory.purchaseorder.entity.Category;
+import com.inventory.purchaseorder.entity.Product;
+import com.inventory.purchaseorder.entity.ProductDetails;
+import com.inventory.purchaseorder.repository.CategoryRepo;
+import com.inventory.purchaseorder.repository.ProductDetailsRepo;
+import com.inventory.purchaseorder.repository.ProductRepo;
+import com.inventory.purchaseorder.repository.StoreRepo;
+import com.inventory.purchaseorder.service.ProductService;
+
+@Service
+public class ProductServiceImpl implements ProductService {
+
+	@Autowired
+	private ProductRepo productRepo;
+
+	@Autowired
+	private ProductDetailsRepo productDetailsRepo;
+
+	@Autowired
+	private CategoryRepo categoryRepo;
+
+	@Autowired
+	private StoreRepo storeRepo;
+
+	@Override
+	public ProductCombineddto saveProducts(ProductCombineddto productCombineddto) {
+		ProductCombineddto productCombineddto1 = new ProductCombineddto();
+		// Product product =
+		// productRepo.findByitemNumber(productCombineddto.getProductdto().getItemNumber());
+		Stores store = storeRepo.findByStoreName(productCombineddto.getProductDetailsdto().getStore());
+
+		// System.out.print("item" +
+		// productRepo.findByitemNumber(productCombineddto.getProductdto().getItemNumber()));
+		Category category = categoryRepo.findByCategory(productCombineddto.getProductdto().getCategoryName());
+		Product product1 = new Product();
+//		Product product1 = new Product(productCombineddto.getProductdto().getItemNumber(),
+//				productCombineddto.getProductdto().getItemName(), category);
+//
+//		Productdto Productdto = new Productdto(product1.getItemNumber(), product1.getitemName(),
+//				productCombineddto.getProductdto().getCategoryName());
+	productRepo.save(product1);
+//		productCombineddto1.setProductdto(Productdto);
+	
+//		ProductDetails productDetails1 = productDetailsRepo.findByColorAndSizeAndStore(
+//				productCombineddto.getProductDetailsdto().getColor(),
+//				productCombineddto.getProductDetailsdto().getSize(), store);
+//		System.out.println("productDetails1 "+productDetails1);
+//		
+//		System.out.println("productDetails1 "+productDetails1);
+		
+		ProductDetails productDetails2 = new ProductDetails();
+		//productDetails2.setStock(8);
+
+//		if (productDetails1 == null) {
+//			productDetails2.setColor("green");
+//			productDetails2.setPrice("2000");
+//			productDetails2.setSize("med");
+//			productDetails2.setStock(8);
+//			productDetails2.setImageData("abc");
+//			productDetails2.setStore(store);
+//			productDetails2.setProduct(product1);
+
+//			ProductDetailsdto productDetailsdto = new ProductDetailsdto(productDetails2.getColor(),
+//					productDetails2.getPrice(), productDetails2.getSize(), productDetails2.getStock(),
+//					productDetails2.getImageData(), productCombineddto.getProductDetailsdto().getStore(),
+//					productCombineddto.getProductDetailsdto().getItemNumber());
+
+			
+//		} else {
+//			ProductDetails Product1 = productDetailsRepo.findByProduct(product1);
+//			int Prev_stock=Product1.getStock();
+////			String item=Product1.getItemNumber();
+//			System.out.println("Stock "+Product1.getStock());
+//			//System.out.println("poooo "+productDetailsRepo.findByProduct(product));
+//			productDetails2.setStock(productCombineddto.getProductDetailsdto().getStock());
+//		}
+		
+	
+		//productCombineddto1.setProductDetailsdto(productDetailsdto);
+		productDetailsRepo.save(productDetails2);
+		return productCombineddto1;
+
+	}
+}
+
+

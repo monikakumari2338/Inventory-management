@@ -1,0 +1,47 @@
+package com.inventory.purchaseorder.serviceimpl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Service;
+
+
+import com.inventory.purchaseorder.entity.PurchaseOrderItems;
+import com.inventory.purchaseorder.entity.PurchaseOrder;
+import com.inventory.purchaseorder.repository.PurchaseOrderItemDetailsRepo;
+import com.inventory.purchaseorder.repository.PurchaseOrderItemsRepo;
+import com.inventory.purchaseorder.repository.PurchaseOrderRepo;
+import com.inventory.purchaseorder.service.PurchaseOrderService;
+import com.inventory.purchaseorder.entity.purchaseOrderItemDetails;
+
+@Service
+public class PurchaseOrderServiceImpl implements PurchaseOrderService {
+
+	@Autowired
+	private PurchaseOrderItemsRepo itemsRepo;
+	
+	@Autowired
+	private PurchaseOrderItemDetailsRepo itemDetailsRepo;
+	
+	@Autowired
+	private PurchaseOrderRepo purchaseOrderRepo;
+
+	@Override
+	public PurchaseOrderItems save(PurchaseOrderItems PurchaseOrderitems) {
+		PurchaseOrder item=purchaseOrderRepo.findByPoId(PurchaseOrderitems.getPurchaseOrder().getPoId());
+		PurchaseOrderItems items=new PurchaseOrderItems(PurchaseOrderitems.getItemName(),PurchaseOrderitems.getItemNumber(),PurchaseOrderitems.getExpectedQty(),PurchaseOrderitems.getCategory(), item); 
+		PurchaseOrderItems item1 =itemsRepo.save(items);
+		return item1;
+	}
+	
+	@Override
+	public purchaseOrderItemDetails save(purchaseOrderItemDetails ItemDetailsDto) {
+	
+		PurchaseOrderItems items=itemsRepo.findById(ItemDetailsDto.getItemId());
+		purchaseOrderItemDetails itemDetails=new purchaseOrderItemDetails(ItemDetailsDto.getColor(),ItemDetailsDto.getPrice(),ItemDetailsDto.getStoreref(),
+				ItemDetailsDto.getSize(),ItemDetailsDto.getCategoryref(),ItemDetailsDto.getImageData(),items);
+		itemDetailsRepo.save(itemDetails);
+		return null;
+	}
+	
+	
+}

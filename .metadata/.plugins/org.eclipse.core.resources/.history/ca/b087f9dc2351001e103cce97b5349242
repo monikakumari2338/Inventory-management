@@ -1,0 +1,90 @@
+package com.inventory.purchaseorder.dto;
+
+public class ItemDetailsDto {
+	
+	private String color;
+	private String price;
+	private int storeref;
+	private String size;
+	private int categoryref;
+	private String imageData;
+	private int ItemId;
+	
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
+
+	public int getStoreref() {
+		return storeref;
+	}
+
+	public void setStoreref(int storeref) {
+		this.storeref = storeref;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public int getCategoryref() {
+		return categoryref;
+	}
+
+	public void setCategoryref(int categoryref) {
+		this.categoryref = categoryref;
+	}
+
+	public String getImageData() {
+		return imageData;
+	}
+
+	public void setImageData(String imageData) {
+		this.imageData = imageData;
+	}
+
+	public int getItemId() {
+		return ItemId;
+	}
+
+	public void setItemId(int itemId) {
+		ItemId = itemId;
+	}
+
+	public ItemDetailsDto(String color, String price, int storeref, String size, int categoryref, String imageData,
+			int itemId) {
+		super();
+		this.color = color;
+		this.price = price;
+		this.storeref = storeref;
+		this.size = size;
+		this.categoryref = categoryref;
+		this.imageData = imageData;
+		ItemId = itemId;
+	}
+
+	public ItemDetailsDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	
+	
+
+}

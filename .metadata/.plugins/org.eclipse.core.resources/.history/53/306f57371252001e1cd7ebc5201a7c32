@@ -1,0 +1,17 @@
+
+package com.inventory.purchaseorder.service;
+
+import com.inventory.purchaseorder.dto.ProductCombineddto;
+import com.inventory.purchaseorder.dto.ProductDetailsdto;
+import com.inventory.purchaseorder.dto.Productdto;
+
+
+
+public interface ProductService {
+
+	Productdto saveProduct(Productdto Productdto);
+	
+	ProductDetailsdto saveProductDetails(ProductDetailsdto ProductDetailsdto);
+	
+	ProductCombineddto saveProducts(ProductCombineddto productCombineddto);
+}

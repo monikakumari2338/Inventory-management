@@ -1,0 +1,40 @@
+package com.inventory.purchaseorder.serviceimpl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Service;
+
+import com.inventory.purchaseorder.dto.ItemDetailsDto;
+import com.inventory.purchaseorder.entity.purchaseOrderItemDetails;
+import com.inventory.purchaseorder.entity.PurchaseOrderItems;
+import com.inventory.purchaseorder.repository.ItemDetailsRepo;
+import com.inventory.purchaseorder.repository.ItemsRepo;
+import com.inventory.purchaseorder.service.ItemDetailsService;
+
+
+@Service
+public class ItemDetailsServiceImpl implements ItemDetailsService {
+
+	@Autowired
+	private ItemDetailsRepo itemDetailsRepo;
+
+	@Autowired
+	private ItemsRepo itemsRepo;
+	
+
+	@Override
+	public ItemDetailsDto save(ItemDetailsDto ItemDetailsDto) {
+	
+		PurchaseOrderItems items=itemsRepo.findById(ItemDetailsDto.getItemId());
+		purchaseOrderItemDetails itemDetails=new purchaseOrderItemDetails(ItemDetailsDto.getColor(),ItemDetailsDto.getPrice(),ItemDetailsDto.getStoreref(),
+				ItemDetailsDto.getSize(),ItemDetailsDto.getCategoryref(),ItemDetailsDto.getImageData(),items);
+		itemDetailsRepo.save(itemDetails);
+		return null;
+	}
+	
+	
+	
+
+	
+	
+}

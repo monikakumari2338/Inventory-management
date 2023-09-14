@@ -1,0 +1,11 @@
+server.port=8081
+
+spring.datasource.url=jdbc:mysql://127.0.0.1:3306/demo
+spring.datasource.username=root
+spring.datasource.password=root
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+
+
+#spring.application.name=STOCKCHECK-SERVICE
+#eureka.instance.client.serverUrl.defaultZone=http://localhost:8761/eureka/
