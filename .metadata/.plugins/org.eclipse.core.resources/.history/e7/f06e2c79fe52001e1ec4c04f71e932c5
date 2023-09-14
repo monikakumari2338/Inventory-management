@@ -36,6 +36,12 @@ public class PurchaseOrderController {
 		return new ResponseEntity<>(POItems1,HttpStatus.OK);	
 	}
 	
+//	@PostMapping("/addpoitemDetails")
+//	public ResponseEntity<purchaseOrderItemDetailsdto> additemDetails(@RequestBody purchaseOrderItemDetailsdto POitemDetails )
+//	{
+//		purchaseOrderItemDetailsdto POitemDetails1= POService.savepurchaseOrderItemDetails(POitemDetails);
+//		return new ResponseEntity<>(POitemDetails1,HttpStatus.OK);	
+//	}
 	
 	@GetMapping("/findbyPO/{po}")
 	public ResponseEntity<PurchaseOrderCombineddto> findbyPO(@PathVariable int po)

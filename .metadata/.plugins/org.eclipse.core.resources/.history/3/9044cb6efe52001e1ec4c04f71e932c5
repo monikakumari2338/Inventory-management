@@ -44,6 +44,27 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	@Autowired
 	private StoreRepo storeRepo;
 
+//	@Override
+//	public PurchaseOrderItemsdto savePurchaseOrderItems(PurchaseOrderItemsdto PurchaseOrderItemsdto1) {
+//		PurchaseOrder item = purchaseOrderRepo.findByPoNumber(PurchaseOrderItemsdto1.getPoNumber());
+//		PurchaseOrderItems items = new PurchaseOrderItems(PurchaseOrderItemsdto1.getItemNumber(),
+//				PurchaseOrderItemsdto1.getItemName(), PurchaseOrderItemsdto1.getExpectedQty(),
+//				PurchaseOrderItemsdto1.getCategory(), item);
+//		PurchaseOrderItems item1 = itemsRepo.save(items);
+//		return PurchaseOrderItemsdto1;
+//	}
+
+//	@Override
+//	public purchaseOrderItemDetailsdto savepurchaseOrderItemDetails(purchaseOrderItemDetailsdto POitemDetails) {
+//
+//		PurchaseOrderItems items = itemsRepo.findByitemNumber(POitemDetails.getItemNumber());
+//		purchaseOrderItemDetails itemDetails = new purchaseOrderItemDetails(POitemDetails.getColor(),
+//				POitemDetails.getPrice(), POitemDetails.getStoreref(), POitemDetails.getSize(),
+//				POitemDetails.getStock(), POitemDetails.getImageData(), items);
+//		purchaseOrderItemDetails purchaseOrderItemDetails1 = itemDetailsRepo.save(itemDetails);
+//		return POitemDetails;
+//	}
+//
 	@Override
 	public PurchaseOrderCombineddto displayPO(int poNumber) {
 		PurchaseOrder purchaseOrder = purchaseOrderRepo.findByPoNumber(poNumber);
@@ -78,9 +99,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			PurchaseOrderItems itemdetail = itemsRepo
 					.findByitemNumber(PurchaseOrderCombineddto.get(i).getPurchaseOrderItemsdto().getItemNumber());
 
-			System.out.println(
-					"item num : " + PurchaseOrderCombineddto.get(i).getPurchaseOrderItemsdto().getItemNumber());
-			System.out.println("itemdetails : " + itemdetail);
+			System.out.println("item num : "+PurchaseOrderCombineddto.get(i).getPurchaseOrderItemsdto().getItemNumber());
+			System.out.println("itemdetails : "+itemdetail);
 			purchaseOrderItemDetails purchaseOrderItemDetails = itemDetailsRepo.findByColorAndSizeAndStoreAndItems(
 					PurchaseOrderCombineddto.get(i).getPurchaseOrderItemDetailsdto().getColor(),
 					PurchaseOrderCombineddto.get(i).getPurchaseOrderItemDetailsdto().getSize(),
@@ -111,6 +131,37 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 				}
 
 			}
+//			} else {
+//				purchaseOrderItemDetails purchaseOrderItemDetails = itemDetailsRepo.findByColorAndSizeAndStoreAndItems(
+//						PurchaseOrderCombineddto.get(i).getPurchaseOrderItemDetailsdto().getColor(),
+//						PurchaseOrderCombineddto.get(i).getPurchaseOrderItemDetailsdto().getSize(),
+//						PurchaseOrderCombineddto.get(i).getPurchaseOrderItemDetailsdto().getStore_name(), itemdetail);
+//				int Prev_stock;
+//				int new_stock;
+//				int total_stock = 0;
+//
+//				if (purchaseOrderItemDetails != null) {
+//					Prev_stock = purchaseOrderItemDetails.getStock();
+//					new_stock = PurchaseOrderCombineddto.get(i).getPurchaseOrderItemDetailsdto().getStock();
+//					total_stock = Prev_stock + new_stock;
+//					purchaseOrderItemDetails.setStock(total_stock);
+//					itemDetailsRepo.save(purchaseOrderItemDetails);
+//				}
+//
+//				else {
+//					purchaseOrderItemDetails itemDetails = new purchaseOrderItemDetails(
+//							PurchaseOrderCombineddto.get(i).getPurchaseOrderItemDetailsdto().getColor(),
+//							PurchaseOrderCombineddto.get(i).getPurchaseOrderItemDetailsdto().getPrice(),
+//							PurchaseOrderCombineddto.get(i).getPurchaseOrderItemDetailsdto().getSize(),
+//							PurchaseOrderCombineddto.get(i).getPurchaseOrderItemDetailsdto().getStock(),
+//							PurchaseOrderCombineddto.get(i).getPurchaseOrderItemDetailsdto().getImageData(),
+//							PurchaseOrderCombineddto.get(i).getPurchaseOrderItemDetailsdto().getStore_name(),
+//							itemdetail);
+//
+//					itemDetailsRepo.save(itemDetails);
+//				}
+//
+//			}
 
 		}
 		return PurchaseOrderCombineddto;
