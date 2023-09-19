@@ -13,11 +13,14 @@ import com.inventory.purchaseorder.dto.Productdto;
 import com.inventory.purchaseorder.dto.PurchaseOrderCombineddto;
 import com.inventory.purchaseorder.dto.PurchaseOrderCombineddtotoSave;
 import com.inventory.purchaseorder.dto.PurchaseOrderItemsdto;
+import com.inventory.purchaseorder.dto.PurchaseOrderdto;
 import com.inventory.purchaseorder.dto.purchaseOrderItemDetailsdto;
+import com.inventory.purchaseorder.entity.ASN;
 import com.inventory.purchaseorder.entity.Category;
 import com.inventory.purchaseorder.entity.Product;
 import com.inventory.purchaseorder.entity.ProductDetails;
 import com.inventory.purchaseorder.entity.PurchaseOrder;
+import com.inventory.purchaseorder.repository.ASNRepo;
 import com.inventory.purchaseorder.repository.CategoryRepo;
 import com.inventory.purchaseorder.repository.PurchaseOrderItemDetailsRepo;
 import com.inventory.purchaseorder.repository.PurchaseOrderItemsRepo;
@@ -39,10 +42,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	private PurchaseOrderRepo purchaseOrderRepo;
 
 	@Autowired
-	private CategoryRepo categoryRepo;
-
-	@Autowired
-	private StoreRepo storeRepo;
+	private ASNRepo asnRepo;
 
 	@Override
 	public PurchaseOrderCombineddto displayPO(int poNumber) {
@@ -114,6 +114,25 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 		}
 		return PurchaseOrderCombineddto;
+	}
+
+	// API's for finding asn and po list by status
+
+	@Override
+	public List<ASN> findByStatus(String Status) {
+		List<ASN> asn = asnRepo.findAllByStatus(Status);
+		return asn;
+	}
+
+	@Override
+	public List<PurchaseOrderdto> findpoByStatus(String Status) {
+		List<PurchaseOrderdto> purschaseOrderDto = new ArrayList<PurchaseOrderdto>();
+		List<PurchaseOrder> purchaseOrder = purchaseOrderRepo.findAllByStatus(Status);
+		for(int i = 0; i< purchaseOrder.size();i++) {
+			purschaseOrderDto.add(new PurchaseOrderdto(purchaseOrder.get(i).getPo_Number(),purchaseOrder.get(i).getStatus(),purchaseOrder.get(i).getAsn().getAsnNumber()));
+		}
+		//System.out.println(purschaseOrderDto);
+		return purschaseOrderDto;
 	}
 
 }

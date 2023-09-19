@@ -1,0 +1,21 @@
+
+package com.inventory.purchaseorder.service;
+
+import java.util.List;
+
+import com.inventory.purchaseorder.dto.PurchaseOrderCombineddto;
+import com.inventory.purchaseorder.dto.PurchaseOrderCombineddtotoSave;
+
+import com.inventory.purchaseorder.entity.ASN;
+import com.inventory.purchaseorder.entity.PurchaseOrder;
+
+public interface PurchaseOrderService {
+
+	List<PurchaseOrderCombineddtotoSave> saveProducts(List<PurchaseOrderCombineddtotoSave> PurchaseOrderCombineddto);
+
+	PurchaseOrderCombineddto displayPO(int po);
+
+	List<ASN> findByStatus(String Status);
+	
+	List<PurchaseOrder> findpoByStatus(String Status);
+}

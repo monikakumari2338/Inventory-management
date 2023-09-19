@@ -1,0 +1,14 @@
+
+package com.inventory.purchaseorder.service;
+
+import java.util.List;
+
+import com.inventory.purchaseorder.dto.ProductCombineddto;
+import com.inventory.purchaseorder.entity.ASN;
+
+public interface ProductService {
+
+	List<ProductCombineddto> saveProducts(List<ProductCombineddto> productCombineddto);
+	
+	List<ASN> findByStatus(String Status);
+}

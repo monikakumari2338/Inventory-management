@@ -1,16 +1,16 @@
 package com.inventory.purchaseorder.repository;
 
+import java.util.List;
+
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.inventory.purchaseorder.dto.PurchaseOrderCombineddto;
+import com.inventory.purchaseorder.dto.PurchaseOrderdto;
 import com.inventory.purchaseorder.entity.PurchaseOrder;
 
 public interface PurchaseOrderRepo extends JpaRepository<PurchaseOrder, Integer> {
-	
-	PurchaseOrder findByPoNumber(int id);
-	
-	
-	//PurchaseOrderCombineddto findAllByPoNumber(int id);
-	
 
+	PurchaseOrder findByPoNumber(int id);
+
+	List<PurchaseOrder> findAllByStatus(String status);
 }

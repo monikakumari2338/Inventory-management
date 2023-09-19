@@ -1,0 +1,45 @@
+package com.inventory.purchaseorder.dto;
+
+public class PurchaseOrderdto {
+
+	private int poNumber;
+	private String status;
+	private int asnNumber;
+
+	public int getPoNumber() {
+		return poNumber;
+	}
+
+	public void setPoNumber(int poNumber) {
+		this.poNumber = poNumber;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public int getAsnNumber() {
+		return asnNumber;
+	}
+
+	public void setAsnNumber(int asnNumber) {
+		this.asnNumber = asnNumber;
+	}
+
+	public PurchaseOrderdto(int poNumber, String status, int asnNumber) {
+		super();
+		this.poNumber = poNumber;
+		this.status = status;
+		this.asnNumber = asnNumber;
+	}
+
+	public PurchaseOrderdto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+}

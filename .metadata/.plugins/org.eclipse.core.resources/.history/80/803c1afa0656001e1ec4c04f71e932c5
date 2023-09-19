@@ -1,0 +1,61 @@
+package com.inventory.purchaseorder.dto;
+
+import java.util.List;
+
+import com.inventory.purchaseorder.entity.ProductDetails;
+
+public class ProductsByItemNumberdto {
+
+	private String itemNumber;
+	private String itemName;
+	private String categoryName;
+	private List<ProductDetails> productDetailsdto;
+
+	public String getItemNumber() {
+		return itemNumber;
+	}
+
+	public void setItemNumber(String itemNumber) {
+		this.itemNumber = itemNumber;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	
+	public ProductsByItemNumberdto(String itemNumber, String itemName, String categoryName,
+			List<ProductDetails> productDetailsdto) {
+		super();
+		this.itemNumber = itemNumber;
+		this.itemName = itemName;
+		this.categoryName = categoryName;
+		this.productDetailsdto = productDetailsdto;
+	}
+
+	public List<ProductDetails> getProductDetailsdto() {
+		return productDetailsdto;
+	}
+
+	public void setProductDetailsdto(List<ProductDetails> productDetailsdto) {
+		this.productDetailsdto = productDetailsdto;
+	}
+
+	public ProductsByItemNumberdto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+}

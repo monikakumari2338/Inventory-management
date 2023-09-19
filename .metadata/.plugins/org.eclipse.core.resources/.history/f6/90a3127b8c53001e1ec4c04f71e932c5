@@ -1,0 +1,12 @@
+package com.inventory.purchaseorder.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.inventory.purchaseorder.entity.ASN;
+import com.inventory.purchaseorder.entity.Stores;
+
+public interface ASNRepo extends JpaRepository<ASN, Integer> {
+
+	Stores findByStoreName(String store);
+
+}

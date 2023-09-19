@@ -1,0 +1,14 @@
+
+package com.inventory.purchaseorder.service;
+
+import java.util.List;
+
+import com.inventory.purchaseorder.dto.ProductCombineddto;
+import com.inventory.purchaseorder.dto.ProductsByItemNumberdto;
+
+public interface ProductService {
+
+	List<ProductCombineddto> saveProducts(List<ProductCombineddto> productCombineddto);
+
+	List<ProductsByItemNumberdto> getByItemnumber(String item_number);
+}
