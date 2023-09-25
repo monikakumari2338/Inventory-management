@@ -31,7 +31,7 @@ public class PurchaseOrderController {
 	@Autowired
 	private PurchaseOrderService POService;
 
-	
+	// Api to save data in Purchase order table
 	@PostMapping("/addpoitems")
 	public ResponseEntity<List<PurchaseOrderCombineddtotoSave>> add_Products(@RequestBody List<PurchaseOrderCombineddtotoSave> POItems )
 	{

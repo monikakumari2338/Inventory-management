@@ -55,11 +55,11 @@
    <libraries>
     <library class="tld">
      <id class="model-object"
-      path="FileSystems/lib-spring-webmvc-6.0.11.jar/meta-inf/spring-form.tld" project="stock-check"/>
+      path="FileSystems/lib-spring-webmvc-6.0.11.jar/meta-inf/spring-form.tld" project="purchase-order"/>
     </library>
     <library class="tld">
      <id class="model-object"
-      path="FileSystems/lib-spring-webmvc-6.0.11.jar/meta-inf/spring.tld" project="stock-check"/>
+      path="FileSystems/lib-spring-webmvc-6.0.11.jar/meta-inf/spring.tld" project="purchase-order"/>
     </library>
    </libraries>
   </path>

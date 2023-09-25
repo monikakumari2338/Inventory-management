@@ -119,11 +119,9 @@ public class ProductServiceImpl implements ProductService {
 
 		List<ProductDetails> productDetails = productDetailsRepo.findAllByProduct(product);
 
-		List<ProductDetailsdto> productDetailsdto=new ArrayList<>();
-		// int id=product.getStore().getStoreId();
-		List<ProductsByItemNumberdto> productDto = new ArrayList<>();
-		// System.out.println("length"+product.size());
+		List<ProductDetailsdto> productDetailsdto = new ArrayList<>();
 		ProductsByItemNumberdto productsByItemNumberdto = new ProductsByItemNumberdto();
+
 		productsByItemNumberdto.setItemName(product.getitemName());
 		productsByItemNumberdto.setItemNumber(product.getItemNumber());
 		productsByItemNumberdto.setCategoryName(product.getCategory().getCategory());
@@ -132,7 +130,7 @@ public class ProductServiceImpl implements ProductService {
 					productDetails.get(i).getPrice(), productDetails.get(i).getSize(), productDetails.get(i).getStock(),
 					productDetails.get(i).getImageData(), productDetails.get(i).getStore().getStoreName(),
 					productDetails.get(i).getProduct().getItemNumber()));
-			
+
 		}
 		productsByItemNumberdto.setProductDetailsdto(productDetailsdto);
 //        System.out.println("productsByItemNumberdto : "+productsByItemNumberdto);
@@ -142,10 +140,3 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 }
-
-//ProductDetailsdto productDetailsdto = new ProductDetailsdto(productDetails2.getColor(),
-//productDetails2.getPrice(), productDetails2.getSize(), productDetails2.getStock(),
-//productDetails2.getImageData(), productCombineddto.getProductDetailsdto().getStore(),
-//productCombineddto.getProductDetailsdto().getItemNumber());
-
-// productCombineddto1.setProductDetailsdto(productDetailsdto);

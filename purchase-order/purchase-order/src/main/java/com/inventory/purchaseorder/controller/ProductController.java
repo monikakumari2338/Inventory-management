@@ -28,6 +28,8 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
+	
+	// Api to save data in Master product table
 	@PostMapping("/addproducts")
 	public ResponseEntity<List<ProductCombineddto>> add_Products(@RequestBody List<ProductCombineddto> productCombineddto) {
 		List<ProductCombineddto> productCombineddto1 = productService.saveProducts(productCombineddto);

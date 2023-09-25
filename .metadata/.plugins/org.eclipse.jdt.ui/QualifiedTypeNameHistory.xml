@@ -21,7 +21,6 @@
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.PurchaseOrderCombineddto"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.PurchaseOrderItems"/>
     <fullyQualifiedTypeName name="java.lang.System.Logger"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.service.ProductService"/>
@@ -34,4 +33,14 @@
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Stores"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.ProductDetails"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Product"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.DsdSuppliersRepo"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.DsdSuppliers"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.service.DSDService"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.DsdReceiveItemsdto"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.DsdCreateRepo"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.DsdCreate"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.DsdReceiveItemsRepo"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.DsdReceiveItems"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>
