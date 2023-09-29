@@ -49,6 +49,11 @@ public class Stores {
 	}
 	
 	
+	@Override
+	public String toString() {
+		return "Stores [storeId=" + storeId + ", storeName=" + storeName + ", storeStock=" + storeStock
+				+ ", storeAddress=" + storeAddress + "]";
+	}
 	public Stores(int storeId, String storeName, int storeStock, String storeAddress) {
 		super();
 		this.storeId = storeId;

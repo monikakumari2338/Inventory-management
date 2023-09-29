@@ -6,6 +6,6 @@ import com.inventory.purchaseorder.entity.DsdSuppliers;
 
 public interface DsdSuppliersRepo extends JpaRepository<DsdSuppliers, Integer> {
 
-	DsdSuppliers findBySupplierName(String supplier);
+	DsdSuppliers findBySupplierId(int supplier);
 
 }

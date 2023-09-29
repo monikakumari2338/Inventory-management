@@ -25,10 +25,11 @@ public class DsdReceiveItems {
 	private String size;
 	private String imageData;
 	private String store;
+	private int stock;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "dsd_id", referencedColumnName = "dsdId")
-	private DsdCreate dsdcreate;
+	@JoinColumn(name = "invoice", referencedColumnName = "invoiceId")
+	private DsdInvoice dsdinvoice;
 
 	public DsdReceiveItems() {
 		super();
@@ -107,12 +108,12 @@ public class DsdReceiveItems {
 		this.imageData = imageData;
 	}
 
-	public DsdCreate getDsdcreate() {
-		return dsdcreate;
+	public DsdInvoice getDsdinvoice() {
+		return dsdinvoice;
 	}
 
-	public void setDsdcreate(DsdCreate dsdcreate) {
-		this.dsdcreate = dsdcreate;
+	public void setDsdinvoice(DsdInvoice dsdinvoice) {
+		this.dsdinvoice = dsdinvoice;
 	}
 
 	public String getStore() {
@@ -123,10 +124,18 @@ public class DsdReceiveItems {
 		this.store = store;
 	}
 
-	public DsdReceiveItems(int id, String itemNumber, String itemName, int expectedQty, String category, String color,
-			String price, String size, String imageData, String store, DsdCreate dsdcreate) {
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+	public DsdReceiveItems(String itemNumber, String itemName, int expectedQty, String category, String color,
+			String price, String size, String imageData, String store, int stock, DsdInvoice dsdinvoice) {
 		super();
-		this.id = id;
+		//this.id = id;
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.expectedQty = expectedQty;
@@ -136,14 +145,16 @@ public class DsdReceiveItems {
 		this.size = size;
 		this.imageData = imageData;
 		this.store = store;
-		this.dsdcreate = dsdcreate;
+		this.stock = stock;
+		this.dsdinvoice = dsdinvoice;
 	}
 
 	@Override
 	public String toString() {
 		return "DsdReceiveItems [id=" + id + ", itemNumber=" + itemNumber + ", itemName=" + itemName + ", expectedQty="
 				+ expectedQty + ", category=" + category + ", color=" + color + ", price=" + price + ", size=" + size
-				+ ", imageData=" + imageData + ", store=" + store + ", dsdcreate=" + dsdcreate + "]";
+				+ ", imageData=" + imageData + ", store=" + store + ", stock=" + stock + ", dsdinvoice=" + dsdinvoice
+				+ "]";
 	}
 
 }

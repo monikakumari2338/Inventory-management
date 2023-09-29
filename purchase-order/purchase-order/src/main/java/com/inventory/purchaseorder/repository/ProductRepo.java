@@ -13,7 +13,7 @@ import com.inventory.purchaseorder.entity.PurchaseOrder;
 
 public interface ProductRepo extends JpaRepository<Product, String> {
 
-	Product findByitemNumber(String itemNumber);
+	//Product findByitemNumber(String itemNumber);
 	
 	Product findByItemNumber(String itemNumber);
 

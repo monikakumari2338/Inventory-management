@@ -113,6 +113,12 @@ public class ProductDetails {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+
+	@Override
+	public String toString() {
+		return "ProductDetails [id=" + id + ", color=" + color + ", price=" + price + ", size=" + size + ", stock="
+				+ stock + ", imageData=" + imageData + ", store=" + store + ", product=" + product + "]";
+	}
 	
 
 }

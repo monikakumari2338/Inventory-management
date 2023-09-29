@@ -54,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
 			Category category = categoryRepo
 					.findByCategory(productCombineddto.get(i).getProductdto().getCategoryName());
 
-			Product product = productRepo.findByitemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
+			Product product = productRepo.findByItemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
 			if (product == null) {
 
 				Product product1 = new Product(productCombineddto.get(i).getProductdto().getItemNumber(),
@@ -66,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
 				// productCombineddto1.get(i).setProductdto(Productdto);
 
 				Product product2 = productRepo
-						.findByitemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
+						.findByItemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
 				ProductDetails productDetails2 = new ProductDetails(
 						productCombineddto.get(i).getProductDetailsdto().getColor(),
 						productCombineddto.get(i).getProductDetailsdto().getPrice(),

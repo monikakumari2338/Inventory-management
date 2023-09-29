@@ -7,5 +7,6 @@ import com.inventory.purchaseorder.entity.Stores;
 public interface StoreRepo extends JpaRepository<Stores, Integer> {
 
 	Stores findByStoreName(String store);
+	Stores findByStoreId(int id);
 
 }

@@ -11,7 +11,8 @@ public class DsdReceiveItemsdto {
 	private String size;
 	private String imageData;
 	private String store;
-	private int dsdId;
+	private int stock;
+	private int invoiceId;
 
 	public DsdReceiveItemsdto() {
 		super();
@@ -90,16 +91,24 @@ public class DsdReceiveItemsdto {
 		this.store = store;
 	}
 
-	public int getDsdId() {
-		return dsdId;
+	public int getStock() {
+		return stock;
 	}
 
-	public void setDsdId(int dsdId) {
-		this.dsdId = dsdId;
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+	public int getInvoiceId() {
+		return invoiceId;
+	}
+
+	public void setInvoiceId(int invoiceId) {
+		this.invoiceId = invoiceId;
 	}
 
 	public DsdReceiveItemsdto(String itemNumber, String itemName, int expectedQty, String category, String color,
-			String price, String size, String imageData, String store, int dsdId) {
+			String price, String size, String imageData, String store, int stock, int invoiceId) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -110,14 +119,16 @@ public class DsdReceiveItemsdto {
 		this.size = size;
 		this.imageData = imageData;
 		this.store = store;
-		this.dsdId = dsdId;
+		this.stock = stock;
+		this.invoiceId = invoiceId;
 	}
 
 	@Override
 	public String toString() {
 		return "DsdReceiveItemsdto [itemNumber=" + itemNumber + ", itemName=" + itemName + ", expectedQty="
 				+ expectedQty + ", category=" + category + ", color=" + color + ", price=" + price + ", size=" + size
-				+ ", imageData=" + imageData + ", store=" + store + ", dsdId=" + dsdId + "]";
+				+ ", imageData=" + imageData + ", store=" + store + ", stock=" + stock + ", invoiceId=" + invoiceId
+				+ "]";
 	}
 
 }

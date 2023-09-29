@@ -54,6 +54,11 @@ public class Product {
 		this.category = category;
 	}
 
+	@Override
+	public String toString() {
+		return "Product [itemNumber=" + itemNumber + ", itemName=" + itemName + ", category=" + category + "]";
+	}
+
 	public Product() {
 		super();
 		// TODO Auto-generated constructor stub
