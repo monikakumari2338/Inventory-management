@@ -81,12 +81,10 @@ public class StoreServiceImpl implements StoreService {
 			store.add(storeRepo.findByStoreId(productDetails.get(i).getStore().getStoreId()));
 			storesDto.add(new StoresDto(store.get(i).getStoreId(),store.get(i).getStoreName(),productDetails.get(i).getStock(),store.get(i).getStoreAddress()));
 		}
-		
-		
-		
-		System.out.println("ProductDetails : " + productDetails);
-		System.out.println("store : " + store);
-		System.out.println("storesDto : " + storesDto);
+			
+//		System.out.println("ProductDetails : " + productDetails);
+//		System.out.println("store : " + store);
+//		System.out.println("storesDto : " + storesDto);
 		return storesDto;
 	}
 

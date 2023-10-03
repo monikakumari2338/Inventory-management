@@ -30,9 +30,6 @@
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.ProductDetailsdto"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.ProductCombineddto"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Category"/>
-    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Stores"/>
-    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.ProductDetails"/>
-    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Product"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.DsdSuppliersRepo"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.DsdSuppliers"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.service.DSDService"/>
@@ -42,5 +39,10 @@
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.DsdReceiveItemsRepo"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.DsdReceiveItems"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.StoresDto"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Stores"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Product"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.ProductDetails"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.DsdInvoice"/>
 </qualifiedTypeNameHistroy>

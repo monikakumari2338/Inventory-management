@@ -11,5 +11,7 @@ public interface DsdReceiveItemsRepo extends JpaRepository<DsdReceiveItems, Inte
 
 	DsdReceiveItems findByItemNumberAndColorAndSizeAndStoreAndDsdinvoice(String itemNumber, String color, String size,
 			String Store, DsdInvoice dsdInvoice);
-	List<DsdReceiveItems> findAllByDsdinvoiceIn(List<DsdInvoice> dsdInvoice1);
+	//List<DsdReceiveItems> findAllByDsdinvoiceIn(List<DsdInvoice> dsdInvoice1);
+	
+	List<DsdReceiveItems> findAllByDsdinvoice(DsdInvoice dsdInvoice1);
 }

@@ -11,5 +11,6 @@ import com.inventory.purchaseorder.entity.DsdSuppliers;
 public interface DsdInvoiceRepo extends JpaRepository<DsdInvoice, Integer> {
 
 	DsdInvoice findByInvoiceId(int id);
+	DsdInvoice findByInvoiceNumber(int invoice);
 	List<DsdInvoice> findAllBySupplierId(DsdSuppliers dsdSuppliers);
 }
