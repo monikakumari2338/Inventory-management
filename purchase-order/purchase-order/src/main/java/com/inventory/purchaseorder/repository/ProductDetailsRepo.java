@@ -16,4 +16,5 @@ public interface ProductDetailsRepo extends JpaRepository<ProductDetails, Intege
 
 	List<ProductDetails> findByProductAndColorAndSize(Product Product, String color, String size);
 	// ProductDetails findByProduct(Product Product);
+	
 }

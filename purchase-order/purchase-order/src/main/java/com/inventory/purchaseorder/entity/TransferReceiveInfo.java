@@ -15,8 +15,8 @@ public class TransferReceiveInfo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int transferId;
-	private String storeFrom;
-	private String storeTo;
+	private int storeFrom;
+	private int storeTo;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "asnId", referencedColumnName = "asnId")
@@ -30,19 +30,19 @@ public class TransferReceiveInfo {
 		this.transferId = transferId;
 	}
 
-	public String getStoreFrom() {
+	public int getStoreFrom() {
 		return storeFrom;
 	}
 
-	public void setStoreFrom(String storeFrom) {
+	public void setStoreFrom(int storeFrom) {
 		this.storeFrom = storeFrom;
 	}
 
-	public String getStoreTo() {
+	public int getStoreTo() {
 		return storeTo;
 	}
 
-	public void setStoreTo(String storeTo) {
+	public void setStoreTo(int storeTo) {
 		this.storeTo = storeTo;
 	}
 
@@ -54,7 +54,7 @@ public class TransferReceiveInfo {
 		this.asn = asn;
 	}
 
-	public TransferReceiveInfo(String storeFrom, String storeTo, ASN asn) {
+	public TransferReceiveInfo(int storeFrom, int storeTo, ASN asn) {
 		super();
 		
 		this.storeFrom = storeFrom;

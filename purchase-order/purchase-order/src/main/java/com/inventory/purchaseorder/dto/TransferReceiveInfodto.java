@@ -3,8 +3,8 @@ package com.inventory.purchaseorder.dto;
 public class TransferReceiveInfodto {
 
 	private int transfer_id;
-	private String storeFrom;
-	private String storeTo;
+	private int storeFrom;
+	private int storeTo;
 	private int asn_id;
 
 	public int getTransfer_id() {
@@ -15,19 +15,19 @@ public class TransferReceiveInfodto {
 		this.transfer_id = transfer_id;
 	}
 
-	public String getStoreFrom() {
+	public int getStoreFrom() {
 		return storeFrom;
 	}
 
-	public void setStoreFrom(String storeFrom) {
+	public void setStoreFrom(int storeFrom) {
 		this.storeFrom = storeFrom;
 	}
 
-	public String getStoreTo() {
+	public int getStoreTo() {
 		return storeTo;
 	}
 
-	public void setStoreTo(String storeTo) {
+	public void setStoreTo(int storeTo) {
 		this.storeTo = storeTo;
 	}
 
@@ -39,7 +39,7 @@ public class TransferReceiveInfodto {
 		this.asn_id = asn_id;
 	}
 
-	public TransferReceiveInfodto(int transfer_id, String storeFrom, String storeTo, int asn_id) {
+	public TransferReceiveInfodto(int transfer_id, int storeFrom, int storeTo, int asn_id) {
 		super();
 		this.transfer_id = transfer_id;
 		this.storeFrom = storeFrom;

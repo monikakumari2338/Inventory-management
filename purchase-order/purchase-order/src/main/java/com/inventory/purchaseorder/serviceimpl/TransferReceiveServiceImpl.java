@@ -144,78 +144,76 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	public List<ProductCombineddto> saveTransferRecieveProducts(List<ProductCombineddto> productCombineddto,
 			int transferId) {
 
-//		DsdInvoice dsdInvoice = invoiceRepo.findByInvoiceNumber(invoiceNumber);
-//		String invoiceStatus = dsdInvoice.getStatus();
-
-//		System.out.println("dsdInvoice :  " + dsdInvoice.getStatus());
-
+		TransferReceiveInfo transferReceiveInfo = TransferRecieveRepo.findBytransferId(transferId);
+		Stores storeFrom = storeRepo.findByStoreId(transferReceiveInfo.getStoreFrom());
+		System.out.println("store :  " + storeFrom);
 		// if (!invoiceStatus.equals("complete")) {
 		for (int i = 0; i < productCombineddto.size(); i++) {
 
-			Stores store = storeRepo.findByStoreName(productCombineddto.get(i).getProductDetailsdto().getStore());
+			Stores store1 = storeRepo.findByStoreName(productCombineddto.get(i).getProductDetailsdto().getStore());
 			Category category = categoryRepo
 					.findByCategory(productCombineddto.get(i).getProductdto().getCategoryName());
 
 			Product product = productRepo.findByItemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
 
-//			System.out.println("store :  "+store);
-//			System.out.println("category :  "+category);
-//			System.out.println("product :  "+product);
+			//System.out.println("store1 :  " + store1);
+
 			if (product == null) {
 
-				Product product1 = new Product(productCombineddto.get(i).getProductdto().getItemNumber(),
-						productCombineddto.get(i).getProductdto().getItemName(), category);
-
-				Productdto Productdto = new Productdto(product1.getItemNumber(), product1.getitemName(),
-						productCombineddto.get(i).getProductdto().getCategoryName());
-				productRepo.save(product1);
-				// productCombineddto1.get(i).setProductdto(Productdto);
-
-				Product product2 = productRepo
-						.findByItemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
-				ProductDetails productDetails2 = new ProductDetails(
-						productCombineddto.get(i).getProductDetailsdto().getColor(),
-						productCombineddto.get(i).getProductDetailsdto().getPrice(),
-						productCombineddto.get(i).getProductDetailsdto().getSize(),
-						productCombineddto.get(i).getProductDetailsdto().getStock(),
-						productCombineddto.get(i).getProductDetailsdto().getImageData(), store, product2);
-
-				productDetailsRepo.save(productDetails2);
-				//System.out.println("saved : inside if");
+				System.out.println("Item is not available in Master DB");
 
 			} else {
 				ProductDetails productDetails1 = productDetailsRepo.findByColorAndSizeAndStoreAndProduct(
 						productCombineddto.get(i).getProductDetailsdto().getColor(),
-						productCombineddto.get(i).getProductDetailsdto().getSize(), store, product);
+						productCombineddto.get(i).getProductDetailsdto().getSize(), store1, product);
+
+				ProductDetails productDetails2 = productDetailsRepo.findByColorAndSizeAndStoreAndProduct(
+						productCombineddto.get(i).getProductDetailsdto().getColor(),
+						productCombineddto.get(i).getProductDetailsdto().getSize(), storeFrom, product);
+
 				int Prev_stock;
 				int new_stock;
 				int total_stock = 0;
+
+				int Prev_stock1;
+				int new_stock1;
+				int total_stock1 = 0;
 				// System.out.println("productDetails1 : " + productDetails1);
 				if (productDetails1 != null) {
 					Prev_stock = productDetails1.getStock();
 					new_stock = productCombineddto.get(i).getProductDetailsdto().getStock();
 					total_stock = Prev_stock + new_stock;
 					productDetails1.setStock(total_stock);
+					//System.out.println("total_stock : " + total_stock);
+					System.out.println("productDetails1 : " + productDetails1);
+
 					productDetailsRepo.save(productDetails1);
 					//System.out.println("saved : inside  else if");
 				}
 
 				else {
-					ProductDetails productDetails2 = new ProductDetails(
+					ProductDetails productDetails3 = new ProductDetails(
 							productCombineddto.get(i).getProductDetailsdto().getColor(),
 							productCombineddto.get(i).getProductDetailsdto().getPrice(),
 							productCombineddto.get(i).getProductDetailsdto().getSize(),
 							productCombineddto.get(i).getProductDetailsdto().getStock(),
-							productCombineddto.get(i).getProductDetailsdto().getImageData(), store, product);
-					productDetailsRepo.save(productDetails2);
+							productCombineddto.get(i).getProductDetailsdto().getImageData(), store1, product);
+					productDetailsRepo.save(productDetails3);
 
 					//System.out.println("saved : inside else");
 				}
 
+				Prev_stock1 = productDetails2.getStock();
+				new_stock1 = productCombineddto.get(i).getProductDetailsdto().getStock();
+				total_stock1 = Prev_stock1 - new_stock1;
+				productDetails2.setStock(total_stock1);
+				System.out.println("total_stock1 : " + total_stock1);
+				System.out.println("productDetails2 : " + productDetails2);
+				productDetailsRepo.save(productDetails2);
+
 			}
 
 		}
-//		}
 
 //		dsdInvoice.setStatus("complete");
 //		invoiceRepo.save(dsdInvoice);
@@ -224,3 +222,22 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	}
 
 }
+
+//Product product1 = new Product(productCombineddto.get(i).getProductdto().getItemNumber(),
+//productCombineddto.get(i).getProductdto().getItemName(), category);
+//
+//Productdto Productdto = new Productdto(product1.getItemNumber(), product1.getitemName(),
+//productCombineddto.get(i).getProductdto().getCategoryName());
+//productRepo.save(product1);
+//// productCombineddto1.get(i).setProductdto(Productdto);
+//
+//Product product2 = productRepo
+//.findByItemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
+//ProductDetails productDetails2 = new ProductDetails(
+//productCombineddto.get(i).getProductDetailsdto().getColor(),
+//productCombineddto.get(i).getProductDetailsdto().getPrice(),
+//productCombineddto.get(i).getProductDetailsdto().getSize(),
+//productCombineddto.get(i).getProductDetailsdto().getStock(),
+//productCombineddto.get(i).getProductDetailsdto().getImageData(), store1, product2);
+//
+//// productDetailsRepo.save(productDetails2);

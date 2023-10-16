@@ -6,9 +6,6 @@ import java.util.List;
 import com.inventory.purchaseorder.dto.ProductCombineddto;
 import com.inventory.purchaseorder.dto.TransferReceiveInfodto;
 import com.inventory.purchaseorder.dto.TransferReceiveProductsdto;
-import com.inventory.purchaseorder.entity.DsdInvoice;
-import com.inventory.purchaseorder.entity.TransferReceiveInfo;
-import com.inventory.purchaseorder.entity.TransferReceiveProducts;
 
 public interface TransferReceiveService {
 
