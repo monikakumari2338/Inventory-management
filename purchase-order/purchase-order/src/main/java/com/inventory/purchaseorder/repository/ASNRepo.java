@@ -11,5 +11,7 @@ import com.inventory.purchaseorder.entity.ASN;
 public interface ASNRepo extends JpaRepository<ASN, Integer> {
 
 	List<ASN> findAllByStatus(String status);
+	ASN findByasnId(int id);
+	ASN findByasnNumber(int num);
 
 }
