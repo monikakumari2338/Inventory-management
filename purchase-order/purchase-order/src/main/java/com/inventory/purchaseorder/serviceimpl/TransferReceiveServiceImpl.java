@@ -54,6 +54,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	@Autowired
 	private ProductDetailsRepo productDetailsRepo;
 
+	// Function to save Transfer-Receive info in the Transfer Receive info table
 	@Override
 	public String save_transferInfo(TransferReceiveInfodto transferReceiveInfodto) {
 		ASN asn = asnRepo.findByasnId(transferReceiveInfodto.getAsn_id());
@@ -70,6 +71,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		return "Transfer Received info saved successfully";
 	}
 
+	// Function to save Transfer-Receive products in the Transfer Receive products table
 	@Override
 	public TransferReceiveProductsdto saveTransferReceive(TransferReceiveProductsdto transferReceiveProduct) {
 
@@ -103,6 +105,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		return transferReceiveProduct;
 	}
 
+	// Function to get Transfer-Receive id on the basis of ASN
 	@Override
 	public List<TransferReceiveInfodto> getTransferId(int asnNumber) {
 		ASN asn = asnRepo.findByasnNumber(asnNumber);
@@ -118,7 +121,8 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		}
 		return transferReceiveInfodto;
 	}
-
+	
+	// Function to get Transfer-Receive products on the basis of transferId
 	@Override
 	public List<TransferReceiveProductsdto> getTransferReceiveProducts(int transferId) {
 		TransferReceiveInfo transferReceiveInfo = TransferRecieveRepo.findBytransferId(transferId);
@@ -139,7 +143,8 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		}
 		return transferReceiveProductsdto;
 	}
-
+	
+	// Function to save Transfer-Receive in master table
 	@Override
 	public List<ProductCombineddto> saveTransferRecieveProducts(List<ProductCombineddto> productCombineddto,
 			int transferId) {

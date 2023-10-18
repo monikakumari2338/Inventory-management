@@ -203,6 +203,7 @@ public class DSDServiceImpl implements DSDService {
 		return dsdReceiveItemsdto;
 	}
 
+	// Function to get all DSD
 	@Override
 	public List<DsdInvoice> getViewDsd() {
 		List<DsdSuppliers> dsdSuppliers = DsdRepo.findAll();
@@ -216,6 +217,7 @@ public class DSDServiceImpl implements DSDService {
 		return DsdInvoice1;
 	}
 
+	// Function to get all DSD by supplier
 	@Override
 	public List<DsdInvoice> getViewDsdBySupplier(String supplierName) {
 		DsdSuppliers supplier = DsdRepo.findBysupplierName(supplierName);
@@ -228,6 +230,7 @@ public class DSDServiceImpl implements DSDService {
 		return DsdInvoice1;
 	}
 
+	// Function to get all DSD by date
 	@Override
 	public List<DsdInvoice> getViewDsdByDate(LocalDate date) {
 		List<DsdInvoice> DsdInvoice1 = invoiceRepo.findAllByexpDate(date);

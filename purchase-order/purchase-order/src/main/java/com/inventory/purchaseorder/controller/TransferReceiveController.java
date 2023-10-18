@@ -27,32 +27,36 @@ public class TransferReceiveController {
 	@Autowired
 	private TransferReceiveService transferReceiveService;
 
+	// Api to save Transfer-Receive info in the Transfer Receive info table
 	@PostMapping("/save/transfer/info")
 	public ResponseEntity<String> saveTransferReceiveInfo(@RequestBody TransferReceiveInfodto transferReceiveInfo) {
 		String sucess_msg = transferReceiveService.save_transferInfo(transferReceiveInfo);
 		return new ResponseEntity<>(sucess_msg, HttpStatus.OK);
 	}
 	
+	// Api to save Transfer-Receive products in the Transfer Receive products table
 	@PostMapping("/save/transfer/products")
 	public ResponseEntity<TransferReceiveProductsdto> saveTransferReceiveProducts(@RequestBody TransferReceiveProductsdto transferReceiveProductsdto) {
 		TransferReceiveProductsdto transferReceiveProductsdto1 = transferReceiveService.saveTransferReceive(transferReceiveProductsdto);
 		return new ResponseEntity<>(transferReceiveProductsdto1, HttpStatus.OK);
 	}
 	
+	// Api to get Transfer-Receive id on the basis of ASN
 	@GetMapping("/getall/transferid/{asnNumber}")
 	public ResponseEntity< List<TransferReceiveInfodto>> getDSD(@PathVariable int asnNumber) {
 		 List<TransferReceiveInfodto> transferReceiveInfo = transferReceiveService.getTransferId(asnNumber);
 		return new ResponseEntity<>(transferReceiveInfo, HttpStatus.OK);
 	}
 	
-	//Api to save dsd items in master product table
 	
+	//Api to save dsd items in master product table
 	@PostMapping("/savetransferproduct/{transferid}")
 	public ResponseEntity<List<ProductCombineddto>> saveDsdProducts(@RequestBody List<ProductCombineddto> productCombineddto,@PathVariable int transferid) {
 		 List<ProductCombineddto> DsdReceiveItemsdto1 = transferReceiveService.saveTransferRecieveProducts(productCombineddto, transferid);
 		return new ResponseEntity<>(DsdReceiveItemsdto1, HttpStatus.OK);
 	}
 	
+	// Api to get Transfer-Receive products on the basis of transferId
 	@GetMapping("/findby/transferid/{transferid}")
 	public ResponseEntity< List<TransferReceiveProductsdto>> getTransferReceiveProducts(@PathVariable int transferid) {
 		 List<TransferReceiveProductsdto> transferReceiveProductsdto = transferReceiveService.getTransferReceiveProducts(transferid);

@@ -27,12 +27,14 @@ public class DSDController {
 	@Autowired
 	private DSDService dsdService;
 
+	//Api to get dsd items on the basis of supplier
 	@GetMapping("/findby/supplier/{supplier}")
 	public ResponseEntity< List<DsdInvoice>> getDSD(@PathVariable int supplier) {
 		 List<DsdInvoice> DsdReceiveItemsdto = dsdService.getDsdSupplierInvoices(supplier);
 		return new ResponseEntity<>(DsdReceiveItemsdto, HttpStatus.OK);
 	}
 	
+	//Api to save dsd items in Dsd Receive table
 	@PostMapping("/savedsd")
 	public ResponseEntity<DsdReceiveItemsdto> saveDSDItems(@RequestBody DsdReceiveItemsdto DsdReceiveItemsdto) {
 		 DsdReceiveItemsdto DsdReceiveItemsdto1 = dsdService.saveDsd(DsdReceiveItemsdto);
@@ -40,31 +42,34 @@ public class DSDController {
 	}
 	
 	//Api to save dsd items in master product table
-	
 	@PostMapping("/savedsdproduct/{invoiceNumber}")
 	public ResponseEntity<List<ProductCombineddto>> saveDsdProducts(@RequestBody List<ProductCombineddto> productCombineddto,@PathVariable int invoiceNumber) {
 		 List<ProductCombineddto> DsdReceiveItemsdto1 = dsdService.saveDSdProducts(productCombineddto, invoiceNumber);
 		return new ResponseEntity<>(DsdReceiveItemsdto1, HttpStatus.OK);
 	}
 	
+	//Api to get dsd products on the basis of InvoiceNumber
 	@GetMapping("/findby/invoicenumber/{invoiceNumber}")
 	public ResponseEntity< List<DsdReceiveItemsdto>> getDSDProducts(@PathVariable int invoiceNumber) {
 		 List<DsdReceiveItemsdto> DsdReceiveItemsdto = dsdService.getInvoiceProducts(invoiceNumber);
 		return new ResponseEntity<>(DsdReceiveItemsdto, HttpStatus.OK);
 	}
 
+	// Api to get all DSD
 	@GetMapping("/viewdsd")
 	public ResponseEntity< List<DsdInvoice>> viewDSD() {
 		 List<DsdInvoice> dsdInvoice = dsdService.getViewDsd();
 		return new ResponseEntity<>(dsdInvoice, HttpStatus.OK);
 	}
 	
+	// Api to get all DSD by date
 	@GetMapping("/viewdsd/date/{date}")
 	public ResponseEntity< List<DsdInvoice>> viewDSDByDate(@PathVariable LocalDate date) {
 		 List<DsdInvoice> dsdInvoice = dsdService.getViewDsdByDate(date);
 		return new ResponseEntity<>(dsdInvoice, HttpStatus.OK);
 	}
 	
+	// Api to get all DSD by supplier
 	@GetMapping("/viewdsd/supplier/{suppliername}")
 	public ResponseEntity< List<DsdInvoice>> viewDSDBySupplier(@PathVariable String suppliername) {
 		 List<DsdInvoice> dsdInvoice = dsdService.getViewDsdBySupplier(suppliername);
