@@ -10,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 
 import jakarta.persistence.Table;
 
@@ -22,9 +21,8 @@ public class DsdInvoice {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int invoiceId;
 	private int invoiceNumber;
-	private LocalDate exp_date;
+	private LocalDate expDate;
 	private String status;
-
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "supplier_id", referencedColumnName = "supplierId")
@@ -47,11 +45,11 @@ public class DsdInvoice {
 	}
 
 	public LocalDate getExp_date() {
-		return exp_date;
+		return expDate;
 	}
 
 	public void setExp_date(LocalDate exp_date) {
-		this.exp_date = exp_date;
+		this.expDate = exp_date;
 	}
 
 	public int getInvoiceId() {
@@ -66,7 +64,7 @@ public class DsdInvoice {
 		super();
 		this.invoiceId = invoiceId;
 		this.invoiceNumber = invoiceNumber;
-		this.exp_date = exp_date;
+		this.expDate = exp_date;
 		this.status = status;
 		this.supplierId = supplierId;
 	}
@@ -81,7 +79,7 @@ public class DsdInvoice {
 
 	@Override
 	public String toString() {
-		return "DsdInvoice [invoiceId=" + invoiceId + ", invoiceNumber=" + invoiceNumber + ", exp_date=" + exp_date
+		return "DsdInvoice [invoiceId=" + invoiceId + ", invoiceNumber=" + invoiceNumber + ", exp_date=" + expDate
 				+ ", status=" + status + ", supplierId=" + supplierId + "]";
 	}
 

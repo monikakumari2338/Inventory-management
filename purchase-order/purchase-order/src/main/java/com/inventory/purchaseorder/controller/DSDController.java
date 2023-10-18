@@ -1,5 +1,6 @@
 package com.inventory.purchaseorder.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.inventory.purchaseorder.dto.DsdReceiveItemsdto;
 import com.inventory.purchaseorder.dto.ProductCombineddto;
 import com.inventory.purchaseorder.entity.DsdInvoice;
+import com.inventory.purchaseorder.entity.DsdSuppliers;
 import com.inventory.purchaseorder.service.DSDService;
 
 @RestController
@@ -49,6 +51,24 @@ public class DSDController {
 	public ResponseEntity< List<DsdReceiveItemsdto>> getDSDProducts(@PathVariable int invoiceNumber) {
 		 List<DsdReceiveItemsdto> DsdReceiveItemsdto = dsdService.getInvoiceProducts(invoiceNumber);
 		return new ResponseEntity<>(DsdReceiveItemsdto, HttpStatus.OK);
+	}
+
+	@GetMapping("/viewdsd")
+	public ResponseEntity< List<DsdInvoice>> viewDSD() {
+		 List<DsdInvoice> dsdInvoice = dsdService.getViewDsd();
+		return new ResponseEntity<>(dsdInvoice, HttpStatus.OK);
+	}
+	
+	@GetMapping("/viewdsd/date/{date}")
+	public ResponseEntity< List<DsdInvoice>> viewDSDByDate(@PathVariable LocalDate date) {
+		 List<DsdInvoice> dsdInvoice = dsdService.getViewDsdByDate(date);
+		return new ResponseEntity<>(dsdInvoice, HttpStatus.OK);
+	}
+	
+	@GetMapping("/viewdsd/supplier/{suppliername}")
+	public ResponseEntity< List<DsdInvoice>> viewDSDBySupplier(@PathVariable String suppliername) {
+		 List<DsdInvoice> dsdInvoice = dsdService.getViewDsdBySupplier(suppliername);
+		return new ResponseEntity<>(dsdInvoice, HttpStatus.OK);
 	}
 
 }

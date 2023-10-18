@@ -1,12 +1,14 @@
 
 package com.inventory.purchaseorder.serviceimpl;
 
+import java.time.LocalDate;
+
 import java.util.ArrayList;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.inventory.purchaseorder.dto.DsdReceiveItemsdto;
@@ -18,8 +20,8 @@ import com.inventory.purchaseorder.entity.DsdReceiveItems;
 import com.inventory.purchaseorder.entity.DsdSuppliers;
 import com.inventory.purchaseorder.entity.Product;
 import com.inventory.purchaseorder.entity.ProductDetails;
-import com.inventory.purchaseorder.entity.PurchaseOrder;
 import com.inventory.purchaseorder.entity.Stores;
+import com.inventory.purchaseorder.exception.ExceptionHandling;
 import com.inventory.purchaseorder.repository.CategoryRepo;
 import com.inventory.purchaseorder.repository.DsdInvoiceRepo;
 import com.inventory.purchaseorder.repository.DsdSuppliersRepo;
@@ -56,8 +58,7 @@ public class DSDServiceImpl implements DSDService {
 	@Autowired
 	private PurchaseOrderRepo PurchaseOrderRepo;
 
-	
-	// Function to save Dsd receive products 
+	// Function to save Dsd receive products
 	@Override
 	public DsdReceiveItemsdto saveDsd(DsdReceiveItemsdto DsdReceiveItemsdto) {
 		DsdInvoice dsdInvoice = invoiceRepo.findByInvoiceId(DsdReceiveItemsdto.getInvoiceId());
@@ -86,14 +87,13 @@ public class DSDServiceImpl implements DSDService {
 
 		return DsdReceiveItemsdto;
 	}
-	
+
 	// Function to get invoices associated with the supplier
 
 	@Override
 	public List<DsdInvoice> getDsdSupplierInvoices(int supplier) {
 		DsdSuppliers dsdSuppliers = DsdRepo.findBySupplierId(supplier);
 		List<DsdInvoice> DsdInvoice1 = invoiceRepo.findAllBySupplierId(dsdSuppliers);
-
 		System.out.println("DsdInvoice : " + DsdInvoice1);
 		return DsdInvoice1;
 	}
@@ -140,7 +140,7 @@ public class DSDServiceImpl implements DSDService {
 							productCombineddto.get(i).getProductDetailsdto().getImageData(), store, product2);
 
 					productDetailsRepo.save(productDetails2);
-					System.out.println("saved : inside if");
+					// System.out.println("saved : inside if");
 
 				} else {
 					ProductDetails productDetails1 = productDetailsRepo.findByColorAndSizeAndStoreAndProduct(
@@ -156,7 +156,7 @@ public class DSDServiceImpl implements DSDService {
 						total_stock = Prev_stock + new_stock;
 						productDetails1.setStock(total_stock);
 						productDetailsRepo.save(productDetails1);
-						System.out.println("saved : inside  else if");
+						// System.out.println("saved : inside else if");
 					}
 
 					else {
@@ -168,7 +168,7 @@ public class DSDServiceImpl implements DSDService {
 								productCombineddto.get(i).getProductDetailsdto().getImageData(), store, product);
 						productDetailsRepo.save(productDetails2);
 
-						System.out.println("saved : inside else");
+						// System.out.println("saved : inside else");
 					}
 
 				}
@@ -176,8 +176,8 @@ public class DSDServiceImpl implements DSDService {
 			}
 		}
 
-//		dsdInvoice.setStatus("complete");
-//		invoiceRepo.save(dsdInvoice);
+		dsdInvoice.setStatus("complete");
+		invoiceRepo.save(dsdInvoice);
 		return productCombineddto;
 
 	}
@@ -203,4 +203,38 @@ public class DSDServiceImpl implements DSDService {
 		return dsdReceiveItemsdto;
 	}
 
+	@Override
+	public List<DsdInvoice> getViewDsd() {
+		List<DsdSuppliers> dsdSuppliers = DsdRepo.findAll();
+		List<DsdInvoice> DsdInvoice1 = new ArrayList<>();
+		for (int i = 0; i < dsdSuppliers.size(); i++) {
+			DsdSuppliers dsdSuppliers1 = DsdRepo.findBySupplierId(dsdSuppliers.get(i).getSupplierId());
+			DsdInvoice1.addAll(invoiceRepo.findAllBySupplierId(dsdSuppliers1));
+		}
+
+		System.out.println("DsdInvoice1 : " + DsdInvoice1);
+		return DsdInvoice1;
+	}
+
+	@Override
+	public List<DsdInvoice> getViewDsdBySupplier(String supplierName) {
+		DsdSuppliers supplier = DsdRepo.findBysupplierName(supplierName);
+		if(supplier == null) {
+			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data found with the supplier "+supplierName);
+		}
+		System.out.println("supplier : " + supplier);
+		List<DsdInvoice> DsdInvoice1 = invoiceRepo.findAllBySupplierId(supplier);
+		System.out.println("DsdInvoice1 : " + DsdInvoice1);
+		return DsdInvoice1;
+	}
+
+	@Override
+	public List<DsdInvoice> getViewDsdByDate(LocalDate date) {
+		List<DsdInvoice> DsdInvoice1 = invoiceRepo.findAllByexpDate(date);
+		if(DsdInvoice1.size() == 0) {
+			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data found with the date "+date);
+		}
+		System.out.println("DsdInvoice1 : " + DsdInvoice1);
+		return DsdInvoice1;
+	}
 }

@@ -1,5 +1,7 @@
 package com.inventory.purchaseorder.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.inventory.purchaseorder.entity.DsdSuppliers;
@@ -8,4 +10,6 @@ public interface DsdSuppliersRepo extends JpaRepository<DsdSuppliers, Integer> {
 
 	DsdSuppliers findBySupplierId(int supplier);
 
+	List<DsdSuppliers> findAll();
+	DsdSuppliers findBysupplierName(String supplier);
 }
