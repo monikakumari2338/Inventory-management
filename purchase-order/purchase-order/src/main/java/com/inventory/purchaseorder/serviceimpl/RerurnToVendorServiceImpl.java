@@ -1,0 +1,83 @@
+package com.inventory.purchaseorder.serviceimpl;
+
+import java.util.ArrayList;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Service;
+
+import com.inventory.purchaseorder.dto.ReturnToVendorCombinedDto;
+import com.inventory.purchaseorder.dto.ReturnToVendorInfodto;
+import com.inventory.purchaseorder.dto.ReturnToVendorProductsdto;
+import com.inventory.purchaseorder.entity.ReturnToVendorInfo;
+import com.inventory.purchaseorder.entity.ReturnToVendorProducts;
+import com.inventory.purchaseorder.repository.ReturnTovendorInfoRepo;
+import com.inventory.purchaseorder.service.ReturnToVendorService;
+import com.inventory.purchaseorder.repository.ReturnTovendorProductsRepo;
+
+@Service
+public class RerurnToVendorServiceImpl implements ReturnToVendorService {
+
+	@Autowired
+	private ReturnTovendorInfoRepo rtvInfoRepo;
+
+	@Autowired
+	private ReturnTovendorProductsRepo rtvProductsRepo;
+
+	@Override
+	public String saveProducts(ReturnToVendorCombinedDto RTVCombinedDto) {
+
+		ReturnToVendorInfo RTVInfo = new ReturnToVendorInfo(RTVCombinedDto.getRtvInfodto().getRtvId(),
+				RTVCombinedDto.getRtvInfodto().getPoNumber(), RTVCombinedDto.getRtvInfodto().getSupplierId(),
+				RTVCombinedDto.getRtvInfodto().getSupplierName());
+
+		rtvInfoRepo.save(RTVInfo);
+
+		ReturnToVendorInfo RTVInfo1 = rtvInfoRepo.findByrtvId(RTVInfo.getRtvId());
+		List<ReturnToVendorProducts> rtvProducts = new ArrayList<>();
+		for (int i = 0; i < RTVCombinedDto.getRtvProductsdto().size(); i++) {
+			rtvProducts.add(new ReturnToVendorProducts(RTVCombinedDto.getRtvProductsdto().get(i).getItemNumber(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getItemName(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getCategory(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getColor(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getPrice(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getSize(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getImageData(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getStore(),
+					RTVCombinedDto.getRtvProductsdto().get(i).getReturnQty(), RTVInfo1));
+		}
+
+		rtvProductsRepo.saveAll(rtvProducts);
+		return "Products saved successfully";
+	}
+
+	@Override
+	public ReturnToVendorCombinedDto getRTVProducts(int rtvId) {
+		ReturnToVendorCombinedDto RTvCombinedDto = new ReturnToVendorCombinedDto();
+		ReturnToVendorInfo RTVInfo = rtvInfoRepo.findByrtvId(rtvId);
+
+		ReturnToVendorInfodto ReturnToVendorInfodto = new ReturnToVendorInfodto(RTVInfo.getRtvId(),
+				RTVInfo.getPoNumber(), RTVInfo.getSupplierId(), RTVInfo.getSupplierName());
+
+		RTvCombinedDto.setRtvInfodto(ReturnToVendorInfodto);
+
+		List<ReturnToVendorProducts> rtvProducts = rtvProductsRepo.findByrtvInfo(RTVInfo);
+		List<ReturnToVendorProductsdto> rtvProductsdto = new ArrayList<>();
+
+		for (int i = 0; i < rtvProducts.size(); i++) {
+			rtvProductsdto.add(new ReturnToVendorProductsdto(rtvProducts.get(i).getId(),
+					rtvProducts.get(i).getItemNumber(), rtvProducts.get(i).getItemName(),
+					rtvProducts.get(i).getCategory(), rtvProducts.get(i).getColor(), rtvProducts.get(i).getPrice(),
+					rtvProducts.get(i).getSize(), rtvProducts.get(i).getImageData(), rtvProducts.get(i).getStore(),
+					rtvProducts.get(i).getReturnQty(), rtvProducts.get(i).getRtvInfo().getRtvId()));
+		}
+
+		RTvCombinedDto.setRtvProductsdto(rtvProductsdto);
+		System.out.println("RTvCombinedDto : "+RTvCombinedDto);
+		return RTvCombinedDto;
+
+	}
+
+}

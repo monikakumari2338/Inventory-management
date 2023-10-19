@@ -18,17 +18,30 @@ public class PurchaseOrder {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "asnId", referencedColumnName = "asnId")
 	private ASN asn;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "supplier_id", referencedColumnName = "supplierId")
+	private DsdSuppliers supplierId;
 
 	public PurchaseOrder() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	public PurchaseOrder(int poNumber, String status, ASN asn) {
+	
+	public PurchaseOrder(int poNumber, String status, ASN asn, DsdSuppliers supplierId) {
 		super();
 		this.poNumber = poNumber;
 		this.status = status;
 		this.asn = asn;
+		this.supplierId = supplierId;
+	}
+
+	public DsdSuppliers getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(DsdSuppliers supplierId) {
+		this.supplierId = supplierId;
 	}
 
 	public int getPoNumber() {
