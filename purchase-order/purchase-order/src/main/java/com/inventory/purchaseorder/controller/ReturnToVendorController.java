@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.inventory.purchaseorder.dto.ReturnToVendorCombinedDto;
+import com.inventory.purchaseorder.dto.ReturnToVendorProcessDto;
 import com.inventory.purchaseorder.service.ReturnToVendorService;
 
 @RestController
@@ -20,17 +21,25 @@ public class ReturnToVendorController {
 	@Autowired
 	private ReturnToVendorService RTVService;
 
-	// Api to save data in Purchase order table
-	@PostMapping("/addrtvitems")
+	// Api to save RTV list
+	@PostMapping("/addrtv/itemlist")
 	public ResponseEntity<String> add_Products(@RequestBody ReturnToVendorCombinedDto RTVCombinedDto) {
 		String success_msg = RTVService.saveProducts(RTVCombinedDto);
 		return new ResponseEntity<>(success_msg, HttpStatus.OK);
 	}
-	
+
+	// Api to get RTV list
 	@GetMapping("/getrtvitems/{rtvId}")
 	public ResponseEntity<ReturnToVendorCombinedDto> getRTVProducts(@PathVariable int rtvId) {
 		ReturnToVendorCombinedDto RTVCombinedDto = RTVService.getRTVProducts(rtvId);
 		return new ResponseEntity<>(RTVCombinedDto, HttpStatus.OK);
+	}
+
+	// Api to create and save RTV data in RTV table
+	@PostMapping("/addrtvitems")
+	public ResponseEntity<String> addRTVProducts(@RequestBody ReturnToVendorProcessDto RTVProcessDto) {
+		String success_msg = RTVService.saveRTVProcessProducts(RTVProcessDto);
+		return new ResponseEntity<>(success_msg, HttpStatus.OK);
 	}
 
 }

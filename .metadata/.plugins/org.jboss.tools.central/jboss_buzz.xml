@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><feed xmlns="http://www.w3.org/2005/Atom">
   <title>JBoss Tools Aggregated Feed</title>
   <id>https://tools.jboss.org</id>
-  <updated>2023-10-19T00:39:15Z</updated>
+  <updated>2023-10-19T18:11:29Z</updated>
   <link href="https://tools.jboss.org"/>
   <xhtml:meta content="noindex" name="robots" xmlns:xhtml="http://www.w3.org/1999/xhtml"/><entry>
+    <title>JBoss Blogs: Compiling virtual thread applications into native executables</title>
+    <updated>2023-10-19T00:00:00Z</updated>
+    <id>https://quarkus.io/blog/virtual-threads-5/</id>
+    <link href="https://quarkus.io/blog/virtual-threads-5/" rel="alternate"/>
+    <summary type="html"/>
+  </entry>
+  <entry>
+    <title>Quarkus: Compiling virtual thread applications into native executables</title>
+    <updated>2023-10-19T00:00:00Z</updated>
+    <id>https://quarkus.io/blog/virtual-threads-5/</id>
+    <link href="https://quarkus.io/blog/virtual-threads-5/" rel="alternate"/>
+    <summary type="html"/>
+  </entry>
+  <entry>
     <title>JBoss Blogs: WildFly 30 is released!</title>
     <updated>2023-10-18T00:00:00Z</updated>
     <id>https://wildfly.org//news/2023/10/18/WildFly30-Released/</id>
@@ -116,17 +130,17 @@
     <summary type="html"/>
   </entry>
   <entry>
-    <title>Quarkus: Quarkus Newsletter #37 - October</title>
-    <updated>2023-10-10T00:00:00Z</updated>
-    <id>https://quarkus.io/blog/quarkus-newsletter-37/</id>
-    <link href="https://quarkus.io/blog/quarkus-newsletter-37/" rel="alternate"/>
-    <summary type="html"/>
-  </entry>
-  <entry>
     <title>Quarkus: A recap of Quarkus Tools for IntelliJ's latest improvements</title>
     <updated>2023-10-10T00:00:00Z</updated>
     <id>https://quarkus.io/blog/intellij-quarkus-recap/</id>
     <link href="https://quarkus.io/blog/intellij-quarkus-recap/" rel="alternate"/>
+    <summary type="html"/>
+  </entry>
+  <entry>
+    <title>Quarkus: Quarkus Newsletter #37 - October</title>
+    <updated>2023-10-10T00:00:00Z</updated>
+    <id>https://quarkus.io/blog/quarkus-newsletter-37/</id>
+    <link href="https://quarkus.io/blog/quarkus-newsletter-37/" rel="alternate"/>
     <summary type="html"/>
   </entry>
   <entry>
@@ -144,14 +158,14 @@
     <summary type="html"/>
   </entry>
   <entry>
-    <title>JBoss Blogs: Processing Kafka records on virtual threads</title>
+    <title>Quarkus: Processing Kafka records on virtual threads</title>
     <updated>2023-10-09T00:00:00Z</updated>
     <id>https://quarkus.io/blog/virtual-threads-4/</id>
     <link href="https://quarkus.io/blog/virtual-threads-4/" rel="alternate"/>
     <summary type="html"/>
   </entry>
   <entry>
-    <title>Quarkus: Processing Kafka records on virtual threads</title>
+    <title>JBoss Blogs: Processing Kafka records on virtual threads</title>
     <updated>2023-10-09T00:00:00Z</updated>
     <id>https://quarkus.io/blog/virtual-threads-4/</id>
     <link href="https://quarkus.io/blog/virtual-threads-4/" rel="alternate"/>
@@ -263,13 +277,6 @@
     <summary type="html"/>
   </entry>
   <entry>
-    <title>JBoss Blogs: Just: a tool to store and execute your project commands</title>
-    <updated>2023-09-27T14:07:46Z</updated>
-    <id>https://www.mastertheboss.com/various-stuff/just-a-tool-to-store-and-execute-your-project-commands/</id>
-    <link href="https://www.mastertheboss.com/various-stuff/just-a-tool-to-store-and-execute-your-project-commands/" rel="alternate"/>
-    <summary type="html"/>
-  </entry>
-  <entry>
     <title>Quarkus: Writing CRUD applications using virtual threads</title>
     <updated>2023-09-25T00:00:00Z</updated>
     <id>https://quarkus.io/blog/virtual-threads-2/</id>
@@ -277,10 +284,10 @@
     <summary type="html"/>
   </entry>
   <entry>
-    <title>Quarkus: Observability in Quarkus 3</title>
-    <updated>2023-09-20T00:00:00Z</updated>
-    <id>https://quarkus.io/blog/quarkus-observability-3-3/</id>
-    <link href="https://quarkus.io/blog/quarkus-observability-3-3/" rel="alternate"/>
+    <title>JBoss Tools: JBoss Tools 4.28.0.Final for Eclipse 2023-03</title>
+    <updated>2023-07-03T00:00:00Z</updated>
+    <id>https://tools.jboss.org/blog/4.28.0.final.html</id>
+    <link href="https://tools.jboss.org/blog/4.28.0.final.html" rel="alternate"/>
     <summary type="html"/>
   </entry>
   <entry>
@@ -288,13 +295,6 @@
     <updated>2023-07-03T00:00:00Z</updated>
     <id>https://www.jboss.org/posts/weekly-2023-07-03.html</id>
     <link href="https://www.jboss.org/posts/weekly-2023-07-03.html" rel="alternate"/>
-    <summary type="html"/>
-  </entry>
-  <entry>
-    <title>JBoss Tools: JBoss Tools 4.28.0.Final for Eclipse 2023-03</title>
-    <updated>2023-07-03T00:00:00Z</updated>
-    <id>https://tools.jboss.org/blog/4.28.0.final.html</id>
-    <link href="https://tools.jboss.org/blog/4.28.0.final.html" rel="alternate"/>
     <summary type="html"/>
   </entry>
   <entry>
@@ -620,17 +620,17 @@
     <summary type="html"/>
   </entry>
   <entry>
-    <title>JBoss Tools: JBoss Tools and Red Hat CodeReady Studio for Eclipse 2021-09 security fix release for Apache Log4j CVE-2021-45105 and CVE-2021-44832</title>
-    <updated>2022-01-13T00:00:00Z</updated>
-    <id>https://tools.jboss.org/blog/12.21.2.ga.html</id>
-    <link href="https://tools.jboss.org/blog/12.21.2.ga.html" rel="alternate"/>
-    <summary type="html"/>
-  </entry>
-  <entry>
     <title>JBoss Blogs: This Week in JBoss - January 13th 2022</title>
     <updated>2022-01-13T00:00:00Z</updated>
     <id>https://www.jboss.org/posts/weekly-2022-01-13.html</id>
     <link href="https://www.jboss.org/posts/weekly-2022-01-13.html" rel="alternate"/>
+    <summary type="html"/>
+  </entry>
+  <entry>
+    <title>JBoss Tools: JBoss Tools and Red Hat CodeReady Studio for Eclipse 2021-09 security fix release for Apache Log4j CVE-2021-45105 and CVE-2021-44832</title>
+    <updated>2022-01-13T00:00:00Z</updated>
+    <id>https://tools.jboss.org/blog/12.21.2.ga.html</id>
+    <link href="https://tools.jboss.org/blog/12.21.2.ga.html" rel="alternate"/>
     <summary type="html"/>
   </entry>
   <entry>

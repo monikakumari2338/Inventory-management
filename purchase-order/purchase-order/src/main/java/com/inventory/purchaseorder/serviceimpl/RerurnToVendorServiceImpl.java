@@ -10,10 +10,15 @@ import org.springframework.stereotype.Service;
 
 import com.inventory.purchaseorder.dto.ReturnToVendorCombinedDto;
 import com.inventory.purchaseorder.dto.ReturnToVendorInfodto;
+import com.inventory.purchaseorder.dto.ReturnToVendorProcessDto;
 import com.inventory.purchaseorder.dto.ReturnToVendorProductsdto;
 import com.inventory.purchaseorder.entity.ReturnToVendorInfo;
+import com.inventory.purchaseorder.entity.ReturnToVendorProcessInfo;
+import com.inventory.purchaseorder.entity.ReturnToVendorProcessProducts;
 import com.inventory.purchaseorder.entity.ReturnToVendorProducts;
 import com.inventory.purchaseorder.repository.ReturnTovendorInfoRepo;
+import com.inventory.purchaseorder.repository.ReturnTovendorProcessInfoRepo;
+import com.inventory.purchaseorder.repository.ReturnTovendorProcessProductsRepo;
 import com.inventory.purchaseorder.service.ReturnToVendorService;
 import com.inventory.purchaseorder.repository.ReturnTovendorProductsRepo;
 
@@ -26,6 +31,14 @@ public class RerurnToVendorServiceImpl implements ReturnToVendorService {
 	@Autowired
 	private ReturnTovendorProductsRepo rtvProductsRepo;
 
+	@Autowired
+	private ReturnTovendorProcessInfoRepo rtvProcessInfoRepo;
+
+	@Autowired
+	private ReturnTovendorProcessProductsRepo rtvProcessProductsRepo;
+
+	
+	//Function to save RTV list
 	@Override
 	public String saveProducts(ReturnToVendorCombinedDto RTVCombinedDto) {
 
@@ -53,6 +66,7 @@ public class RerurnToVendorServiceImpl implements ReturnToVendorService {
 		return "Products saved successfully";
 	}
 
+	//Function to get RTV list
 	@Override
 	public ReturnToVendorCombinedDto getRTVProducts(int rtvId) {
 		ReturnToVendorCombinedDto RTvCombinedDto = new ReturnToVendorCombinedDto();
@@ -75,9 +89,39 @@ public class RerurnToVendorServiceImpl implements ReturnToVendorService {
 		}
 
 		RTvCombinedDto.setRtvProductsdto(rtvProductsdto);
-		System.out.println("RTvCombinedDto : "+RTvCombinedDto);
+		System.out.println("RTvCombinedDto : " + RTvCombinedDto);
 		return RTvCombinedDto;
 
+	}
+
+	//Function to save RTV data in RTV table
+	@Override
+	public String saveRTVProcessProducts(ReturnToVendorProcessDto RTVProcessDto) {
+
+		ReturnToVendorProcessInfo RTVProcessInfo = new ReturnToVendorProcessInfo(
+				RTVProcessDto.getRtvProcessInfo().getRtvId(), RTVProcessDto.getRtvProcessInfo().getPoNumber(),
+				RTVProcessDto.getRtvProcessInfo().getSupplierId(), RTVProcessDto.getRtvProcessInfo().getSupplierName(),
+				RTVProcessDto.getRtvProcessInfo().getStatus(), RTVProcessDto.getRtvProcessInfo().getReason());
+
+		rtvProcessInfoRepo.save(RTVProcessInfo);
+
+		ReturnToVendorProcessInfo RTVProcessInfo1 = rtvProcessInfoRepo.findByrtvId(RTVProcessInfo.getRtvId());
+		List<ReturnToVendorProcessProducts> rtvProcessProducts = new ArrayList<>();
+		for (int i = 0; i < RTVProcessDto.getRtvProcessProducts().size(); i++) {
+			rtvProcessProducts
+					.add(new ReturnToVendorProcessProducts(RTVProcessDto.getRtvProcessProducts().get(i).getItemNumber(),
+							RTVProcessDto.getRtvProcessProducts().get(i).getItemName(),
+							RTVProcessDto.getRtvProcessProducts().get(i).getCategory(),
+							RTVProcessDto.getRtvProcessProducts().get(i).getColor(),
+							RTVProcessDto.getRtvProcessProducts().get(i).getPrice(),
+							RTVProcessDto.getRtvProcessProducts().get(i).getSize(),
+							RTVProcessDto.getRtvProcessProducts().get(i).getImageData(),
+							RTVProcessDto.getRtvProcessProducts().get(i).getStore(),
+							RTVProcessDto.getRtvProcessProducts().get(i).getReturnQty(), RTVProcessInfo1));
+		}
+
+		rtvProcessProductsRepo.saveAll(rtvProcessProducts);
+		return "Products saved successfully";
 	}
 
 }
