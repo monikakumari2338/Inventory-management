@@ -1,5 +1,8 @@
 package com.inventory.purchaseorder.entity;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -15,6 +18,7 @@ public class ReturnToVendorProcessInfo {
 	private String supplierName;
 	private String status;
 	private String reason;
+	private LocalDate date;
 
 	public ReturnToVendorProcessInfo() {
 		super();
@@ -69,8 +73,16 @@ public class ReturnToVendorProcessInfo {
 		this.reason = reason;
 	}
 
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
 	public ReturnToVendorProcessInfo(int rtvId, int poNumber, int supplierId, String supplierName, String status,
-			String reason) {
+			String reason, LocalDate date) {
 		super();
 		this.rtvId = rtvId;
 		this.poNumber = poNumber;
@@ -78,12 +90,14 @@ public class ReturnToVendorProcessInfo {
 		this.supplierName = supplierName;
 		this.status = status;
 		this.reason = reason;
+		this.date = date;
 	}
 
 	@Override
 	public String toString() {
 		return "ReturnToVendorProcessInfo [rtvId=" + rtvId + ", poNumber=" + poNumber + ", supplierId=" + supplierId
-				+ ", supplierName=" + supplierName + ", status=" + status + ", reason=" + reason + "]";
+				+ ", supplierName=" + supplierName + ", status=" + status + ", reason=" + reason + ", date=" + date
+				+ "]";
 	}
 
 }

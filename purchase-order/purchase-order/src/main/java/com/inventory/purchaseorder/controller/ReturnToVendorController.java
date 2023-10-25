@@ -1,5 +1,7 @@
 package com.inventory.purchaseorder.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.inventory.purchaseorder.dto.ReturnToVendorCombinedDto;
 import com.inventory.purchaseorder.dto.ReturnToVendorProcessDto;
+import com.inventory.purchaseorder.entity.ReturnToVendorProcessInfo;
 import com.inventory.purchaseorder.service.ReturnToVendorService;
 
 @RestController
@@ -40,6 +43,13 @@ public class ReturnToVendorController {
 	public ResponseEntity<String> addRTVProducts(@RequestBody ReturnToVendorProcessDto RTVProcessDto) {
 		String success_msg = RTVService.saveRTVProcessProducts(RTVProcessDto);
 		return new ResponseEntity<>(success_msg, HttpStatus.OK);
+	}
+
+	// Api to get RTV list
+	@GetMapping("/getallrtv")
+	public ResponseEntity<List<ReturnToVendorProcessInfo>> getAllRTV() {
+		List<ReturnToVendorProcessInfo> ReturnToVendorProcessInfo = RTVService.getAllViewVendorReturn();
+		return new ResponseEntity<>(ReturnToVendorProcessInfo, HttpStatus.OK);
 	}
 
 }

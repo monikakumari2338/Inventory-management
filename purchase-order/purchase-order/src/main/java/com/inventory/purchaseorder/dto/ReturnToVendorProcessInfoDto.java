@@ -1,5 +1,8 @@
 package com.inventory.purchaseorder.dto;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 public class ReturnToVendorProcessInfoDto {
 
 	private int rtvId;
@@ -8,6 +11,7 @@ public class ReturnToVendorProcessInfoDto {
 	private String supplierName;
 	private String status;
 	private String reason;
+	private LocalDate date;
 
 	public ReturnToVendorProcessInfoDto() {
 		super();
@@ -62,8 +66,16 @@ public class ReturnToVendorProcessInfoDto {
 		this.reason = reason;
 	}
 
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
 	public ReturnToVendorProcessInfoDto(int rtvId, int poNumber, int supplierId, String supplierName, String status,
-			String reason) {
+			String reason, LocalDate date) {
 		super();
 		this.rtvId = rtvId;
 		this.poNumber = poNumber;
@@ -71,12 +83,14 @@ public class ReturnToVendorProcessInfoDto {
 		this.supplierName = supplierName;
 		this.status = status;
 		this.reason = reason;
+		this.date = date;
 	}
 
 	@Override
 	public String toString() {
-		return "ReturnToVendorProcessInfo [rtvId=" + rtvId + ", poNumber=" + poNumber + ", supplierId=" + supplierId
-				+ ", supplierName=" + supplierName + ", status=" + status + ", reason=" + reason + "]";
+		return "ReturnToVendorProcessInfoDto [rtvId=" + rtvId + ", poNumber=" + poNumber + ", supplierId=" + supplierId
+				+ ", supplierName=" + supplierName + ", status=" + status + ", reason=" + reason + ", date=" + date
+				+ "]";
 	}
 
 }
