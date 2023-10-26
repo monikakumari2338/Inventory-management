@@ -45,9 +45,9 @@ public class RerurnToVendorServiceImpl implements ReturnToVendorService {
 	@Override
 	public String saveProducts(ReturnToVendorCombinedDto RTVCombinedDto) {
 
-		ReturnToVendorInfo RTVInfo = new ReturnToVendorInfo(RTVCombinedDto.getRtvInfodto().getRtvId(),
-				RTVCombinedDto.getRtvInfodto().getPoNumber(), RTVCombinedDto.getRtvInfodto().getSupplierId(),
-				RTVCombinedDto.getRtvInfodto().getSupplierName(), RTVCombinedDto.getRtvInfodto().getDate());
+		ReturnToVendorInfo RTVInfo = new ReturnToVendorInfo(RTVCombinedDto.getRtvInfodto().getPoNumber(),
+				RTVCombinedDto.getRtvInfodto().getSupplierId(), RTVCombinedDto.getRtvInfodto().getSupplierName(),
+				RTVCombinedDto.getRtvInfodto().getDate());
 
 		rtvInfoRepo.save(RTVInfo);
 
@@ -75,7 +75,7 @@ public class RerurnToVendorServiceImpl implements ReturnToVendorService {
 		ReturnToVendorCombinedDto RTvCombinedDto = new ReturnToVendorCombinedDto();
 		ReturnToVendorInfo RTVInfo = rtvInfoRepo.findByrtvId(rtvId);
 
-		ReturnToVendorInfodto ReturnToVendorInfodto = new ReturnToVendorInfodto(RTVInfo.getRtvId(),
+		ReturnToVendorInfodto ReturnToVendorInfodto = new ReturnToVendorInfodto(
 				RTVInfo.getPoNumber(), RTVInfo.getSupplierId(), RTVInfo.getSupplierName(), RTVInfo.getDate());
 
 		RTvCombinedDto.setRtvInfodto(ReturnToVendorInfodto);
@@ -102,7 +102,7 @@ public class RerurnToVendorServiceImpl implements ReturnToVendorService {
 	public String saveRTVProcessProducts(ReturnToVendorProcessDto RTVProcessDto) {
 
 		ReturnToVendorProcessInfo RTVProcessInfo = new ReturnToVendorProcessInfo(
-				RTVProcessDto.getRtvProcessInfo().getRtvId(), RTVProcessDto.getRtvProcessInfo().getPoNumber(),
+				RTVProcessDto.getRtvProcessInfo().getPoNumber(),
 				RTVProcessDto.getRtvProcessInfo().getSupplierId(), RTVProcessDto.getRtvProcessInfo().getSupplierName(),
 				RTVProcessDto.getRtvProcessInfo().getStatus(), RTVProcessDto.getRtvProcessInfo().getReason(),
 				RTVProcessDto.getRtvProcessInfo().getDate());

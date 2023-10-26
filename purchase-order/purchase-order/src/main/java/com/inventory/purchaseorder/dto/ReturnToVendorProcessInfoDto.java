@@ -5,7 +5,6 @@ import java.util.Date;
 
 public class ReturnToVendorProcessInfoDto {
 
-	private int rtvId;
 	private int poNumber;
 	private int supplierId;
 	private String supplierName;
@@ -18,13 +17,6 @@ public class ReturnToVendorProcessInfoDto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getRtvId() {
-		return rtvId;
-	}
-
-	public void setRtvId(int rtvId) {
-		this.rtvId = rtvId;
-	}
 
 	public int getPoNumber() {
 		return poNumber;
@@ -74,10 +66,10 @@ public class ReturnToVendorProcessInfoDto {
 		this.date = date;
 	}
 
-	public ReturnToVendorProcessInfoDto(int rtvId, int poNumber, int supplierId, String supplierName, String status,
+	public ReturnToVendorProcessInfoDto(int poNumber, int supplierId, String supplierName, String status,
 			String reason, LocalDate date) {
 		super();
-		this.rtvId = rtvId;
+		
 		this.poNumber = poNumber;
 		this.supplierId = supplierId;
 		this.supplierName = supplierName;
@@ -88,7 +80,7 @@ public class ReturnToVendorProcessInfoDto {
 
 	@Override
 	public String toString() {
-		return "ReturnToVendorProcessInfoDto [rtvId=" + rtvId + ", poNumber=" + poNumber + ", supplierId=" + supplierId
+		return "ReturnToVendorProcessInfoDto [poNumber=" + poNumber + ", supplierId=" + supplierId
 				+ ", supplierName=" + supplierName + ", status=" + status + ", reason=" + reason + ", date=" + date
 				+ "]";
 	}

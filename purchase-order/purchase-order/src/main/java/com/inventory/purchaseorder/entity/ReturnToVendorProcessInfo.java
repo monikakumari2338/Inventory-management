@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -12,6 +14,7 @@ import jakarta.persistence.Table;
 public class ReturnToVendorProcessInfo {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int rtvId;
 	private int poNumber;
 	private int supplierId;
@@ -81,10 +84,9 @@ public class ReturnToVendorProcessInfo {
 		this.date = date;
 	}
 
-	public ReturnToVendorProcessInfo(int rtvId, int poNumber, int supplierId, String supplierName, String status,
+	public ReturnToVendorProcessInfo(int poNumber, int supplierId, String supplierName, String status,
 			String reason, LocalDate date) {
 		super();
-		this.rtvId = rtvId;
 		this.poNumber = poNumber;
 		this.supplierId = supplierId;
 		this.supplierName = supplierName;
