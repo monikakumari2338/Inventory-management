@@ -15,7 +15,6 @@ public class ReturnToVendorProducts {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
 	private String itemNumber;
 	private String itemName;
 	private String category;

@@ -12,7 +12,6 @@ public class ReturnToVendorProcessProductsDto {
 	private String imageData;
 	private String store;
 	private int returnQty;
-	private int rtvId;
 
 	public ReturnToVendorProcessProductsDto() {
 		super();
@@ -20,7 +19,7 @@ public class ReturnToVendorProcessProductsDto {
 	}
 
 	public ReturnToVendorProcessProductsDto(String itemNumber, String itemName, String category, String color,
-			String price, String size, String imageData, String store, int returnQty, int rtvId) {
+			String price, String size, String imageData, String store, int returnQty) {
 		super();
 
 		this.itemNumber = itemNumber;
@@ -32,7 +31,7 @@ public class ReturnToVendorProcessProductsDto {
 		this.imageData = imageData;
 		this.store = store;
 		this.returnQty = returnQty;
-		this.rtvId = rtvId;
+		//this.rtvId = rtvId;
 	}
 
 	public int getId() {
@@ -115,19 +114,19 @@ public class ReturnToVendorProcessProductsDto {
 		this.returnQty = returnQty;
 	}
 
-	public int getRtvId() {
-		return rtvId;
-	}
-
-	public void setRtvInfo(int rtvId) {
-		this.rtvId = rtvId;
-	}
+//	public int getRtvId() {
+//		return rtvId;
+//	}
+//
+//	public void setRtvInfo(int rtvId) {
+//		this.rtvId = rtvId;
+//	}
 
 	@Override
 	public String toString() {
 		return "ReturnToVendorProducts [id=" + id + ", itemNumber=" + itemNumber + ", itemName=" + itemName
 				+ ", category=" + category + ", color=" + color + ", price=" + price + ", size=" + size + ", imageData="
-				+ imageData + ", store=" + store + ", returnQty=" + returnQty + ", rtvId=" + rtvId + "]";
+				+ imageData + ", store=" + store + ", returnQty=" + returnQty + "]";
 	}
 
 }
