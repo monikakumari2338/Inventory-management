@@ -28,8 +28,7 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 
 		System.out.println("InvAdjCombinedDto: " + InvAdjCombinedDto);
 		InventoryAdjustment InvAdj = new InventoryAdjustment(InvAdjCombinedDto.getInvCombined().getReason(),
-				InvAdjCombinedDto.getInvCombined().getStatus(),
-				InvAdjCombinedDto.getInvCombined().getSupplierId(),
+				InvAdjCombinedDto.getInvCombined().getStatus(), InvAdjCombinedDto.getInvCombined().getSupplierId(),
 				InvAdjCombinedDto.getInvCombined().getDate());
 
 		invAdjRepo.save(InvAdj);
@@ -37,8 +36,7 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 		InventoryAdjustment InvAdj1 = invAdjRepo.findByadjId(InvAdj.getAdjId());
 		List<InventoryAdjustmentProducts> InvAdjProducts = new ArrayList<>();
 		for (int i = 0; i < InvAdjCombinedDto.getProductDto().size(); i++) {
-			InvAdjProducts.add(new InventoryAdjustmentProducts(
-					InvAdjCombinedDto.getProductDto().get(i).getItemNumber(),
+			InvAdjProducts.add(new InventoryAdjustmentProducts(InvAdjCombinedDto.getProductDto().get(i).getItemNumber(),
 					InvAdjCombinedDto.getProductDto().get(i).getItemName(),
 					InvAdjCombinedDto.getProductDto().get(i).getCategory(),
 					InvAdjCombinedDto.getProductDto().get(i).getColor(),
@@ -52,6 +50,5 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 		invAdjProductsRepo.saveAll(InvAdjProducts);
 		return "Products saved successfully";
 	}
-
 
 }

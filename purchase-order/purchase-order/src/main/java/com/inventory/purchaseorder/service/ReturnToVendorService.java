@@ -6,6 +6,7 @@ import java.util.List;
 import com.inventory.purchaseorder.dto.ReturnToVendorCombinedDto;
 import com.inventory.purchaseorder.dto.ReturnToVendorProcessDto;
 import com.inventory.purchaseorder.entity.ReturnToVendorProcessInfo;
+import com.inventory.purchaseorder.entity.ReturnToVendorProcessProducts;
 
 public interface ReturnToVendorService {
 
@@ -16,4 +17,6 @@ public interface ReturnToVendorService {
 	String saveRTVProcessProducts(ReturnToVendorProcessDto RTVProcessDto);
 
 	List<ReturnToVendorProcessInfo> getAllViewVendorReturn();
+
+	List<ReturnToVendorProcessProducts> getRTVProcessProducts(int rtvId);
 }

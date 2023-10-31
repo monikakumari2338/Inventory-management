@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.inventory.purchaseorder.dto.ReturnToVendorCombinedDto;
 import com.inventory.purchaseorder.dto.ReturnToVendorProcessDto;
 import com.inventory.purchaseorder.entity.ReturnToVendorProcessInfo;
+import com.inventory.purchaseorder.entity.ReturnToVendorProcessProducts;
 import com.inventory.purchaseorder.service.ReturnToVendorService;
 
 @RestController
@@ -51,5 +52,12 @@ public class ReturnToVendorController {
 		List<ReturnToVendorProcessInfo> ReturnToVendorProcessInfo = RTVService.getAllViewVendorReturn();
 		return new ResponseEntity<>(ReturnToVendorProcessInfo, HttpStatus.OK);
 	}
+	
+	// Api to get RTV master process list by id
+		@GetMapping("/getrtv/{rtvId}")
+		public ResponseEntity<List<ReturnToVendorProcessProducts>> getRTV(@PathVariable int rtvId) {
+			List<ReturnToVendorProcessProducts> products = RTVService.getRTVProcessProducts(rtvId);
+			return new ResponseEntity<>(products, HttpStatus.OK);
+		}
 
 }

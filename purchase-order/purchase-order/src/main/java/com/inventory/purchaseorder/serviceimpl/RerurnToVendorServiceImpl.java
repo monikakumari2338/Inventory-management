@@ -75,8 +75,8 @@ public class RerurnToVendorServiceImpl implements ReturnToVendorService {
 		ReturnToVendorCombinedDto RTvCombinedDto = new ReturnToVendorCombinedDto();
 		ReturnToVendorInfo RTVInfo = rtvInfoRepo.findByrtvId(rtvId);
 
-		ReturnToVendorInfodto ReturnToVendorInfodto = new ReturnToVendorInfodto(
-				RTVInfo.getPoNumber(), RTVInfo.getSupplierId(), RTVInfo.getSupplierName(), RTVInfo.getDate());
+		ReturnToVendorInfodto ReturnToVendorInfodto = new ReturnToVendorInfodto(RTVInfo.getPoNumber(),
+				RTVInfo.getSupplierId(), RTVInfo.getSupplierName(), RTVInfo.getDate());
 
 		RTvCombinedDto.setRtvInfodto(ReturnToVendorInfodto);
 
@@ -102,10 +102,9 @@ public class RerurnToVendorServiceImpl implements ReturnToVendorService {
 	public String saveRTVProcessProducts(ReturnToVendorProcessDto RTVProcessDto) {
 
 		ReturnToVendorProcessInfo RTVProcessInfo = new ReturnToVendorProcessInfo(
-				RTVProcessDto.getRtvProcessInfo().getPoNumber(),
-				RTVProcessDto.getRtvProcessInfo().getSupplierId(), RTVProcessDto.getRtvProcessInfo().getSupplierName(),
-				RTVProcessDto.getRtvProcessInfo().getStatus(), RTVProcessDto.getRtvProcessInfo().getReason(),
-				RTVProcessDto.getRtvProcessInfo().getDate());
+				RTVProcessDto.getRtvProcessInfo().getPoNumber(), RTVProcessDto.getRtvProcessInfo().getSupplierId(),
+				RTVProcessDto.getRtvProcessInfo().getSupplierName(), RTVProcessDto.getRtvProcessInfo().getStatus(),
+				RTVProcessDto.getRtvProcessInfo().getReason(), RTVProcessDto.getRtvProcessInfo().getDate());
 
 		rtvProcessInfoRepo.save(RTVProcessInfo);
 
@@ -126,6 +125,16 @@ public class RerurnToVendorServiceImpl implements ReturnToVendorService {
 
 		rtvProcessProductsRepo.saveAll(rtvProcessProducts);
 		return "Products saved successfully";
+	}
+
+	// Function to get RTV list from Master process table
+	@Override
+	public List<ReturnToVendorProcessProducts> getRTVProcessProducts(int rtvId) {
+
+		ReturnToVendorProcessInfo RTVinfo = rtvProcessInfoRepo.findByrtvId(rtvId);
+		List<ReturnToVendorProcessProducts> products=rtvProcessProductsRepo.findByrtvProcessInfo(RTVinfo);
+		return products;
+
 	}
 
 	// Function to get all RTV
