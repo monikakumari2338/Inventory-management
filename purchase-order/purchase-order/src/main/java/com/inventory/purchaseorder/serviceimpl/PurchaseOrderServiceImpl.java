@@ -72,6 +72,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 					PurchaseOrderCombineddto.get(i).getPurchaseOrderItemsdto().getItemNumber(),
 					PurchaseOrderCombineddto.get(i).getPurchaseOrderItemsdto().getItemName(),
 					PurchaseOrderCombineddto.get(i).getPurchaseOrderItemsdto().getExpectedQty(),
+					PurchaseOrderCombineddto.get(i).getPurchaseOrderItemsdto().getReceived_qty(),
 					PurchaseOrderCombineddto.get(i).getPurchaseOrderItemsdto().getCategory(), item);
 			itemsRepo.save(items);
 
@@ -113,6 +114,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			}
 
 		}
+
+//		PurchaseOrder PO = purchaseOrderRepo.findByPoNumber(PurchaseOrderCombineddto.get(0).getPurchaseOrderItemsdto().getPoNumber());
+//        PO.setReceived_qty(20);
 		return PurchaseOrderCombineddto;
 	}
 
@@ -128,10 +132,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	public List<PurchaseOrderdto> findpoByStatus(String Status) {
 		List<PurchaseOrderdto> purschaseOrderDto = new ArrayList<PurchaseOrderdto>();
 		List<PurchaseOrder> purchaseOrder = purchaseOrderRepo.findAllByStatus(Status);
-		for(int i = 0; i< purchaseOrder.size();i++) {
-			purschaseOrderDto.add(new PurchaseOrderdto(purchaseOrder.get(i).getPo_Number(),purchaseOrder.get(i).getStatus(),purchaseOrder.get(i).getAsn().getAsnNumber()));
+		for (int i = 0; i < purchaseOrder.size(); i++) {
+			purschaseOrderDto.add(new PurchaseOrderdto(purchaseOrder.get(i).getPoNumber(),
+					purchaseOrder.get(i).getStatus(), purchaseOrder.get(i).getAsn().getAsnNumber(),
+					purchaseOrder.get(i).getExpected_qty(), purchaseOrder.get(i).getReceived_qty()));
 		}
-		//System.out.println(purschaseOrderDto);
+		// System.out.println(purschaseOrderDto);
 		return purschaseOrderDto;
 	}
 

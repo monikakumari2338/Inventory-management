@@ -7,6 +7,7 @@ public class PurchaseOrderItemsdto {
 	private int expectedQty;
 	private String category;
 	private int poNumber;
+	private int received_qty;
 
 	public PurchaseOrderItemsdto() {
 		super();
@@ -53,13 +54,30 @@ public class PurchaseOrderItemsdto {
 		this.poNumber = poNumber;
 	}
 
-	public PurchaseOrderItemsdto(String itemNumber, String itemName, int expectedQty, String category, int poNumber) {
+	public int getReceived_qty() {
+		return received_qty;
+	}
+
+	public void setReceived_qty(int received_qty) {
+		this.received_qty = received_qty;
+	}
+
+	public PurchaseOrderItemsdto(String itemNumber, String itemName, int expectedQty, String category, int poNumber,
+			int received_qty) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.expectedQty = expectedQty;
 		this.category = category;
 		this.poNumber = poNumber;
+		this.received_qty = received_qty;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "PurchaseOrderItemsdto [itemNumber=" + itemNumber + ", itemName=" + itemName + ", expectedQty="
+				+ expectedQty + ", category=" + category + ", poNumber=" + poNumber + ", received_qty=" + received_qty
+				+ "]";
+	}
+
 }

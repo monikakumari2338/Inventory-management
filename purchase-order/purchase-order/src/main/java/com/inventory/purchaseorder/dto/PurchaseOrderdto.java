@@ -5,6 +5,8 @@ public class PurchaseOrderdto {
 	private int poNumber;
 	private String status;
 	private int asnNumber;
+	private int expected_qty;
+	private int received_qty;
 
 	public int getPoNumber() {
 		return poNumber;
@@ -30,16 +32,35 @@ public class PurchaseOrderdto {
 		this.asnNumber = asnNumber;
 	}
 
-	@Override
-	public String toString() {
-		return "PurchaseOrderdto [poNumber=" + poNumber + ", status=" + status + ", asnNumber=" + asnNumber + "]";
+	public int getExpected_qty() {
+		return expected_qty;
 	}
 
-	public PurchaseOrderdto(int poNumber, String status, int asnNumber) {
+	public void setExpected_qty(int expected_qty) {
+		this.expected_qty = expected_qty;
+	}
+
+	public int getReceived_qty() {
+		return received_qty;
+	}
+
+	public void setReceived_qty(int received_qty) {
+		this.received_qty = received_qty;
+	}
+
+	@Override
+	public String toString() {
+		return "PurchaseOrderdto [poNumber=" + poNumber + ", status=" + status + ", asnNumber=" + asnNumber
+				+ ", expected_qty=" + expected_qty + ", received_qty=" + received_qty + "]";
+	}
+
+	public PurchaseOrderdto(int poNumber, String status, int asnNumber, int expected_qty, int received_qty) {
 		super();
 		this.poNumber = poNumber;
 		this.status = status;
 		this.asnNumber = asnNumber;
+		this.expected_qty = expected_qty;
+		this.received_qty = received_qty;
 	}
 
 	public PurchaseOrderdto() {

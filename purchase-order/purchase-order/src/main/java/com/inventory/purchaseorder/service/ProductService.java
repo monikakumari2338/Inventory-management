@@ -8,7 +8,7 @@ import com.inventory.purchaseorder.dto.ProductsByItemNumberdto;
 
 public interface ProductService {
 
-	List<ProductCombineddto> saveProducts(List<ProductCombineddto> productCombineddto);
+	List<ProductCombineddto> saveProducts(List<ProductCombineddto> productCombineddto,int received_qty);
 
 	ProductsByItemNumberdto getByItemnumber(String item_number);
 }

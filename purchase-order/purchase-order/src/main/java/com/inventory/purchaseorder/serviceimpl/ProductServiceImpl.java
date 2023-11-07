@@ -17,9 +17,11 @@ import com.inventory.purchaseorder.entity.Category;
 import com.inventory.purchaseorder.entity.Product;
 import com.inventory.purchaseorder.entity.ProductDetails;
 import com.inventory.purchaseorder.entity.PurchaseOrder;
+import com.inventory.purchaseorder.entity.PurchaseOrderItems;
 import com.inventory.purchaseorder.repository.CategoryRepo;
 import com.inventory.purchaseorder.repository.ProductDetailsRepo;
 import com.inventory.purchaseorder.repository.ProductRepo;
+import com.inventory.purchaseorder.repository.PurchaseOrderItemsRepo;
 import com.inventory.purchaseorder.repository.StoreRepo;
 import com.inventory.purchaseorder.service.ProductService;
 import com.inventory.purchaseorder.repository.PurchaseOrderRepo;
@@ -42,12 +44,16 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private PurchaseOrderRepo PurchaseOrderRepo;
 
+	@Autowired
+	private PurchaseOrderItemsRepo itemsRepo;
+
 	@Override
-	public List<ProductCombineddto> saveProducts(List<ProductCombineddto> productCombineddto) {
+	public List<ProductCombineddto> saveProducts(List<ProductCombineddto> productCombineddto, int received_qty) {
 
-		// List<ProductCombineddto> productCombineddto1 = new
-		// ArrayList<ProductCombineddto>();
+		PurchaseOrder purchaseOrder = PurchaseOrderRepo
+				.findByPoNumber(productCombineddto.get(0).getProductDetailsdto().getPoNumber());
 
+		List<PurchaseOrderItems> PurchaseOrderItemsList = itemsRepo.findAllByPurchaseOrder(purchaseOrder);
 		for (int i = 0; i < productCombineddto.size(); i++) {
 //			System.out.print("length "+productCombineddto.size());
 			Stores store = storeRepo.findByStoreName(productCombineddto.get(i).getProductDetailsdto().getStore());
@@ -104,11 +110,26 @@ public class ProductServiceImpl implements ProductService {
 
 			}
 
+			for (int j = 0; j < PurchaseOrderItemsList.size(); j++) {
+				if (PurchaseOrderItemsList.get(i).getPurchaseOrder().getPoNumber() == productCombineddto.get(0)
+						.getProductDetailsdto().getPoNumber())
+
+				{
+					PurchaseOrderItems PurchaseOrderItems = itemsRepo
+							.findByitemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
+					// System.out.print("PurchaseOrderItems "+PurchaseOrderItems);
+					PurchaseOrderItems
+							.setReceivedQty(productCombineddto.get(i).getProductDetailsdto().getReceived_qty());
+				}
+			}
 		}
-		PurchaseOrder purchaseOrder = PurchaseOrderRepo
-				.findByPoNumber(productCombineddto.get(0).getProductDetailsdto().getPoNumber());
+
 		purchaseOrder.setStatus(productCombineddto.get(0).getProductDetailsdto().getStatus());
+		System.out.println("purchaseOrder : " + purchaseOrder);
+		System.out.println("received_qty : " + received_qty);
+		purchaseOrder.setReceived_qty(received_qty);
 		productRepo.save(purchaseOrder);
+
 		return productCombineddto;
 
 	}

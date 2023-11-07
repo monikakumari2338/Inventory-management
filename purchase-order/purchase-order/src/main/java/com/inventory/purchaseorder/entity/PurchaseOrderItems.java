@@ -1,9 +1,9 @@
 package com.inventory.purchaseorder.entity;
 
 import jakarta.persistence.CascadeType;
+
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -15,6 +15,7 @@ public class PurchaseOrderItems {
 	private String itemNumber;
 	private String itemName;
 	private int expectedQty;
+	private int receivedQty;
 	private String category;
 
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -26,11 +27,13 @@ public class PurchaseOrderItems {
 		// TODO Auto-generated constructor stub
 	}
 
-	public PurchaseOrderItems(String itemNumber, String itemName, int expectedQty, String category, PurchaseOrder purchaseOrder) {
+	public PurchaseOrderItems(String itemNumber, String itemName, int expectedQty, int receivedQty, String category,
+			PurchaseOrder purchaseOrder) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.expectedQty = expectedQty;
+		this.receivedQty = receivedQty;
 		this.category = category;
 		this.purchaseOrder = purchaseOrder;
 	}
@@ -74,4 +77,20 @@ public class PurchaseOrderItems {
 	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
 		this.purchaseOrder = purchaseOrder;
 	}
+
+	public int getReceivedQty() {
+		return receivedQty;
+	}
+
+	public void setReceivedQty(int receivedQty) {
+		this.receivedQty = receivedQty;
+	}
+
+	@Override
+	public String toString() {
+		return "PurchaseOrderItems [itemNumber=" + itemNumber + ", itemName=" + itemName + ", expectedQty="
+				+ expectedQty + ", receivedQty=" + receivedQty + ", category=" + category + ", purchaseOrder="
+				+ purchaseOrder + "]";
+	}
+
 }

@@ -30,9 +30,9 @@ public class ProductController {
 
 	
 	// Api to save data in Master product table
-	@PostMapping("/addproducts")
-	public ResponseEntity<List<ProductCombineddto>> add_Products(@RequestBody List<ProductCombineddto> productCombineddto) {
-		List<ProductCombineddto> productCombineddto1 = productService.saveProducts(productCombineddto);
+	@PostMapping("/addproducts/{received_qty}")
+	public ResponseEntity<List<ProductCombineddto>> add_Products(@RequestBody List<ProductCombineddto> productCombineddto,@PathVariable int received_qty) {
+		List<ProductCombineddto> productCombineddto1 = productService.saveProducts(productCombineddto,received_qty);
 		return new ResponseEntity<>(productCombineddto1, HttpStatus.OK);
 	}
 	
