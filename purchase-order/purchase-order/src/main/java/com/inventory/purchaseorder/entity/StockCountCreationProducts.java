@@ -122,10 +122,10 @@ public class StockCountCreationProducts {
 		this.store = store;
 	}
 
-	public StockCountCreationProducts(int id, String itemNumber, String itemName, String category, String color,
+	public StockCountCreationProducts(String itemNumber, String itemName, String category, String color,
 			String price, String size, String imageData, String store, int bookQty, StockCountCreation stockcount) {
 		super();
-		this.id = id;
+//		this.id = id;
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.category = category;

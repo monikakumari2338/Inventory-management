@@ -1,8 +1,6 @@
 package com.inventory.purchaseorder.entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +11,6 @@ import jakarta.persistence.Id;
 public class StockCountCreation {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int countId;
 	private String countDescription;
 	// private LocalDateTime date;

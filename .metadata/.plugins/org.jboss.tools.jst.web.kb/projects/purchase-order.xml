@@ -105,6 +105,7 @@
   <path value="C:/Users/monikakumari1/.m2/repository/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar"/>
  </paths>
  <validation>
+  <core validator-id="jboss.cdi.core"/>
   <el/>
  </validation>
  <aliases/>
