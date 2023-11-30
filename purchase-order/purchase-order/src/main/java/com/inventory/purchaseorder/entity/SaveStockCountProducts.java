@@ -140,11 +140,11 @@ public class SaveStockCountProducts {
 		this.varianceQty = varianceQty;
 	}
 
-	public SaveStockCountProducts(int id, String itemNumber, String itemName, String category, String color,
+	public SaveStockCountProducts(String itemNumber, String itemName, String category, String color,
 			String price, String size, String imageData, String store, int bookQty, int countedQty, int varianceQty,
 			SaveStockCountInfo stockcount) {
 		super();
-		this.id = id;
+//		this.id = id;
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.category = category;
