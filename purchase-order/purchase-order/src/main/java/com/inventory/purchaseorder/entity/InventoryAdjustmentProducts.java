@@ -27,7 +27,7 @@ public class InventoryAdjustmentProducts {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "adjId", referencedColumnName = "adjId")
-	private InventoryAdjustment InvAdjustment;
+	private InventoryAdjustment invAdjustment;
 
 	public InventoryAdjustmentProducts() {
 		super();
@@ -115,11 +115,11 @@ public class InventoryAdjustmentProducts {
 	}
 
 	public InventoryAdjustment getInvAdjustment() {
-		return InvAdjustment;
+		return invAdjustment;
 	}
 
 	public void setInvAdjustment(InventoryAdjustment invAdjustment) {
-		InvAdjustment = invAdjustment;
+		invAdjustment = invAdjustment;
 	}
 
 	public InventoryAdjustmentProducts(String itemNumber, String itemName, String category, String color,
@@ -134,14 +134,14 @@ public class InventoryAdjustmentProducts {
 		this.imageData = imageData;
 		this.store = store;
 		this.adjQty = adjQty;
-		InvAdjustment = invAdjustment;
+		invAdjustment = invAdjustment;
 	}
 
 	@Override
 	public String toString() {
 		return "InventoryAdjustmentProducts [id=" + id + ", itemNumber=" + itemNumber + ", itemName=" + itemName
 				+ ", category=" + category + ", color=" + color + ", price=" + price + ", size=" + size + ", imageData="
-				+ imageData + ", store=" + store + ", adjQty=" + adjQty + ", InvAdjustment=" + InvAdjustment + "]";
+				+ imageData + ", store=" + store + ", adjQty=" + adjQty + ", InvAdjustment=" + invAdjustment + "]";
 	}
 
 }

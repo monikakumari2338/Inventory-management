@@ -1,14 +1,17 @@
 package com.inventory.purchaseorder.serviceimpl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.inventory.purchaseorder.dto.InventoryAdjustmentCombinedDto;
 import com.inventory.purchaseorder.entity.InventoryAdjustment;
 import com.inventory.purchaseorder.entity.InventoryAdjustmentProducts;
+import com.inventory.purchaseorder.exception.ExceptionHandling;
 import com.inventory.purchaseorder.repository.InventoryAdjustmentProductsRepo;
 import com.inventory.purchaseorder.repository.InventoryAdjustmentRepo;
 import com.inventory.purchaseorder.service.InventoryAdjustmentService;
@@ -51,4 +54,40 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 		return "Products saved successfully";
 	}
 
+	@Override
+	public List<InventoryAdjustment> getInventoryAdjustment(LocalDate date) {
+		
+		List<InventoryAdjustment> inventory_list= new ArrayList<>();
+		inventory_list=invAdjRepo.findByDate(date);
+		System.out.println("inventory_list " +inventory_list);
+		if(inventory_list.size()==0) {
+			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data was created on "+date);
+		}
+		return inventory_list;
+	}
+	
+	@Override
+	public List<InventoryAdjustment> getAllInventoryAdjustment() {
+		
+		List<InventoryAdjustment> inventory_list= new ArrayList<>();
+		inventory_list=invAdjRepo.findAll();
+		System.out.println("inventory_list " +inventory_list);
+		if(inventory_list.size()==0) {
+			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
+		}
+		return inventory_list;
+	}
+	
+	@Override
+	public List<InventoryAdjustmentProducts> getInventoryAdjustmentProducts(int id) {
+		
+		List<InventoryAdjustmentProducts> inventoryProducts_list= new ArrayList<>();
+		InventoryAdjustment inventoryAdjustment=invAdjRepo.findByadjId(id);
+		inventoryProducts_list=invAdjProductsRepo.findByInvAdjustment(inventoryAdjustment);
+		System.out.println("inventory_list " +inventoryProducts_list);
+		if(inventoryProducts_list.size()==0) {
+			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
+		}
+		return inventoryProducts_list;
+	}
 }
