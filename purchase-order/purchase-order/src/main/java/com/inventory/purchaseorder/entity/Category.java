@@ -30,6 +30,11 @@ public class Category {
 		this.categoryId = categoryId;
 		this.category = category;
 	}
+	
+	@Override
+	public String toString() {
+		return "Category [categoryId=" + categoryId + ", category=" + category + "]";
+	}
 	public Category() {
 		super();
 		// TODO Auto-generated constructor stub

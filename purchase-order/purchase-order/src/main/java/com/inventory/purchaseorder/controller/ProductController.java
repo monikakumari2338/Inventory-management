@@ -18,6 +18,7 @@ import com.inventory.purchaseorder.dto.ProductCombineddto;
 import com.inventory.purchaseorder.dto.ProductDetailsdto;
 import com.inventory.purchaseorder.dto.Productdto;
 import com.inventory.purchaseorder.dto.ProductsByItemNumberdto;
+import com.inventory.purchaseorder.dto.categorydto;
 import com.inventory.purchaseorder.service.ProductService;
 
 
@@ -42,6 +43,14 @@ public class ProductController {
 		ProductsByItemNumberdto productDto=productService.getByItemnumber(itemNumber);
 		return new ResponseEntity<>(productDto,HttpStatus.OK);	
 	}
+	
+	@GetMapping("/getinventory")
+	public ResponseEntity<List<categorydto>> getInventory()
+	{
+		List<categorydto> categorydto=productService.getCategoryStock();
+		return new ResponseEntity<>(categorydto,HttpStatus.OK);	
+	}
+	
 	
 
 }

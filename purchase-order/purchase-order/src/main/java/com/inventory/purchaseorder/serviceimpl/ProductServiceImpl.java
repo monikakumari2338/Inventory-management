@@ -13,6 +13,7 @@ import com.inventory.purchaseorder.dto.ProductCombineddto;
 import com.inventory.purchaseorder.dto.ProductDetailsdto;
 import com.inventory.purchaseorder.dto.Productdto;
 import com.inventory.purchaseorder.dto.ProductsByItemNumberdto;
+import com.inventory.purchaseorder.dto.categorydto;
 import com.inventory.purchaseorder.entity.Category;
 import com.inventory.purchaseorder.entity.Product;
 import com.inventory.purchaseorder.entity.ProductDetails;
@@ -25,6 +26,7 @@ import com.inventory.purchaseorder.repository.PurchaseOrderItemsRepo;
 import com.inventory.purchaseorder.repository.StoreRepo;
 import com.inventory.purchaseorder.service.ProductService;
 import com.inventory.purchaseorder.repository.PurchaseOrderRepo;
+import com.inventory.purchaseorder.dto.categorydto;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -52,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
 
 		PurchaseOrder purchaseOrder = PurchaseOrderRepo
 				.findByPoNumber(productCombineddto.get(0).getProductDetailsdto().getPoNumber());
-
+		//System.out.print("purchaseOrder " + purchaseOrder);
 		List<PurchaseOrderItems> PurchaseOrderItemsList = itemsRepo.findAllByPurchaseOrder(purchaseOrder);
 		for (int i = 0; i < productCombineddto.size(); i++) {
 //			System.out.print("length "+productCombineddto.size());
@@ -118,8 +120,12 @@ public class ProductServiceImpl implements ProductService {
 					PurchaseOrderItems PurchaseOrderItems = itemsRepo
 							.findByitemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
 					// System.out.print("PurchaseOrderItems "+PurchaseOrderItems);
-					PurchaseOrderItems
-							.setReceivedQty(productCombineddto.get(i).getProductDetailsdto().getReceived_qty());
+					
+					if(PurchaseOrderItems!=null)
+					{
+						PurchaseOrderItems
+						.setReceivedQty(productCombineddto.get(i).getProductDetailsdto().getReceived_qty());
+					}
 				}
 			}
 		}
@@ -158,6 +164,28 @@ public class ProductServiceImpl implements ProductService {
 //        System.out.println("productDetailsdto : "+productDetailsdto);
 
 		return productsByItemNumberdto;
+	}
+	
+	@Override
+	public List<categorydto> getCategoryStock() {
+		
+		for(int i=1;i<5;i++)
+		{
+			Category category=categoryRepo.findByCategoryId(i);
+			List<Product> products =productRepo.findByCategory(category);
+			System.out.println("category " + category);
+			System.out.println("products " + products);
+			System.out.println(" ");
+			for(int j=0;j<products.size();j++)
+			{
+				List<ProductDetails> productList=productDetailsRepo.findAllByProduct(products.get(j));
+				System.out.println("productList " + productList);
+			}
+			System.out.println(" ");
+		}
+
+		return null;
+		
 	}
 
 }

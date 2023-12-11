@@ -18,14 +18,11 @@
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.PurchaseOrderItemsdto"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.PurchaseOrder"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.purchaseOrderItemDetails"/>
-    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.PurchaseOrderCombineddto"/>
-    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.PurchaseOrderItems"/>
     <fullyQualifiedTypeName name="java.lang.System.Logger"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.service.ProductService"/>
     <fullyQualifiedTypeName name="java.util.Date"/>
-    <fullyQualifiedTypeName name="java.time.LocalDate"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.Productdto"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.ProductDetailsdto"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.ProductCombineddto"/>
@@ -37,12 +34,17 @@
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.DsdCreateRepo"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.DsdCreate"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.DsdReceiveItemsRepo"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.DsdReceiveItems"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.StoresDto"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Stores"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Product"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.ProductDetails"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.DsdInvoice"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.InventoryAdjustmentRepo"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
+    <fullyQualifiedTypeName name="java.time.LocalDate"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.InventoryAdjustment"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
 </qualifiedTypeNameHistroy>
