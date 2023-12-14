@@ -36,7 +36,11 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 
 		invAdjRepo.save(InvAdj);
 
+		System.out.println("InvAdj : "+InvAdj);
+		
 		InventoryAdjustment InvAdj1 = invAdjRepo.findByadjId(InvAdj.getAdjId());
+		
+		System.out.println("InvAdj1 : "+InvAdj1);
 		List<InventoryAdjustmentProducts> InvAdjProducts = new ArrayList<>();
 		for (int i = 0; i < InvAdjCombinedDto.getProductDto().size(); i++) {
 			InvAdjProducts.add(new InventoryAdjustmentProducts(InvAdjCombinedDto.getProductDto().get(i).getItemNumber(),

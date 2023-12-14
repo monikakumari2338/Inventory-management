@@ -59,8 +59,8 @@ INDEX VERSION 1.131+C:\Users\monikakumari1\Downloads\Inventory-management-backen
 1865797976.index
 3629200850.index
 921317564.index
-2852948878.index
 819707777.index
+2852948878.index
 2346969071.index
 572966973.index
 1696264553.index
@@ -81,11 +81,11 @@ INDEX VERSION 1.131+C:\Users\monikakumari1\Downloads\Inventory-management-backen
 2049591193.index
 1165238.index
 2245412365.index
-1435179859.index
-3042394785.index
-1002578543.index
-4256424144.index
 2601906001.index
+3042394785.index
+1435179859.index
+4256424144.index
+1002578543.index
 802649657.index
 100235261.index
 171402519.index

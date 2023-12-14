@@ -44,7 +44,7 @@ public class ProductController {
 		return new ResponseEntity<>(productDto,HttpStatus.OK);	
 	}
 	
-	@GetMapping("/getinventory")
+	@GetMapping("/dashboard/getinventory")
 	public ResponseEntity<List<categorydto>> getInventory()
 	{
 		List<categorydto> categorydto=productService.getCategoryStock();

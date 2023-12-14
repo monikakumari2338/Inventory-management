@@ -1,7 +1,7 @@
 package com.inventory.purchaseorder.serviceimpl;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
 
 		PurchaseOrder purchaseOrder = PurchaseOrderRepo
 				.findByPoNumber(productCombineddto.get(0).getProductDetailsdto().getPoNumber());
-		//System.out.print("purchaseOrder " + purchaseOrder);
+		// System.out.print("purchaseOrder " + purchaseOrder);
 		List<PurchaseOrderItems> PurchaseOrderItemsList = itemsRepo.findAllByPurchaseOrder(purchaseOrder);
 		for (int i = 0; i < productCombineddto.size(); i++) {
 //			System.out.print("length "+productCombineddto.size());
@@ -120,11 +120,10 @@ public class ProductServiceImpl implements ProductService {
 					PurchaseOrderItems PurchaseOrderItems = itemsRepo
 							.findByitemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
 					// System.out.print("PurchaseOrderItems "+PurchaseOrderItems);
-					
-					if(PurchaseOrderItems!=null)
-					{
+
+					if (PurchaseOrderItems != null) {
 						PurchaseOrderItems
-						.setReceivedQty(productCombineddto.get(i).getProductDetailsdto().getReceived_qty());
+								.setReceivedQty(productCombineddto.get(i).getProductDetailsdto().getReceived_qty());
 					}
 				}
 			}
@@ -165,27 +164,29 @@ public class ProductServiceImpl implements ProductService {
 
 		return productsByItemNumberdto;
 	}
-	
+
 	@Override
 	public List<categorydto> getCategoryStock() {
-		
-		for(int i=1;i<5;i++)
-		{
-			Category category=categoryRepo.findByCategoryId(i);
-			List<Product> products =productRepo.findByCategory(category);
-			System.out.println("category " + category);
-			System.out.println("products " + products);
-			System.out.println(" ");
-			for(int j=0;j<products.size();j++)
-			{
-				List<ProductDetails> productList=productDetailsRepo.findAllByProduct(products.get(j));
-				System.out.println("productList " + productList);
-			}
-			System.out.println(" ");
-		}
+		List<categorydto> dashboard = new ArrayList<>();
+		for (int i = 1; i < 5; i++) {
 
-		return null;
-		
+			int total_stock = 0;
+			Category category = categoryRepo.findByCategoryId(i);
+
+			List<Product> products = productRepo.findAllProductByCategory_id(category.getCategoryId());
+			List<ProductDetails> productDetail = new ArrayList<>();
+			for (int j = 0; j < products.size(); j++) {
+				productDetail
+						.addAll(productDetailsRepo.findAllProductDetailsByitemNumber(products.get(j).getItemNumber()));
+				total_stock = total_stock + productDetail.get(j).getStock();
+			}
+
+			dashboard.add(new categorydto(category.getCategory(), total_stock));
+
+		}
+		System.out.println("dashboard " + " " + dashboard);
+		return dashboard;
+
 	}
 
 }

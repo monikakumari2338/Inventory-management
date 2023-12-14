@@ -134,7 +134,7 @@ public class InventoryAdjustmentProducts {
 		this.imageData = imageData;
 		this.store = store;
 		this.adjQty = adjQty;
-		invAdjustment = invAdjustment;
+		this.invAdjustment = invAdjustment;
 	}
 
 	@Override
