@@ -9,21 +9,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.inventory.purchaseorder.entity.Stores;
+import com.inventory.purchaseorder.entity.TransferReceiveInfo;
 import com.inventory.purchaseorder.dto.ProductCombineddto;
 import com.inventory.purchaseorder.dto.ProductDetailsdto;
 import com.inventory.purchaseorder.dto.Productdto;
 import com.inventory.purchaseorder.dto.ProductsByItemNumberdto;
+import com.inventory.purchaseorder.dto.StoreAndInTransitInventorydto;
 import com.inventory.purchaseorder.dto.categorydto;
 import com.inventory.purchaseorder.entity.Category;
+import com.inventory.purchaseorder.entity.DsdInvoice;
 import com.inventory.purchaseorder.entity.Product;
 import com.inventory.purchaseorder.entity.ProductDetails;
 import com.inventory.purchaseorder.entity.PurchaseOrder;
 import com.inventory.purchaseorder.entity.PurchaseOrderItems;
 import com.inventory.purchaseorder.repository.CategoryRepo;
+import com.inventory.purchaseorder.repository.DsdInvoiceRepo;
 import com.inventory.purchaseorder.repository.ProductDetailsRepo;
 import com.inventory.purchaseorder.repository.ProductRepo;
 import com.inventory.purchaseorder.repository.PurchaseOrderItemsRepo;
 import com.inventory.purchaseorder.repository.StoreRepo;
+import com.inventory.purchaseorder.repository.TransferRecieveInfoRepo;
 import com.inventory.purchaseorder.service.ProductService;
 import com.inventory.purchaseorder.repository.PurchaseOrderRepo;
 import com.inventory.purchaseorder.dto.categorydto;
@@ -48,6 +53,11 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private PurchaseOrderItemsRepo itemsRepo;
+	@Autowired
+	private DsdInvoiceRepo dsdInvoiceRepo;
+
+	@Autowired
+	private TransferRecieveInfoRepo transferRecieveInfoRepo;
 
 	@Override
 	public List<ProductCombineddto> saveProducts(List<ProductCombineddto> productCombineddto, int received_qty) {
@@ -187,6 +197,35 @@ public class ProductServiceImpl implements ProductService {
 		System.out.println("dashboard " + " " + dashboard);
 		return dashboard;
 
+	}
+
+	public StoreAndInTransitInventorydto getInventory() {
+		List<ProductDetails> ProductDetailstockList = productDetailsRepo.findAll();
+		int inStore = 0;
+		int inTransit = 0;
+		for (int i = 0; i < ProductDetailstockList.size(); i++) {
+			inStore = inStore + ProductDetailstockList.get(i).getStock();
+		}
+		System.out.println("inStore " + " " + inStore);
+
+		List<PurchaseOrder> poList = PurchaseOrderRepo.findAllByStatus("pending");
+		for (int i = 0; i < poList.size(); i++) {
+			inTransit = inTransit + poList.get(i).getExpected_qty();
+		}
+		//System.out.println("inTransit after po " + " " + inTransit);
+		List<DsdInvoice> dsdInvoiceList = dsdInvoiceRepo.findAllByStatus("pending");
+		for (int i = 0; i < dsdInvoiceList.size(); i++) {
+			inTransit = inTransit + dsdInvoiceList.get(i).getExpected_qty();
+		}
+		//System.out.println("inTransit after dsd " + " " + inTransit);
+		List<TransferReceiveInfo> transferReceiveList = transferRecieveInfoRepo.findAllByStatus("pending");
+		for (int i = 0; i < transferReceiveList.size(); i++) {
+			inTransit = inTransit + transferReceiveList.get(i).getExpected_qty();
+		}
+		System.out.println("inTransit " + " " + inTransit);
+		
+		StoreAndInTransitInventorydto inventorydto =new StoreAndInTransitInventorydto(inStore,inTransit);
+		return inventorydto;
 	}
 
 }

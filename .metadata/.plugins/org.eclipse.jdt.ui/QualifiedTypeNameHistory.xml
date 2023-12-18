@@ -40,11 +40,12 @@
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Product"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.ProductDetails"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.DsdInvoice"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.InventoryAdjustmentRepo"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
     <fullyQualifiedTypeName name="java.time.LocalDate"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.InventoryAdjustment"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>

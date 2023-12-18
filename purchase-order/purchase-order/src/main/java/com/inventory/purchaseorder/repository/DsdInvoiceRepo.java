@@ -18,4 +18,6 @@ public interface DsdInvoiceRepo extends JpaRepository<DsdInvoice, Integer> {
 	List<DsdInvoice> findAllBySupplierId(DsdSuppliers dsdSuppliers);
 
 	List<DsdInvoice> findAllByexpDate(LocalDate date);
+	
+	List<DsdInvoice> findAllByStatus(String status);
 }

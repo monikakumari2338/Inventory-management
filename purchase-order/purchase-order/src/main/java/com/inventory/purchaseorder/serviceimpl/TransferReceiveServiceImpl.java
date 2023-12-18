@@ -65,13 +65,15 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 //		System.out.println("transferReceiveInfodto.getStoreTo "+transferReceiveInfodto.getStoreTo());
 
 		TransferReceiveInfo TransferReceiveInfo = new TransferReceiveInfo(transferReceiveInfodto.getStoreFrom(),
-				transferReceiveInfodto.getStoreTo(), asn);
+				transferReceiveInfodto.getStoreTo(), transferReceiveInfodto.getExpected_qty(),
+				transferReceiveInfodto.getReceived_qty(), transferReceiveInfodto.getStatus(), asn);
 		TransferRecieveRepo.save(TransferReceiveInfo);
 
 		return "Transfer Received info saved successfully";
 	}
 
-	// Function to save Transfer-Receive products in the Transfer Receive products table
+	// Function to save Transfer-Receive products in the Transfer Receive products
+	// table
 	@Override
 	public TransferReceiveProductsdto saveTransferReceive(TransferReceiveProductsdto transferReceiveProduct) {
 
@@ -115,13 +117,15 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		for (int i = 0; i < transferReceiveInfo.size(); i++) {
 			TransferReceiveInfodto transferReceiveInfodto1 = new TransferReceiveInfodto(
 					transferReceiveInfo.get(i).getTransferId(), transferReceiveInfo.get(i).getStoreFrom(),
-					transferReceiveInfo.get(i).getStoreTo(), transferReceiveInfo.get(i).getAsn().getAsnId());
+					transferReceiveInfo.get(i).getStoreTo(), transferReceiveInfo.get(i).getExpected_qty(),
+					transferReceiveInfo.get(i).getReceived_qty(), transferReceiveInfo.get(i).getStatus(),
+					transferReceiveInfo.get(i).getAsn().getAsnId());
 
 			transferReceiveInfodto.add(transferReceiveInfodto1);
 		}
 		return transferReceiveInfodto;
 	}
-	
+
 	// Function to get Transfer-Receive products on the basis of transferId
 	@Override
 	public List<TransferReceiveProductsdto> getTransferReceiveProducts(int transferId) {
@@ -143,7 +147,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		}
 		return transferReceiveProductsdto;
 	}
-	
+
 	// Function to save Transfer-Receive in master table
 	@Override
 	public List<ProductCombineddto> saveTransferRecieveProducts(List<ProductCombineddto> productCombineddto,
@@ -161,7 +165,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 
 			Product product = productRepo.findByItemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
 
-			//System.out.println("store1 :  " + store1);
+			// System.out.println("store1 : " + store1);
 
 			if (product == null) {
 
@@ -189,11 +193,11 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 					new_stock = productCombineddto.get(i).getProductDetailsdto().getStock();
 					total_stock = Prev_stock + new_stock;
 					productDetails1.setStock(total_stock);
-					//System.out.println("total_stock : " + total_stock);
+					// System.out.println("total_stock : " + total_stock);
 					System.out.println("productDetails1 : " + productDetails1);
 
 					productDetailsRepo.save(productDetails1);
-					//System.out.println("saved : inside  else if");
+					// System.out.println("saved : inside else if");
 				}
 
 				else {
@@ -205,7 +209,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 							productCombineddto.get(i).getProductDetailsdto().getImageData(), store1, product);
 					productDetailsRepo.save(productDetails3);
 
-					//System.out.println("saved : inside else");
+					// System.out.println("saved : inside else");
 				}
 
 				Prev_stock1 = productDetails2.getStock();
@@ -227,22 +231,3 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	}
 
 }
-
-//Product product1 = new Product(productCombineddto.get(i).getProductdto().getItemNumber(),
-//productCombineddto.get(i).getProductdto().getItemName(), category);
-//
-//Productdto Productdto = new Productdto(product1.getItemNumber(), product1.getitemName(),
-//productCombineddto.get(i).getProductdto().getCategoryName());
-//productRepo.save(product1);
-//// productCombineddto1.get(i).setProductdto(Productdto);
-//
-//Product product2 = productRepo
-//.findByItemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
-//ProductDetails productDetails2 = new ProductDetails(
-//productCombineddto.get(i).getProductDetailsdto().getColor(),
-//productCombineddto.get(i).getProductDetailsdto().getPrice(),
-//productCombineddto.get(i).getProductDetailsdto().getSize(),
-//productCombineddto.get(i).getProductDetailsdto().getStock(),
-//productCombineddto.get(i).getProductDetailsdto().getImageData(), store1, product2);
-//
-//// productDetailsRepo.save(productDetails2);

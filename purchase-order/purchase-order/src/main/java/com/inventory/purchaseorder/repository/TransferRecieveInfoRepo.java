@@ -10,5 +10,8 @@ import com.inventory.purchaseorder.entity.TransferReceiveInfo;
 public interface TransferRecieveInfoRepo extends JpaRepository<TransferReceiveInfo, Integer> {
 
 	TransferReceiveInfo findBytransferId(int id);
+
 	List<TransferReceiveInfo> findByAsn(ASN asn);
+
+	List<TransferReceiveInfo> findAllByStatus(String status);
 }

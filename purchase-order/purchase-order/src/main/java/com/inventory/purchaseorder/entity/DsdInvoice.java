@@ -23,6 +23,8 @@ public class DsdInvoice {
 	private int invoiceNumber;
 	private LocalDate expDate;
 	private String status;
+	private int expected_qty;
+	private int received_qty;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "supplier_id", referencedColumnName = "supplierId")
@@ -60,13 +62,28 @@ public class DsdInvoice {
 		this.invoiceId = invoiceId;
 	}
 
-	public DsdInvoice(int invoiceId, int invoiceNumber, LocalDate exp_date, String status, DsdSuppliers supplierId) {
-		super();
-		this.invoiceId = invoiceId;
-		this.invoiceNumber = invoiceNumber;
-		this.expDate = exp_date;
-		this.status = status;
-		this.supplierId = supplierId;
+	public LocalDate getExpDate() {
+		return expDate;
+	}
+
+	public void setExpDate(LocalDate expDate) {
+		this.expDate = expDate;
+	}
+
+	public int getExpected_qty() {
+		return expected_qty;
+	}
+
+	public void setExpected_qty(int expected_qty) {
+		this.expected_qty = expected_qty;
+	}
+
+	public int getReceived_qty() {
+		return received_qty;
+	}
+
+	public void setReceived_qty(int received_qty) {
+		this.received_qty = received_qty;
 	}
 
 	public DsdSuppliers getSupplierId() {
@@ -77,10 +94,23 @@ public class DsdInvoice {
 		this.supplierId = supplierId;
 	}
 
+	public DsdInvoice(int invoiceId, int invoiceNumber, LocalDate expDate, String status, int expected_qty,
+			int received_qty, DsdSuppliers supplierId) {
+		super();
+		this.invoiceId = invoiceId;
+		this.invoiceNumber = invoiceNumber;
+		this.expDate = expDate;
+		this.status = status;
+		this.expected_qty = expected_qty;
+		this.received_qty = received_qty;
+		this.supplierId = supplierId;
+	}
+
 	@Override
 	public String toString() {
-		return "DsdInvoice [invoiceId=" + invoiceId + ", invoiceNumber=" + invoiceNumber + ", exp_date=" + expDate
-				+ ", status=" + status + ", supplierId=" + supplierId + "]";
+		return "DsdInvoice [invoiceId=" + invoiceId + ", invoiceNumber=" + invoiceNumber + ", expDate=" + expDate
+				+ ", status=" + status + ", expected_qty=" + expected_qty + ", received_qty=" + received_qty
+				+ ", supplierId=" + supplierId + "]";
 	}
 
 	public DsdInvoice() {

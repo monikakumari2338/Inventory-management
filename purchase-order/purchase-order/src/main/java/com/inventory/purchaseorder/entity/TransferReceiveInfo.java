@@ -17,6 +17,9 @@ public class TransferReceiveInfo {
 	private int transferId;
 	private int storeFrom;
 	private int storeTo;
+	private int expected_qty;
+	private int received_qty;
+	private String status;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "asnId", referencedColumnName = "asnId")
@@ -54,18 +57,45 @@ public class TransferReceiveInfo {
 		this.asn = asn;
 	}
 
-	public TransferReceiveInfo(int storeFrom, int storeTo, ASN asn) {
+	public int getExpected_qty() {
+		return expected_qty;
+	}
+
+	public void setExpected_qty(int expected_qty) {
+		this.expected_qty = expected_qty;
+	}
+
+	public int getReceived_qty() {
+		return received_qty;
+	}
+
+	public void setReceived_qty(int received_qty) {
+		this.received_qty = received_qty;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public TransferReceiveInfo(int storeFrom, int storeTo, int expected_qty, int received_qty, String status, ASN asn) {
 		super();
-		
 		this.storeFrom = storeFrom;
 		this.storeTo = storeTo;
+		this.expected_qty = expected_qty;
+		this.received_qty = received_qty;
+		this.status = status;
 		this.asn = asn;
 	}
 
 	@Override
 	public String toString() {
 		return "TransferReceiveInfo [transferId=" + transferId + ", storeFrom=" + storeFrom + ", storeTo=" + storeTo
-				+ ", asn=" + asn + "]";
+				+ ", expected_qty=" + expected_qty + ", received_qty=" + received_qty + ", status=" + status + ", asn="
+				+ asn + "]";
 	}
 
 	public TransferReceiveInfo() {
