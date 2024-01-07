@@ -39,4 +39,9 @@ public class RegisterDto {
 		this.email = email;
 		this.password = password;
 	}
+	@Override
+	public String toString() {
+		return "RegisterDto [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + "]";
+	}
+	
 }

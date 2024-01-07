@@ -2,6 +2,9 @@
 <section name="Workbench">
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
+			<item value="C:\Users\monikakumari1\Downloads\Inventory-management-backend\Inventory-mangement"/>
+			<item value="C:\Users\monikakumari1\Downloads\Inventory-management-backend\api-gateway"/>
+			<item value="C:\Users\monikakumari1\Downloads\Inventory-management-backend\Service-Registry"/>
 			<item value="C:\Users\monikakumari1\Downloads\Inventory-management-backend\purchase-order"/>
 			<item value="C:\Users\monikakumari1\Downloads\Inventory-management-backend\stock-check"/>
 		</list>

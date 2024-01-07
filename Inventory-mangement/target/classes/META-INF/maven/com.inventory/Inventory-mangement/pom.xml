@@ -40,6 +40,12 @@
       <artifactId>spring-boot-starter-data-jpa</artifactId>
     </dependency>
 
+<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
     <dependency>
       <groupId>com.mysql</groupId>
       <artifactId>mysql-connector-j</artifactId>
@@ -75,10 +81,7 @@
     <scope>runtime</scope>
 </dependency>
 
- <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-    </dependency>
+
 
 <dependency>
     <groupId>com.google.guava</groupId>
@@ -86,16 +89,7 @@
     <version>23.0</version>
 </dependency>
 
-<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mail</artifactId>
-		</dependency>
-		
-		<dependency>
-    <groupId>com.twilio.sdk</groupId>
-    <artifactId>twilio</artifactId>
-    <version>8.22.0</version> <!-- Check for the latest version -->
-</dependency>
+
 
 
 	</dependencies>

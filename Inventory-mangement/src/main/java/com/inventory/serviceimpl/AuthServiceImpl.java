@@ -41,10 +41,10 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public String Login(UserDTO userDto) {
-
+	public String Login(UserDTO userDto){
+		  System.out.println("userDto.getPassword: "+userDto.getPassword());
        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword()));
-        
+     
         SecurityContextHolder.getContext().setAuthentication(authentication);
         
         String token=jwtTokenProvider.generateToken(authentication);
@@ -63,12 +63,11 @@ public class AuthServiceImpl implements AuthService {
 		user.setName(registerDto.getName());
 		user.setEmail(registerDto.getEmail());
 		user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-		
 		Set<Role> roles = new HashSet<>();
         Role userRole = roleRepo.findByName("User").get();
         roles.add(userRole);
         user.setRoles(roles);
-        
+       
 		userRepo.save(user);
 		return "User Registered Successfully";
 	}

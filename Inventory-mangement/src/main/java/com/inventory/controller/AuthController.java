@@ -1,5 +1,7 @@
 package com.inventory.controller;
 
+import java.io.Console;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +42,7 @@ public class AuthController {
 	public ResponseEntity<String> Register_user(@RequestBody RegisterDto registerDto ) throws Exception
 	{
 		String response=authService.Register(registerDto);
+		System.out.println("register");
 		return new ResponseEntity<>(response,HttpStatus.CREATED);
 		
 	}

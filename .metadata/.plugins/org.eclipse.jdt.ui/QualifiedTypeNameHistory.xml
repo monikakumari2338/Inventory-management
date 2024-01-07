@@ -52,4 +52,7 @@
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.DsdInvoice"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.TransferReceiveInfo"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.TransferRecieveInfoRepo"/>
+    <fullyQualifiedTypeName name="java.io.Console"/>
+    <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="com.inventory.exception.ErrorDetails"/>
 </qualifiedTypeNameHistroy>
