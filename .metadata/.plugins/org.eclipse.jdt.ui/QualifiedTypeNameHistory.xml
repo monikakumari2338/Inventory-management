@@ -38,8 +38,6 @@
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.StoresDto"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Stores"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Product"/>
-    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.ProductDetails"/>
-    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.DsdInvoice"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.InventoryAdjustmentRepo"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
     <fullyQualifiedTypeName name="java.time.LocalDate"/>
@@ -48,4 +46,10 @@
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
     <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.StoreAndInTransitInventorydto"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.ProductDetails"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.DsdInvoiceRepo"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.DsdInvoice"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.TransferReceiveInfo"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.TransferRecieveInfoRepo"/>
 </qualifiedTypeNameHistroy>
