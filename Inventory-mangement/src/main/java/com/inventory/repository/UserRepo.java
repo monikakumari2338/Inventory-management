@@ -8,6 +8,6 @@ import com.inventory.entity.User;
 
 public interface UserRepo extends JpaRepository<User, Integer>{
 
-	User findByEmail(String email);
+	Optional<User> findByEmail(String email);
 	Boolean existsByEmail(String email);
 }

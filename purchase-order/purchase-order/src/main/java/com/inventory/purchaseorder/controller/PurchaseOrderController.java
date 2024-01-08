@@ -2,7 +2,6 @@ package com.inventory.purchaseorder.controller;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -21,45 +20,49 @@ import com.inventory.purchaseorder.entity.ASN;
 import com.inventory.purchaseorder.entity.PurchaseOrder;
 import com.inventory.purchaseorder.service.PurchaseOrderService;
 
-
-
 @RestController
 @RequestMapping("/purchaseOrder")
 public class PurchaseOrderController {
 
-	
 	@Autowired
 	private PurchaseOrderService POService;
 
 	// Api to save data in Purchase order table
 	@PostMapping("/addpoitems")
-	public ResponseEntity<List<PurchaseOrderCombineddtotoSave>> add_Products(@RequestBody List<PurchaseOrderCombineddtotoSave> POItems )
-	{
-		List<PurchaseOrderCombineddtotoSave> POItems1= POService.saveProducts(POItems);
-		return new ResponseEntity<>(POItems1,HttpStatus.OK);	
+	public ResponseEntity<List<PurchaseOrderCombineddtotoSave>> add_Products(
+			@RequestBody List<PurchaseOrderCombineddtotoSave> POItems) {
+		List<PurchaseOrderCombineddtotoSave> POItems1 = POService.saveProducts(POItems);
+		return new ResponseEntity<>(POItems1, HttpStatus.OK);
 	}
-	
-	
+
 	@GetMapping("/findbyPO/{po}")
-	public ResponseEntity<PurchaseOrderCombineddto> findbyPO(@PathVariable int po)
-	{
-		PurchaseOrderCombineddto POitemDetails1= POService.displayPO(po);
-		return new ResponseEntity<>(POitemDetails1,HttpStatus.OK);	
+	public ResponseEntity<PurchaseOrderCombineddto> findbyPO(@PathVariable String po) {
+		PurchaseOrderCombineddto POitemDetails1 = POService.displayPO(po);
+		return new ResponseEntity<>(POitemDetails1, HttpStatus.OK);
 	}
-	
+
 	// API's for finding asn and po list by status
-	
+
 	@GetMapping("/findASN/{status}")
-	public ResponseEntity<List<ASN>> findAsn(@PathVariable String status)
-	{
-		List<ASN> asn= POService.findByStatus(status);
-		return new ResponseEntity<>(asn,HttpStatus.OK);	
+	public ResponseEntity<List<ASN>> findAsn(@PathVariable String status) {
+		List<ASN> asn = POService.findByStatus(status);
+		return new ResponseEntity<>(asn, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/findPO/{status}")
-	public ResponseEntity<List<PurchaseOrderdto>> findPo(@PathVariable String status)
-	{
-		List<PurchaseOrderdto> purchaseOrder= POService.findpoByStatus(status);
-		return new ResponseEntity<>(purchaseOrder,HttpStatus.OK);	
+	public ResponseEntity<List<PurchaseOrderdto>> findPo(@PathVariable String status) {
+		List<PurchaseOrderdto> purchaseOrder = POService.findpoByStatus(status);
+		return new ResponseEntity<>(purchaseOrder, HttpStatus.OK);
+	}
+
+	@GetMapping("/find/searched/PO/{po}")
+	public ResponseEntity<List<PurchaseOrder>> findMatchedPoNumber(@PathVariable String po) {
+		List<PurchaseOrder> purchaseOrder = POService.findMatchedPoNumber(po);
+		return new ResponseEntity<>(purchaseOrder, HttpStatus.OK);
+	}
+	@GetMapping("/find/searchedpo/status/{status}")
+	public ResponseEntity<List<PurchaseOrder>> findMatchedPoNumberByStatus(@PathVariable String status) {
+		List<PurchaseOrder> purchaseOrder = POService.findMatchedPoByStatus(status);
+		return new ResponseEntity<>(purchaseOrder, HttpStatus.OK);
 	}
 }

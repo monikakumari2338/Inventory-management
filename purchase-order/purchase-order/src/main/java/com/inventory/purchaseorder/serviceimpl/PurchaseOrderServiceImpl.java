@@ -27,6 +27,10 @@ import com.inventory.purchaseorder.repository.PurchaseOrderItemsRepo;
 import com.inventory.purchaseorder.repository.PurchaseOrderRepo;
 import com.inventory.purchaseorder.repository.StoreRepo;
 import com.inventory.purchaseorder.service.PurchaseOrderService;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
 import com.inventory.purchaseorder.entity.purchaseOrderItemDetails;
 
 @Service
@@ -45,7 +49,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	private ASNRepo asnRepo;
 
 	@Override
-	public PurchaseOrderCombineddto displayPO(int poNumber) {
+	public PurchaseOrderCombineddto displayPO(String poNumber) {
 		PurchaseOrder purchaseOrder = purchaseOrderRepo.findByPoNumber(poNumber);
 		List<PurchaseOrderItems> purchaseOrderItems = itemsRepo.findAllByPurchaseOrder(purchaseOrder);
 
@@ -139,6 +143,18 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 		}
 		// System.out.println(purschaseOrderDto);
 		return purschaseOrderDto;
+	}
+
+	@Override
+	public List<PurchaseOrder> findMatchedPoByStatus(String status) {
+
+		return purchaseOrderRepo.findByStatusContaining(status);
+	}
+
+	@Override
+	public List<PurchaseOrder> findMatchedPoNumber(String po) {
+		//String num = Integer.toString(po);
+		return purchaseOrderRepo.findByPoNumberContaining(po);
 	}
 
 }

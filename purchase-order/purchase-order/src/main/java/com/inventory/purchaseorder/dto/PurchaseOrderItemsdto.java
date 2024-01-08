@@ -6,7 +6,7 @@ public class PurchaseOrderItemsdto {
 	private String itemName;
 	private int expectedQty;
 	private String category;
-	private int poNumber;
+	private String poNumber;
 	private int received_qty;
 
 	public PurchaseOrderItemsdto() {
@@ -46,11 +46,11 @@ public class PurchaseOrderItemsdto {
 		this.category = category;
 	}
 
-	public int getPoNumber() {
+	public String getPoNumber() {
 		return poNumber;
 	}
 
-	public void setPoNumber(int poNumber) {
+	public void setPoNumber(String poNumber) {
 		this.poNumber = poNumber;
 	}
 
@@ -62,7 +62,7 @@ public class PurchaseOrderItemsdto {
 		this.received_qty = received_qty;
 	}
 
-	public PurchaseOrderItemsdto(String itemNumber, String itemName, int expectedQty, String category, int poNumber,
+	public PurchaseOrderItemsdto(String itemNumber, String itemName, int expectedQty, String category, String poNumber,
 			int received_qty) {
 		super();
 		this.itemNumber = itemNumber;

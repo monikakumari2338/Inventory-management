@@ -11,14 +11,14 @@ public class ProductDetailsdto {
 	private String itemNumber;
 	
 	
-	private int poNumber;
+	private String poNumber;
 	private String status;
 	private int received_qty;
 	
 	
 
 	public ProductDetailsdto(String color, String price, String size, int stock, String imageData, String store,
-			String itemNumber, int poNumber, String status,int received_qty) {
+			String itemNumber, String poNumber, String status,int received_qty) {
 		super();
 		this.color = color;
 		this.price = price;
@@ -32,11 +32,11 @@ public class ProductDetailsdto {
 		this.received_qty=received_qty;
 	}
 
-	public int getPoNumber() {
+	public String getPoNumber() {
 		return poNumber;
 	}
 
-	public void setPoNumber(int poNumber) {
+	public void setPoNumber(String poNumber) {
 		this.poNumber = poNumber;
 	}
 

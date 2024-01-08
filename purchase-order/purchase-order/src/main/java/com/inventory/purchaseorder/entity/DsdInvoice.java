@@ -29,6 +29,7 @@ public class DsdInvoice {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "supplier_id", referencedColumnName = "supplierId")
 	private DsdSuppliers supplierId;
+	private String supplierName;
 
 	public String getStatus() {
 		return status;
@@ -94,8 +95,16 @@ public class DsdInvoice {
 		this.supplierId = supplierId;
 	}
 
+	public String getSupplierName() {
+		return supplierName;
+	}
+
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
+	}
+
 	public DsdInvoice(int invoiceId, int invoiceNumber, LocalDate expDate, String status, int expected_qty,
-			int received_qty, DsdSuppliers supplierId) {
+			int received_qty, DsdSuppliers supplierId, String supplierName) {
 		super();
 		this.invoiceId = invoiceId;
 		this.invoiceNumber = invoiceNumber;
@@ -104,6 +113,7 @@ public class DsdInvoice {
 		this.expected_qty = expected_qty;
 		this.received_qty = received_qty;
 		this.supplierId = supplierId;
+		this.supplierName = supplierName;
 	}
 
 	@Override

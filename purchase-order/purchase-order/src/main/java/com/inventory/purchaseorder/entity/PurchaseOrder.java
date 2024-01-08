@@ -11,7 +11,7 @@ import jakarta.persistence.ManyToOne;
 public class PurchaseOrder {
 
 	@Id
-	private int poNumber;
+	private String poNumber;
 	private String status;
 
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -29,11 +29,11 @@ public class PurchaseOrder {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getPoNumber() {
+	public String getPoNumber() {
 		return poNumber;
 	}
 
-	public void setPoNumber(int poNumber) {
+	public void setPoNumber(String poNumber) {
 		this.poNumber = poNumber;
 	}
 
@@ -77,7 +77,7 @@ public class PurchaseOrder {
 		this.received_qty = received_qty;
 	}
 
-	public PurchaseOrder(int poNumber, String status, ASN asn, DsdSuppliers supplierId, int expected_qty,
+	public PurchaseOrder(String poNumber, String status, ASN asn, DsdSuppliers supplierId, int expected_qty,
 			int received_qty) {
 		super();
 		this.poNumber = poNumber;

@@ -55,9 +55,6 @@ public class DSDServiceImpl implements DSDService {
 	@Autowired
 	private StoreRepo storeRepo;
 
-	@Autowired
-	private PurchaseOrderRepo PurchaseOrderRepo;
-
 	// Function to save Dsd receive products
 	@Override
 	public DsdReceiveItemsdto saveDsd(DsdReceiveItemsdto DsdReceiveItemsdto) {
@@ -221,8 +218,8 @@ public class DSDServiceImpl implements DSDService {
 	@Override
 	public List<DsdInvoice> getViewDsdBySupplier(String supplierName) {
 		DsdSuppliers supplier = DsdRepo.findBysupplierName(supplierName);
-		if(supplier == null) {
-			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data found with the supplier "+supplierName);
+		if (supplier == null) {
+			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data found with the supplier " + supplierName);
 		}
 		System.out.println("supplier : " + supplier);
 		List<DsdInvoice> DsdInvoice1 = invoiceRepo.findAllBySupplierId(supplier);
@@ -234,8 +231,8 @@ public class DSDServiceImpl implements DSDService {
 	@Override
 	public List<DsdInvoice> getViewDsdByDate(LocalDate date) {
 		List<DsdInvoice> DsdInvoice1 = invoiceRepo.findAllByexpDate(date);
-		if(DsdInvoice1.size() == 0) {
-			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data found with the date "+date);
+		if (DsdInvoice1.size() == 0) {
+			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data found with the date " + date);
 		}
 		System.out.println("DsdInvoice1 : " + DsdInvoice1);
 		return DsdInvoice1;

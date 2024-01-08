@@ -2,17 +2,17 @@ package com.inventory.purchaseorder.dto;
 
 public class PurchaseOrderdto {
 
-	private int poNumber;
+	private String poNumber;
 	private String status;
 	private int asnNumber;
 	private int expected_qty;
 	private int received_qty;
 
-	public int getPoNumber() {
+	public String getPoNumber() {
 		return poNumber;
 	}
 
-	public void setPoNumber(int poNumber) {
+	public void setPoNumber(String poNumber) {
 		this.poNumber = poNumber;
 	}
 
@@ -54,7 +54,7 @@ public class PurchaseOrderdto {
 				+ ", expected_qty=" + expected_qty + ", received_qty=" + received_qty + "]";
 	}
 
-	public PurchaseOrderdto(int poNumber, String status, int asnNumber, int expected_qty, int received_qty) {
+	public PurchaseOrderdto(String poNumber, String status, int asnNumber, int expected_qty, int received_qty) {
 		super();
 		this.poNumber = poNumber;
 		this.status = status;
