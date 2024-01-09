@@ -4,7 +4,7 @@ public class PurchaseOrderdto {
 
 	private String poNumber;
 	private String status;
-	private int asnNumber;
+	private String asnNumber;
 	private int expected_qty;
 	private int received_qty;
 
@@ -24,11 +24,11 @@ public class PurchaseOrderdto {
 		this.status = status;
 	}
 
-	public int getAsnNumber() {
+	public String getAsnNumber() {
 		return asnNumber;
 	}
 
-	public void setAsnNumber(int asnNumber) {
+	public void setAsnNumber(String asnNumber) {
 		this.asnNumber = asnNumber;
 	}
 
@@ -54,7 +54,7 @@ public class PurchaseOrderdto {
 				+ ", expected_qty=" + expected_qty + ", received_qty=" + received_qty + "]";
 	}
 
-	public PurchaseOrderdto(String poNumber, String status, int asnNumber, int expected_qty, int received_qty) {
+	public PurchaseOrderdto(String poNumber, String status, String asnNumber, int expected_qty, int received_qty) {
 		super();
 		this.poNumber = poNumber;
 		this.status = status;

@@ -7,6 +7,7 @@ import com.inventory.purchaseorder.dto.ProductCombineddto;
 import com.inventory.purchaseorder.dto.ProductsByItemNumberdto;
 import com.inventory.purchaseorder.dto.StoreAndInTransitInventorydto;
 import com.inventory.purchaseorder.dto.categorydto;
+import com.inventory.purchaseorder.entity.Product;
 
 public interface ProductService {
 
@@ -17,4 +18,6 @@ public interface ProductService {
 	List<categorydto> getCategoryStock();
 
 	public StoreAndInTransitInventorydto getInventory();
+
+	List<Product> getMatchedProductsByItemNumber(String item_number);
 }

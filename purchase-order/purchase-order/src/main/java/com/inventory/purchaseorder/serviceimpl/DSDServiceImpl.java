@@ -237,4 +237,12 @@ public class DSDServiceImpl implements DSDService {
 		System.out.println("DsdInvoice1 : " + DsdInvoice1);
 		return DsdInvoice1;
 	}
+
+	@Override
+	public List<DsdInvoice> getMatchedSuppliers(String name) {
+		List<DsdInvoice> suppliers = invoiceRepo.findBySupplierNameContaining(name);
+		System.out.print("suppliers :" + suppliers);
+		return suppliers;
+	}
+
 }

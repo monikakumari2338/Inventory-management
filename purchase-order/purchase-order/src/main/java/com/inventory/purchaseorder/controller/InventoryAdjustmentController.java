@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.purchaseorder.dto.InventoryAdjustmentCombinedDto;
+import com.inventory.purchaseorder.entity.DsdInvoice;
 import com.inventory.purchaseorder.entity.InventoryAdjustment;
 import com.inventory.purchaseorder.entity.InventoryAdjustmentProducts;
 import com.inventory.purchaseorder.service.InventoryAdjustmentService;
@@ -49,8 +50,15 @@ public class InventoryAdjustmentController {
 
 	// Api to get all InventoryAdjustment products List by id
 	@GetMapping("/getinventoryadjustmentlist/id/{id}")
-	public ResponseEntity<List<InventoryAdjustmentProducts>> getInventoryAdjustmentProducts(@PathVariable int id) {
+	public ResponseEntity<List<InventoryAdjustmentProducts>> getInventoryAdjustmentProducts(@PathVariable String id) {
 		List<InventoryAdjustmentProducts> inventory_list = invAdjService.getInventoryAdjustmentProducts(id);
+		return new ResponseEntity<>(inventory_list, HttpStatus.OK);
+	}
+	
+
+	@GetMapping("/getMatched/getinventoryadjustmentlist/id/{id}")
+	public ResponseEntity< List<InventoryAdjustment>> getMatchedDsdById(@PathVariable String id) {
+		 List<InventoryAdjustment> inventory_list = invAdjService.getMatchedInvAdjByid(id);
 		return new ResponseEntity<>(inventory_list, HttpStatus.OK);
 	}
 

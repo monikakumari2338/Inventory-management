@@ -15,6 +15,7 @@ import com.inventory.purchaseorder.dto.ReturnToVendorProcessDto;
 import com.inventory.purchaseorder.dto.ReturnToVendorProductsdto;
 import com.inventory.purchaseorder.entity.DsdInvoice;
 import com.inventory.purchaseorder.entity.DsdSuppliers;
+import com.inventory.purchaseorder.entity.InventoryAdjustment;
 import com.inventory.purchaseorder.entity.ReturnToVendorInfo;
 import com.inventory.purchaseorder.entity.ReturnToVendorProcessInfo;
 import com.inventory.purchaseorder.entity.ReturnToVendorProcessProducts;
@@ -102,9 +103,10 @@ public class RerurnToVendorServiceImpl implements ReturnToVendorService {
 	public String saveRTVProcessProducts(ReturnToVendorProcessDto RTVProcessDto) {
 
 		ReturnToVendorProcessInfo RTVProcessInfo = new ReturnToVendorProcessInfo(
-				RTVProcessDto.getRtvProcessInfo().getPoNumber(), RTVProcessDto.getRtvProcessInfo().getSupplierId(),
-				RTVProcessDto.getRtvProcessInfo().getSupplierName(), RTVProcessDto.getRtvProcessInfo().getStatus(),
-				RTVProcessDto.getRtvProcessInfo().getReason(), RTVProcessDto.getRtvProcessInfo().getDate());
+				RTVProcessDto.getRtvProcessInfo().getRtvId(), RTVProcessDto.getRtvProcessInfo().getPoNumber(),
+				RTVProcessDto.getRtvProcessInfo().getSupplierId(), RTVProcessDto.getRtvProcessInfo().getSupplierName(),
+				RTVProcessDto.getRtvProcessInfo().getStatus(), RTVProcessDto.getRtvProcessInfo().getReason(),
+				RTVProcessDto.getRtvProcessInfo().getDate());
 
 		rtvProcessInfoRepo.save(RTVProcessInfo);
 
@@ -129,10 +131,10 @@ public class RerurnToVendorServiceImpl implements ReturnToVendorService {
 
 	// Function to get RTV list from Master process table
 	@Override
-	public List<ReturnToVendorProcessProducts> getRTVProcessProducts(int rtvId) {
+	public List<ReturnToVendorProcessProducts> getRTVProcessProducts(String rtvId) {
 
 		ReturnToVendorProcessInfo RTVinfo = rtvProcessInfoRepo.findByrtvId(rtvId);
-		List<ReturnToVendorProcessProducts> products=rtvProcessProductsRepo.findByrtvProcessInfo(RTVinfo);
+		List<ReturnToVendorProcessProducts> products = rtvProcessProductsRepo.findByrtvProcessInfo(RTVinfo);
 		return products;
 
 	}
@@ -143,6 +145,17 @@ public class RerurnToVendorServiceImpl implements ReturnToVendorService {
 		List<ReturnToVendorProcessInfo> RTVProcessInfo = rtvProcessInfoRepo.findAll();
 		System.out.println("RTVProcessInfo : " + RTVProcessInfo);
 		return RTVProcessInfo;
+	}
+	@Override
+	public List<ReturnToVendorProcessInfo> getMatchedRTVById(String id) {
+		List<ReturnToVendorProcessInfo> ReturnToVendor = rtvProcessInfoRepo.findByRtvIdContaining(id);
+		return ReturnToVendor;
+	}
+	
+	@Override
+	public List<ReturnToVendorProcessInfo> getMatchedRTVBySupplier(String name) {
+		List<ReturnToVendorProcessInfo> ReturnToVendor = rtvProcessInfoRepo.findBySupplierNameContaining(name);
+		return ReturnToVendor;
 	}
 
 }

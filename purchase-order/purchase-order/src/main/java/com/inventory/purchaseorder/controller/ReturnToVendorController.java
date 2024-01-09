@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.inventory.purchaseorder.dto.ReturnToVendorCombinedDto;
 import com.inventory.purchaseorder.dto.ReturnToVendorProcessDto;
+import com.inventory.purchaseorder.entity.InventoryAdjustment;
 import com.inventory.purchaseorder.entity.ReturnToVendorProcessInfo;
 import com.inventory.purchaseorder.entity.ReturnToVendorProcessProducts;
 import com.inventory.purchaseorder.service.ReturnToVendorService;
@@ -55,9 +56,20 @@ public class ReturnToVendorController {
 	
 	// Api to get RTV master process list by id
 		@GetMapping("/getrtv/{rtvId}")
-		public ResponseEntity<List<ReturnToVendorProcessProducts>> getRTV(@PathVariable int rtvId) {
+		public ResponseEntity<List<ReturnToVendorProcessProducts>> getRTV(@PathVariable String rtvId) {
 			List<ReturnToVendorProcessProducts> products = RTVService.getRTVProcessProducts(rtvId);
 			return new ResponseEntity<>(products, HttpStatus.OK);
 		}
 
+		@GetMapping("/getMatched/rtv/id/{id}")
+		public ResponseEntity< List<ReturnToVendorProcessInfo>> getMatchedRTVListById(@PathVariable String id) {
+			 List<ReturnToVendorProcessInfo> rtv_list = RTVService.getMatchedRTVById(id);
+			return new ResponseEntity<>(rtv_list, HttpStatus.OK);
+		}
+		
+		@GetMapping("/getMatched/rtv/supplier/{name}")
+		public ResponseEntity< List<ReturnToVendorProcessInfo>> getMatchedRTVListBySupplier(@PathVariable String name) {
+			 List<ReturnToVendorProcessInfo> rtv_list = RTVService.getMatchedRTVBySupplier(name);
+			return new ResponseEntity<>(rtv_list, HttpStatus.OK);
+		}
 }

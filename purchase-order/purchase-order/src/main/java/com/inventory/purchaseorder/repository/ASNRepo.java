@@ -12,6 +12,6 @@ public interface ASNRepo extends JpaRepository<ASN, Integer> {
 
 	List<ASN> findAllByStatus(String status);
 	ASN findByasnId(int id);
-	ASN findByasnNumber(int num);
+	ASN findByasnNumber(String num);
 
 }

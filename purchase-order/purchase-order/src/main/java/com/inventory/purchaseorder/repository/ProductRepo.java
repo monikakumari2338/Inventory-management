@@ -16,6 +16,8 @@ public interface ProductRepo extends JpaRepository<Product, String> {
 	// Product findByitemNumber(String itemNumber);
 
 	Product findByItemNumber(String itemNumber);
+	
+	List<Product> findByItemNumberContaining(String itemNumber);
 
 	void save(PurchaseOrder purchaseOrder);
 

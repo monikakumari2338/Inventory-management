@@ -1,6 +1,7 @@
 package com.inventory.purchaseorder.serviceimpl;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import com.inventory.purchaseorder.entity.DsdReceiveItems;
 import com.inventory.purchaseorder.entity.DsdSuppliers;
 import com.inventory.purchaseorder.entity.Product;
 import com.inventory.purchaseorder.entity.ProductDetails;
+import com.inventory.purchaseorder.entity.PurchaseOrder;
 import com.inventory.purchaseorder.entity.Stores;
 import com.inventory.purchaseorder.entity.TransferReceiveInfo;
 import com.inventory.purchaseorder.entity.TransferReceiveProducts;
@@ -109,7 +111,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 
 	// Function to get Transfer-Receive id on the basis of ASN
 	@Override
-	public List<TransferReceiveInfodto> getTransferId(int asnNumber) {
+	public List<TransferReceiveInfodto> getTransferId(String asnNumber) {
 		ASN asn = asnRepo.findByasnNumber(asnNumber);
 		List<TransferReceiveInfo> transferReceiveInfo = TransferRecieveRepo.findByAsn(asn);
 		System.out.println("DsdInvoice : " + transferReceiveInfo);
@@ -229,5 +231,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		return productCombineddto;
 
 	}
+
+	
 
 }

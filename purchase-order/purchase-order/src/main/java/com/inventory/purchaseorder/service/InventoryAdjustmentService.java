@@ -2,6 +2,7 @@
 package com.inventory.purchaseorder.service;
 
 import java.time.LocalDate;
+
 import java.util.List;
 
 import com.inventory.purchaseorder.dto.InventoryAdjustmentCombinedDto;
@@ -16,7 +17,8 @@ public interface InventoryAdjustmentService {
 
 	List<InventoryAdjustment> getAllInventoryAdjustment();
 
-	List<InventoryAdjustmentProducts> getInventoryAdjustmentProducts(int id);
+	List<InventoryAdjustmentProducts> getInventoryAdjustmentProducts(String id);
 
-	
+	List<InventoryAdjustment> getMatchedInvAdjByid(String id);
+
 }

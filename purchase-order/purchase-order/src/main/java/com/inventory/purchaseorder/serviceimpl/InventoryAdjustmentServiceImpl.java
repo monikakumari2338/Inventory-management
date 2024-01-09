@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.inventory.purchaseorder.dto.InventoryAdjustmentCombinedDto;
+import com.inventory.purchaseorder.entity.DsdInvoice;
 import com.inventory.purchaseorder.entity.InventoryAdjustment;
 import com.inventory.purchaseorder.entity.InventoryAdjustmentProducts;
 import com.inventory.purchaseorder.exception.ExceptionHandling;
@@ -30,7 +31,7 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 	public String saveInventoryAdjustment(InventoryAdjustmentCombinedDto InvAdjCombinedDto) {
 
 		System.out.println("InvAdjCombinedDto: " + InvAdjCombinedDto);
-		InventoryAdjustment InvAdj = new InventoryAdjustment(InvAdjCombinedDto.getInvCombined().getReason(),
+		InventoryAdjustment InvAdj = new InventoryAdjustment(InvAdjCombinedDto.getInvCombined().getAdjId(),InvAdjCombinedDto.getInvCombined().getReason(),
 				InvAdjCombinedDto.getInvCombined().getStatus(), InvAdjCombinedDto.getInvCombined().getSupplierId(),
 				InvAdjCombinedDto.getInvCombined().getDate());
 
@@ -83,15 +84,21 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 	}
 	
 	@Override
-	public List<InventoryAdjustmentProducts> getInventoryAdjustmentProducts(int id) {
+	public List<InventoryAdjustmentProducts> getInventoryAdjustmentProducts(String id) {
 		
 		List<InventoryAdjustmentProducts> inventoryProducts_list= new ArrayList<>();
 		InventoryAdjustment inventoryAdjustment=invAdjRepo.findByadjId(id);
-		inventoryProducts_list=invAdjProductsRepo.findByInvAdjustment(inventoryAdjustment);
+		//inventoryProducts_list=invAdjProductsRepo.findByInvAdjustment(inventoryAdjustment);
 		System.out.println("inventory_list " +inventoryProducts_list);
 		if(inventoryProducts_list.size()==0) {
 			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");
 		}
 		return inventoryProducts_list;
+	}
+	
+	@Override
+	public List<InventoryAdjustment> getMatchedInvAdjByid(String id) {
+		List<InventoryAdjustment> inventoryAdjustment = invAdjRepo.findByAdjIdContaining(id);
+		return inventoryAdjustment;
 	}
 }

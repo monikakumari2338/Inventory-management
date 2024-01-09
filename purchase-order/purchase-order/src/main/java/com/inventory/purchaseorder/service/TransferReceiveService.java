@@ -13,9 +13,9 @@ public interface TransferReceiveService {
 
 	TransferReceiveProductsdto saveTransferReceive(TransferReceiveProductsdto transferReceiveProductsdto);
 
-	List<TransferReceiveInfodto> getTransferId(int asnNumber);
+	List<ProductCombineddto> saveTransferRecieveProducts(List<ProductCombineddto> productCombineddto, int transferId);
+
+	List<TransferReceiveInfodto> getTransferId(String asnNumber);
 
 	List<TransferReceiveProductsdto> getTransferReceiveProducts(int transferId);
-
-	List<ProductCombineddto> saveTransferRecieveProducts(List<ProductCombineddto> productCombineddto, int transferId);
 }

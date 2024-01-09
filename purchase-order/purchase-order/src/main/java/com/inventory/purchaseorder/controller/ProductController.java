@@ -20,6 +20,8 @@ import com.inventory.purchaseorder.dto.Productdto;
 import com.inventory.purchaseorder.dto.ProductsByItemNumberdto;
 import com.inventory.purchaseorder.dto.StoreAndInTransitInventorydto;
 import com.inventory.purchaseorder.dto.categorydto;
+import com.inventory.purchaseorder.entity.InventoryAdjustment;
+import com.inventory.purchaseorder.entity.Product;
 import com.inventory.purchaseorder.service.ProductService;
 
 
@@ -59,6 +61,10 @@ public class ProductController {
 		return new ResponseEntity<>(storeAndInTransitInventorydto,HttpStatus.OK);	
 	}
 	
-	
+	@GetMapping("/getMatched/products/itemnumber/{itemnumber}")
+	public ResponseEntity< List<Product>> getMatchedItemNumber(@PathVariable String itemnumber) {
+		 List<Product> Products = productService.getMatchedProductsByItemNumber(itemnumber);
+		return new ResponseEntity<>(Products, HttpStatus.OK);
+	}
 
 }

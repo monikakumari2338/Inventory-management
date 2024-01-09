@@ -22,6 +22,7 @@ import com.inventory.purchaseorder.entity.Product;
 import com.inventory.purchaseorder.entity.ProductDetails;
 import com.inventory.purchaseorder.entity.PurchaseOrder;
 import com.inventory.purchaseorder.entity.PurchaseOrderItems;
+import com.inventory.purchaseorder.entity.ReturnToVendorProcessInfo;
 import com.inventory.purchaseorder.repository.CategoryRepo;
 import com.inventory.purchaseorder.repository.DsdInvoiceRepo;
 import com.inventory.purchaseorder.repository.ProductDetailsRepo;
@@ -226,6 +227,12 @@ public class ProductServiceImpl implements ProductService {
 		
 		StoreAndInTransitInventorydto inventorydto =new StoreAndInTransitInventorydto(inStore,inTransit);
 		return inventorydto;
+	}
+	
+	@Override
+	public List<Product> getMatchedProductsByItemNumber(String item_number) {
+		List<Product> Products = productRepo.findByItemNumberContaining(item_number);
+		return Products;
 	}
 
 }

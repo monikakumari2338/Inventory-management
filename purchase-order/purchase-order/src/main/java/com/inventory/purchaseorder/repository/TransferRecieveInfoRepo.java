@@ -7,11 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.inventory.purchaseorder.entity.ASN;
 import com.inventory.purchaseorder.entity.TransferReceiveInfo;
 
-public interface TransferRecieveInfoRepo extends JpaRepository<TransferReceiveInfo, Integer> {
+public interface TransferRecieveInfoRepo extends JpaRepository<TransferReceiveInfo, String> {
 
 	TransferReceiveInfo findBytransferId(int id);
 
 	List<TransferReceiveInfo> findByAsn(ASN asn);
 
 	List<TransferReceiveInfo> findAllByStatus(String status);
+	
 }

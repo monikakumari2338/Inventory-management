@@ -43,7 +43,7 @@ public class TransferReceiveController {
 	
 	// Api to get Transfer-Receive id on the basis of ASN
 	@GetMapping("/getall/transferid/{asnNumber}")
-	public ResponseEntity< List<TransferReceiveInfodto>> getDSD(@PathVariable int asnNumber) {
+	public ResponseEntity< List<TransferReceiveInfodto>> getDSD(@PathVariable String asnNumber) {
 		 List<TransferReceiveInfodto> transferReceiveInfo = transferReceiveService.getTransferId(asnNumber);
 		return new ResponseEntity<>(transferReceiveInfo, HttpStatus.OK);
 	}
