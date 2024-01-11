@@ -195,7 +195,7 @@ public class ProductServiceImpl implements ProductService {
 			dashboard.add(new categorydto(category.getCategory(), total_stock));
 
 		}
-		System.out.println("dashboard " + " " + dashboard);
+		//System.out.println("dashboard " + " " + dashboard);
 		return dashboard;
 
 	}
@@ -207,7 +207,7 @@ public class ProductServiceImpl implements ProductService {
 		for (int i = 0; i < ProductDetailstockList.size(); i++) {
 			inStore = inStore + ProductDetailstockList.get(i).getStock();
 		}
-		System.out.println("inStore " + " " + inStore);
+		//System.out.println("inStore " + " " + inStore);
 
 		List<PurchaseOrder> poList = PurchaseOrderRepo.findAllByStatus("pending");
 		for (int i = 0; i < poList.size(); i++) {
@@ -223,7 +223,7 @@ public class ProductServiceImpl implements ProductService {
 		for (int i = 0; i < transferReceiveList.size(); i++) {
 			inTransit = inTransit + transferReceiveList.get(i).getExpected_qty();
 		}
-		System.out.println("inTransit " + " " + inTransit);
+		//System.out.println("inTransit " + " " + inTransit);
 		
 		StoreAndInTransitInventorydto inventorydto =new StoreAndInTransitInventorydto(inStore,inTransit);
 		return inventorydto;

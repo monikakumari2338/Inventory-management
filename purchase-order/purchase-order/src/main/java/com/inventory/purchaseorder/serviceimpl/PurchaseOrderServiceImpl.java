@@ -13,6 +13,7 @@ import com.inventory.purchaseorder.dto.Productdto;
 import com.inventory.purchaseorder.dto.PurchaseOrderCombineddto;
 import com.inventory.purchaseorder.dto.PurchaseOrderCombineddtotoSave;
 import com.inventory.purchaseorder.dto.PurchaseOrderItemsdto;
+import com.inventory.purchaseorder.dto.PurchaseOrderOnLoadDTO;
 import com.inventory.purchaseorder.dto.PurchaseOrderdto;
 import com.inventory.purchaseorder.dto.purchaseOrderItemDetailsdto;
 import com.inventory.purchaseorder.entity.ASN;
@@ -146,6 +147,21 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	}
 
 	@Override
+	public List<PurchaseOrderOnLoadDTO> getAllPO() {
+		List<PurchaseOrderOnLoadDTO> purchaseOrderOnLoadDTO = new ArrayList<PurchaseOrderOnLoadDTO>();
+		List<PurchaseOrder> purchaseOrder = purchaseOrderRepo.findAll();
+		for (int i = 0; i < purchaseOrder.size(); i++) {
+			if (!purchaseOrder.get(i).getStatus().equals("complete")) {
+				purchaseOrderOnLoadDTO.add(new PurchaseOrderOnLoadDTO(purchaseOrder.get(i).getPoNumber(),
+						purchaseOrder.get(i).getStatus(), purchaseOrder.get(i).getSupplierId().getSupplierName()));
+				//System.out.println(purchaseOrder.get(i).getStatus());
+			}
+		}
+//		System.out.println(purchaseOrder);
+		return purchaseOrderOnLoadDTO;
+	}
+
+	@Override
 	public List<PurchaseOrder> findMatchedPoByStatus(String status) {
 
 		return purchaseOrderRepo.findByStatusContaining(status);
@@ -153,7 +169,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 	@Override
 	public List<PurchaseOrder> findMatchedPoNumber(String po) {
-		//String num = Integer.toString(po);
+		// String num = Integer.toString(po);
 		return purchaseOrderRepo.findByPoNumberContaining(po);
 	}
 

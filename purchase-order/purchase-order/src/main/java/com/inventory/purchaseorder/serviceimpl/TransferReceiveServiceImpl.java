@@ -167,21 +167,41 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 
 			Product product = productRepo.findByItemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
 
-			// System.out.println("store1 : " + store1);
+			System.out.println("product : " + product);
 
 			if (product == null) {
+				Product product1 = new Product(productCombineddto.get(i).getProductdto().getItemNumber(),
+						productCombineddto.get(i).getProductdto().getItemName(), category);
 
-				System.out.println("Item is not available in Master DB");
+				Productdto Productdto = new Productdto(product1.getItemNumber(), product1.getitemName(),
+						productCombineddto.get(i).getProductdto().getCategoryName());
+				productRepo.save(product1);
+				// productCombineddto1.get(i).setProductdto(Productdto);
+
+				Product product2 = productRepo
+						.findByItemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
+				ProductDetails productDetails2 = new ProductDetails(
+						productCombineddto.get(i).getProductDetailsdto().getColor(),
+						productCombineddto.get(i).getProductDetailsdto().getPrice(),
+						productCombineddto.get(i).getProductDetailsdto().getSize(),
+						productCombineddto.get(i).getProductDetailsdto().getStock(),
+						productCombineddto.get(i).getProductDetailsdto().getImageData(), store1, product2);
+
+				productDetailsRepo.save(productDetails2);
+
+				System.out.println("productDetails2: "+productDetails2);
 
 			} else {
 				ProductDetails productDetails1 = productDetailsRepo.findByColorAndSizeAndStoreAndProduct(
 						productCombineddto.get(i).getProductDetailsdto().getColor(),
 						productCombineddto.get(i).getProductDetailsdto().getSize(), store1, product);
 
-				ProductDetails productDetails2 = productDetailsRepo.findByColorAndSizeAndStoreAndProduct(
-						productCombineddto.get(i).getProductDetailsdto().getColor(),
-						productCombineddto.get(i).getProductDetailsdto().getSize(), storeFrom, product);
+//				ProductDetails productDetails2 = productDetailsRepo.findByColorAndSizeAndStoreAndProduct(
+//						productCombineddto.get(i).getProductDetailsdto().getColor(),
+//						productCombineddto.get(i).getProductDetailsdto().getSize(), storeFrom, product);
 
+				System.out.println("productDetails1: "+productDetails1);
+//				System.out.println("productDetails2: "+productDetails2);
 				int Prev_stock;
 				int new_stock;
 				int total_stock = 0;
@@ -214,13 +234,13 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 					// System.out.println("saved : inside else");
 				}
 
-				Prev_stock1 = productDetails2.getStock();
-				new_stock1 = productCombineddto.get(i).getProductDetailsdto().getStock();
-				total_stock1 = Prev_stock1 - new_stock1;
-				productDetails2.setStock(total_stock1);
-				System.out.println("total_stock1 : " + total_stock1);
-				System.out.println("productDetails2 : " + productDetails2);
-				productDetailsRepo.save(productDetails2);
+//				Prev_stock1 = productDetails2.getStock();
+//				new_stock1 = productCombineddto.get(i).getProductDetailsdto().getStock();
+//				total_stock1 = Prev_stock1 - new_stock1;
+//				productDetails2.setStock(total_stock1);
+//				System.out.println("total_stock1 : " + total_stock1);
+//				System.out.println("productDetails2 : " + productDetails2);
+//				productDetailsRepo.save(productDetails2);
 
 			}
 
@@ -231,11 +251,11 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		return productCombineddto;
 
 	}
+
 	@Override
 	public List<ASN> findMatchedASNByAsnNumber(String num) {
-		List<ASN> asnList=asnRepo.findByasnNumberContaining(num);
+		List<ASN> asnList = asnRepo.findByasnNumberContaining(num);
 		return asnList;
 	}
-	
 
 }

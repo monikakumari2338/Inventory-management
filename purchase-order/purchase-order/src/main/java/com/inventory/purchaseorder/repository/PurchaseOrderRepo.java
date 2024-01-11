@@ -16,6 +16,7 @@ public interface PurchaseOrderRepo extends JpaRepository<PurchaseOrder, Integer>
 	PurchaseOrder findByPoNumber(String id);
 
 	List<PurchaseOrder> findAllByStatus(String status);
+	List<PurchaseOrder> findAll();
 
 	List<PurchaseOrder> findByStatusContaining(String status);
 

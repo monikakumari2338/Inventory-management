@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.inventory.purchaseorder.dto.PurchaseOrderCombineddto;
 import com.inventory.purchaseorder.dto.PurchaseOrderCombineddtotoSave;
+import com.inventory.purchaseorder.dto.PurchaseOrderOnLoadDTO;
 import com.inventory.purchaseorder.dto.PurchaseOrderdto;
 import com.inventory.purchaseorder.entity.ASN;
 import com.inventory.purchaseorder.entity.PurchaseOrder;
@@ -24,4 +25,6 @@ public interface PurchaseOrderService {
 	List<PurchaseOrder> findMatchedPoByStatus(String status);
 
 	List<PurchaseOrder> findMatchedPoNumber(String po);
+
+	List<PurchaseOrderOnLoadDTO> getAllPO();
 }

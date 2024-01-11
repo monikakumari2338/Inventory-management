@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.purchaseorder.dto.PurchaseOrderCombineddto;
 import com.inventory.purchaseorder.dto.PurchaseOrderCombineddtotoSave;
+import com.inventory.purchaseorder.dto.PurchaseOrderOnLoadDTO;
 import com.inventory.purchaseorder.dto.PurchaseOrderdto;
 import com.inventory.purchaseorder.entity.ASN;
 import com.inventory.purchaseorder.entity.PurchaseOrder;
@@ -60,9 +61,16 @@ public class PurchaseOrderController {
 		List<PurchaseOrder> purchaseOrder = POService.findMatchedPoNumber(po);
 		return new ResponseEntity<>(purchaseOrder, HttpStatus.OK);
 	}
+
 	@GetMapping("/find/searchedpo/status/{status}")
 	public ResponseEntity<List<PurchaseOrder>> findMatchedPoNumberByStatus(@PathVariable String status) {
 		List<PurchaseOrder> purchaseOrder = POService.findMatchedPoByStatus(status);
+		return new ResponseEntity<>(purchaseOrder, HttpStatus.OK);
+	}
+
+	@GetMapping("getall/po")
+	public ResponseEntity<List<PurchaseOrderOnLoadDTO>> getAllPoOnLoad() {
+		List<PurchaseOrderOnLoadDTO> purchaseOrder = POService.getAllPO();
 		return new ResponseEntity<>(purchaseOrder, HttpStatus.OK);
 	}
 }
