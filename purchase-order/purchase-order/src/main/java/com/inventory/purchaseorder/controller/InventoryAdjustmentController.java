@@ -50,7 +50,7 @@ public class InventoryAdjustmentController {
 
 	// Api to get all InventoryAdjustment products List by id
 	@GetMapping("/getinventoryadjustmentlist/id/{id}")
-	public ResponseEntity<List<InventoryAdjustmentProducts>> getInventoryAdjustmentProducts(@PathVariable String id) {
+	public ResponseEntity<List<InventoryAdjustmentProducts>> getInventoryAdjustmentProducts(@PathVariable int id) {
 		List<InventoryAdjustmentProducts> inventory_list = invAdjService.getInventoryAdjustmentProducts(id);
 		return new ResponseEntity<>(inventory_list, HttpStatus.OK);
 	}

@@ -18,9 +18,9 @@ public interface ReturnToVendorService {
 
 	List<ReturnToVendorProcessInfo> getAllViewVendorReturn();
 
-	List<ReturnToVendorProcessProducts> getRTVProcessProducts(String rtvId);
-
 	List<ReturnToVendorProcessInfo> getMatchedRTVById(String id);
 
 	List<ReturnToVendorProcessInfo> getMatchedRTVBySupplier(String name);
+
+	List<ReturnToVendorProcessProducts> getRTVProcessProducts(int rtvId);
 }

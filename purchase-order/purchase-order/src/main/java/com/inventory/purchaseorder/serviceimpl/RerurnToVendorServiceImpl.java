@@ -103,7 +103,7 @@ public class RerurnToVendorServiceImpl implements ReturnToVendorService {
 	public String saveRTVProcessProducts(ReturnToVendorProcessDto RTVProcessDto) {
 
 		ReturnToVendorProcessInfo RTVProcessInfo = new ReturnToVendorProcessInfo(
-				RTVProcessDto.getRtvProcessInfo().getRtvId(), RTVProcessDto.getRtvProcessInfo().getPoNumber(),
+				RTVProcessDto.getRtvProcessInfo().getPoNumber(),
 				RTVProcessDto.getRtvProcessInfo().getSupplierId(), RTVProcessDto.getRtvProcessInfo().getSupplierName(),
 				RTVProcessDto.getRtvProcessInfo().getStatus(), RTVProcessDto.getRtvProcessInfo().getReason(),
 				RTVProcessDto.getRtvProcessInfo().getDate());
@@ -131,7 +131,7 @@ public class RerurnToVendorServiceImpl implements ReturnToVendorService {
 
 	// Function to get RTV list from Master process table
 	@Override
-	public List<ReturnToVendorProcessProducts> getRTVProcessProducts(String rtvId) {
+	public List<ReturnToVendorProcessProducts> getRTVProcessProducts(int rtvId) {
 
 		ReturnToVendorProcessInfo RTVinfo = rtvProcessInfoRepo.findByrtvId(rtvId);
 		List<ReturnToVendorProcessProducts> products = rtvProcessProductsRepo.findByrtvProcessInfo(RTVinfo);

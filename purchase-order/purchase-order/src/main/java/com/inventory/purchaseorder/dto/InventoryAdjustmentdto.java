@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 public class InventoryAdjustmentdto {
 
-	private String adjId;
 	private String reason;
 	private String status;
 	private int supplierId;
@@ -13,14 +12,6 @@ public class InventoryAdjustmentdto {
 	public InventoryAdjustmentdto() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-	public String getAdjId() {
-		return adjId;
-	}
-
-	public void setAdjId(String adjId) {
-		this.adjId = adjId;
 	}
 
 	public String getReason() {
@@ -55,9 +46,9 @@ public class InventoryAdjustmentdto {
 		this.date = date;
 	}
 
-	public InventoryAdjustmentdto(String adjId, String reason, String status, int supplierId, LocalDate date) {
+	public InventoryAdjustmentdto(String reason, String status, int supplierId, LocalDate date) {
 		super();
-		this.adjId = adjId;
+
 		this.reason = reason;
 		this.status = status;
 		this.supplierId = supplierId;
@@ -66,8 +57,8 @@ public class InventoryAdjustmentdto {
 
 	@Override
 	public String toString() {
-		return "InventoryAdjustment [adjId=" + adjId + ", reason=" + reason + ", status=" + status + ", supplierId="
-				+ supplierId + ", date=" + date + "]";
+		return "InventoryAdjustment [reason=" + reason + ", status=" + status + ", supplierId=" + supplierId + ", date="
+				+ date + "]";
 	}
 
 }

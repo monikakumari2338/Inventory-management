@@ -5,7 +5,6 @@ import java.util.Date;
 
 public class ReturnToVendorProcessInfoDto {
 
-	private String rtvId;
 	private int poNumber;
 	private int supplierId;
 	private String supplierName;
@@ -66,18 +65,10 @@ public class ReturnToVendorProcessInfoDto {
 		this.date = date;
 	}
 
-	public String getRtvId() {
-		return rtvId;
-	}
-
-	public void setRtvId(String rtvId) {
-		this.rtvId = rtvId;
-	}
-
-	public ReturnToVendorProcessInfoDto(String rtvId, int poNumber, int supplierId, String supplierName, String status,
-			String reason, LocalDate date) {
+	public ReturnToVendorProcessInfoDto(int poNumber, int supplierId, String supplierName, String status, String reason,
+			LocalDate date) {
 		super();
-		this.rtvId = rtvId;
+
 		this.poNumber = poNumber;
 		this.supplierId = supplierId;
 		this.supplierName = supplierName;

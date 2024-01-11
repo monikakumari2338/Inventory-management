@@ -1,11 +1,11 @@
-#Tue Jan 09 09:48:54 IST 2024
+#Thu Jan 11 10:38:47 IST 2024
+ct=jbt
 a=finishWizard
 c=0
-cl=org.eclipse.ltk.internal.ui.refactoring.scripting.ShowRefactoringHistoryWizard
-cmp=usage
-ct=jbt
-d=1704773934631
-l=Wizard class name
 s=0
+d=1704949727000
 v=2.2.500
 vl=How many times the 'Finish' button pressed during the day
+cmp=usage
+cl=org.eclipse.ltk.internal.ui.refactoring.scripting.ShowRefactoringHistoryWizard
+l=Wizard class name

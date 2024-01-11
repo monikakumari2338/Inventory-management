@@ -14,7 +14,8 @@ import jakarta.persistence.Table;
 public class ReturnToVendorProcessInfo {
 
 	@Id
-	private String rtvId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int rtvId;
 	private int poNumber;
 	private int supplierId;
 	private String supplierName;
@@ -27,11 +28,11 @@ public class ReturnToVendorProcessInfo {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getRtvId() {
+	public int getRtvId() {
 		return rtvId;
 	}
 
-	public void setRtvId(String rtvId) {
+	public void setRtvId(int rtvId) {
 		this.rtvId = rtvId;
 	}
 
@@ -83,10 +84,10 @@ public class ReturnToVendorProcessInfo {
 		this.date = date;
 	}
 
-	public ReturnToVendorProcessInfo(String rtvId, int poNumber, int supplierId, String supplierName, String status,
-			String reason, LocalDate date) {
+	public ReturnToVendorProcessInfo(int poNumber, int supplierId, String supplierName, String status, String reason,
+			LocalDate date) {
 		super();
-		this.rtvId = rtvId;
+
 		this.poNumber = poNumber;
 		this.supplierId = supplierId;
 		this.supplierName = supplierName;

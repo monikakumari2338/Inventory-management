@@ -31,7 +31,7 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 	public String saveInventoryAdjustment(InventoryAdjustmentCombinedDto InvAdjCombinedDto) {
 
 		System.out.println("InvAdjCombinedDto: " + InvAdjCombinedDto);
-		InventoryAdjustment InvAdj = new InventoryAdjustment(InvAdjCombinedDto.getInvCombined().getAdjId(),InvAdjCombinedDto.getInvCombined().getReason(),
+		InventoryAdjustment InvAdj = new InventoryAdjustment(InvAdjCombinedDto.getInvCombined().getReason(),
 				InvAdjCombinedDto.getInvCombined().getStatus(), InvAdjCombinedDto.getInvCombined().getSupplierId(),
 				InvAdjCombinedDto.getInvCombined().getDate());
 
@@ -84,7 +84,7 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 	}
 	
 	@Override
-	public List<InventoryAdjustmentProducts> getInventoryAdjustmentProducts(String id) {
+	public List<InventoryAdjustmentProducts> getInventoryAdjustmentProducts(int id) {
 		
 		List<InventoryAdjustmentProducts> inventoryProducts_list= new ArrayList<>();
 		InventoryAdjustment inventoryAdjustment=invAdjRepo.findByadjId(id);

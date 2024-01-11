@@ -9,7 +9,7 @@ import com.inventory.purchaseorder.entity.ReturnToVendorProcessProducts;
 
 public interface ReturnTovendorProcessInfoRepo extends JpaRepository<ReturnToVendorProcessInfo, Integer> {
 
-	ReturnToVendorProcessInfo findByrtvId(String rtvId);
+	ReturnToVendorProcessInfo findByrtvId(int rtvId);
 	List<ReturnToVendorProcessInfo> findByRtvIdContaining(String rtvId);
 	List<ReturnToVendorProcessInfo> findBySupplierNameContaining(String name);
 	//ReturnToVendorInfo findByrtvId(int rtvId);

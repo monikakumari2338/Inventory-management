@@ -56,7 +56,7 @@ public class ReturnToVendorController {
 	
 	// Api to get RTV master process list by id
 		@GetMapping("/getrtv/{rtvId}")
-		public ResponseEntity<List<ReturnToVendorProcessProducts>> getRTV(@PathVariable String rtvId) {
+		public ResponseEntity<List<ReturnToVendorProcessProducts>> getRTV(@PathVariable int rtvId) {
 			List<ReturnToVendorProcessProducts> products = RTVService.getRTVProcessProducts(rtvId);
 			return new ResponseEntity<>(products, HttpStatus.OK);
 		}

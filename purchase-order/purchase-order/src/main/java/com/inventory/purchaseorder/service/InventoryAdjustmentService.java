@@ -17,8 +17,8 @@ public interface InventoryAdjustmentService {
 
 	List<InventoryAdjustment> getAllInventoryAdjustment();
 
-	List<InventoryAdjustmentProducts> getInventoryAdjustmentProducts(String id);
-
 	List<InventoryAdjustment> getMatchedInvAdjByid(String id);
+
+	List<InventoryAdjustmentProducts> getInventoryAdjustmentProducts(int id);
 
 }

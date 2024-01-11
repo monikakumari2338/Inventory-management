@@ -231,7 +231,11 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		return productCombineddto;
 
 	}
-
+	@Override
+	public List<ASN> findMatchedASNByAsnNumber(String num) {
+		List<ASN> asnList=asnRepo.findByasnNumberContaining(num);
+		return asnList;
+	}
 	
 
 }

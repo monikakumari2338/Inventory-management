@@ -12,7 +12,8 @@ import jakarta.persistence.Table;
 public class InventoryAdjustment {
 
 	@Id
-	private String adjId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int adjId;
 	private String reason;
 	private String status;
 	private int supplierId;
@@ -23,11 +24,11 @@ public class InventoryAdjustment {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getAdjId() {
+	public int getAdjId() {
 		return adjId;
 	}
 
-	public void setAdjId(String adjId) {
+	public void setAdjId(int adjId) {
 		this.adjId = adjId;
 	}
 
@@ -63,9 +64,9 @@ public class InventoryAdjustment {
 		this.date = date;
 	}
 
-	public InventoryAdjustment(String adjId, String reason, String status, int supplierId, LocalDate date) {
+	public InventoryAdjustment(String reason, String status, int supplierId, LocalDate date) {
 		super();
-		this.adjId = adjId;
+
 		this.reason = reason;
 		this.status = status;
 		this.supplierId = supplierId;

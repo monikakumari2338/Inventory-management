@@ -10,7 +10,7 @@ import com.inventory.purchaseorder.entity.InventoryAdjustment;
 
 public interface InventoryAdjustmentRepo extends JpaRepository<InventoryAdjustment, String> {
 
-	InventoryAdjustment findByadjId(String id);
+	InventoryAdjustment findByadjId(int id);
 	List<InventoryAdjustment> findByDate(LocalDate date);
 	List<InventoryAdjustment> findByAdjIdContaining(String id);
 }
