@@ -88,7 +88,7 @@ public class InventoryAdjustmentServiceImpl implements InventoryAdjustmentServic
 		
 		List<InventoryAdjustmentProducts> inventoryProducts_list= new ArrayList<>();
 		InventoryAdjustment inventoryAdjustment=invAdjRepo.findByadjId(id);
-		//inventoryProducts_list=invAdjProductsRepo.findByInvAdjustment(inventoryAdjustment);
+		inventoryProducts_list=invAdjProductsRepo.findByInvAdjustment(inventoryAdjustment);
 		System.out.println("inventory_list " +inventoryProducts_list);
 		if(inventoryProducts_list.size()==0) {
 			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data");

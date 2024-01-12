@@ -20,5 +20,5 @@ public interface TransferReceiveService {
 
 	List<TransferReceiveProductsdto> getTransferReceiveProducts(int transferId);
 
-	List<ASN> findMatchedASNByAsnNumber(String num);
+	List<String> getAllTransferReceive();
 }

@@ -189,7 +189,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 
 				productDetailsRepo.save(productDetails2);
 
-				System.out.println("productDetails2: "+productDetails2);
+				System.out.println("productDetails2: " + productDetails2);
 
 			} else {
 				ProductDetails productDetails1 = productDetailsRepo.findByColorAndSizeAndStoreAndProduct(
@@ -200,7 +200,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 //						productCombineddto.get(i).getProductDetailsdto().getColor(),
 //						productCombineddto.get(i).getProductDetailsdto().getSize(), storeFrom, product);
 
-				System.out.println("productDetails1: "+productDetails1);
+				System.out.println("productDetails1: " + productDetails1);
 //				System.out.println("productDetails2: "+productDetails2);
 				int Prev_stock;
 				int new_stock;
@@ -252,10 +252,22 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 
 	}
 
+	
+
 	@Override
-	public List<ASN> findMatchedASNByAsnNumber(String num) {
-		List<ASN> asnList = asnRepo.findByasnNumberContaining(num);
-		return asnList;
+	public List<String> getAllTransferReceive() {
+
+		List<String> asnNumber_list = new ArrayList<>();
+		List<TransferReceiveInfo> transferReceiveInfo_list = TransferRecieveRepo.findAll();
+
+		for (int i = 0; i < transferReceiveInfo_list.size(); i++) {
+			if (transferReceiveInfo_list.get(i).getStatus().equals("pending")) {
+				asnNumber_list.add(transferReceiveInfo_list.get(i).getAsn().getAsnNumber());
+			}
+
+		}
+
+		return asnNumber_list;
 	}
 
 }

@@ -21,6 +21,8 @@ public interface DsdInvoiceRepo extends JpaRepository<DsdInvoice, Integer> {
 
 	List<DsdInvoice> findAllByStatus(String status);
 
+	List<DsdInvoice> findAll();
+
 	List<DsdInvoice> findBySupplierNameContaining(String name);
 
 }

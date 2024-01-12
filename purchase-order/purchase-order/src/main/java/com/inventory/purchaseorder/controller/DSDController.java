@@ -2,6 +2,7 @@ package com.inventory.purchaseorder.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -77,9 +78,9 @@ public class DSDController {
 		return new ResponseEntity<>(dsdInvoice, HttpStatus.OK);
 	}
 
-	@GetMapping("/getMatched/supplier/{suppliername}")
-	public ResponseEntity<List<DsdInvoice>> getMatchedSupplier(@PathVariable String suppliername) {
-		List<DsdInvoice> suppliers = dsdService.getMatchedSuppliers(suppliername);
+	@GetMapping("/find/supplier")
+	public ResponseEntity<Set<String>> getDSDSupplier() {
+		Set<String> suppliers = dsdService.getAllDSDSuppliers();
 		return new ResponseEntity<>(suppliers, HttpStatus.OK);
 	}
 

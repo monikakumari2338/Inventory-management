@@ -69,9 +69,9 @@ public class TransferReceiveController {
 		return new ResponseEntity<>(transferReceiveProductsdto, HttpStatus.OK);
 	}
 
-	@GetMapping("/find/searched/asn/{asnnumber}")
-	public ResponseEntity<List<ASN>> findMatchedASN(@PathVariable String asnnumber) {
-		List<ASN> asnList = transferReceiveService.findMatchedASNByAsnNumber(asnnumber);
+	@GetMapping("/asn")
+	public ResponseEntity<List<String>> getAllASN() {
+		List<String> asnList = transferReceiveService.getAllTransferReceive();
 		return new ResponseEntity<>(asnList, HttpStatus.OK);
 	}
 

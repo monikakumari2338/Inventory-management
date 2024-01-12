@@ -4,8 +4,9 @@ package com.inventory.purchaseorder.serviceimpl;
 import java.time.LocalDate;
 
 import java.util.ArrayList;
-
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import com.inventory.purchaseorder.entity.DsdSuppliers;
 import com.inventory.purchaseorder.entity.Product;
 import com.inventory.purchaseorder.entity.ProductDetails;
 import com.inventory.purchaseorder.entity.Stores;
+import com.inventory.purchaseorder.entity.TransferReceiveInfo;
 import com.inventory.purchaseorder.exception.ExceptionHandling;
 import com.inventory.purchaseorder.repository.CategoryRepo;
 import com.inventory.purchaseorder.repository.DsdInvoiceRepo;
@@ -239,10 +241,19 @@ public class DSDServiceImpl implements DSDService {
 	}
 
 	@Override
-	public List<DsdInvoice> getMatchedSuppliers(String name) {
-		List<DsdInvoice> suppliers = invoiceRepo.findBySupplierNameContaining(name);
-		System.out.print("suppliers :" + suppliers);
-		return suppliers;
+	public Set<String> getAllDSDSuppliers() {
+
+		Set<String> supplier_list = new HashSet<String>();
+		List<DsdInvoice> DSD_list = invoiceRepo.findAll();
+
+		for (int i = 0; i < DSD_list.size(); i++) {
+			if (DSD_list.get(i).getStatus().equals("pending")) {
+				supplier_list.add(DSD_list.get(i).getSupplierId().getSupplierName());
+			}
+
+		}
+
+		return supplier_list;
 	}
 
 }

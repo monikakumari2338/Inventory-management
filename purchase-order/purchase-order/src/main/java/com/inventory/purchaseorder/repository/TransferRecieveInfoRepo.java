@@ -13,6 +13,8 @@ public interface TransferRecieveInfoRepo extends JpaRepository<TransferReceiveIn
 
 	List<TransferReceiveInfo> findByAsn(ASN asn);
 
+	List<TransferReceiveInfo> findAll();
+
 	List<TransferReceiveInfo> findAllByStatus(String status);
-	
+
 }
