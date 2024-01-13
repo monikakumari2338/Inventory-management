@@ -6,21 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.stereotype.Service;
 
 import com.inventory.purchaseorder.dto.ReturnToVendorCombinedDto;
 import com.inventory.purchaseorder.dto.ReturnToVendorInfodto;
 import com.inventory.purchaseorder.dto.ReturnToVendorProcessDto;
 import com.inventory.purchaseorder.dto.ReturnToVendorProductsdto;
-import com.inventory.purchaseorder.entity.DsdInvoice;
-import com.inventory.purchaseorder.entity.DsdSuppliers;
-import com.inventory.purchaseorder.entity.InventoryAdjustment;
+
 import com.inventory.purchaseorder.entity.ReturnToVendorInfo;
 import com.inventory.purchaseorder.entity.ReturnToVendorProcessInfo;
 import com.inventory.purchaseorder.entity.ReturnToVendorProcessProducts;
 import com.inventory.purchaseorder.entity.ReturnToVendorProducts;
-import com.inventory.purchaseorder.exception.ExceptionHandling;
+
 import com.inventory.purchaseorder.repository.ReturnTovendorInfoRepo;
 import com.inventory.purchaseorder.repository.ReturnTovendorProcessInfoRepo;
 import com.inventory.purchaseorder.repository.ReturnTovendorProcessProductsRepo;
@@ -48,7 +46,7 @@ public class RerurnToVendorServiceImpl implements ReturnToVendorService {
 
 		ReturnToVendorInfo RTVInfo = new ReturnToVendorInfo(RTVCombinedDto.getRtvInfodto().getPoNumber(),
 				RTVCombinedDto.getRtvInfodto().getSupplierId(), RTVCombinedDto.getRtvInfodto().getSupplierName(),
-				RTVCombinedDto.getRtvInfodto().getDate());
+				RTVCombinedDto.getRtvInfodto().getDate(), RTVCombinedDto.getRtvInfodto().getStatus());
 
 		rtvInfoRepo.save(RTVInfo);
 
@@ -76,37 +74,39 @@ public class RerurnToVendorServiceImpl implements ReturnToVendorService {
 		ReturnToVendorCombinedDto RTvCombinedDto = new ReturnToVendorCombinedDto();
 		ReturnToVendorInfo RTVInfo = rtvInfoRepo.findByrtvId(rtvId);
 
-		ReturnToVendorInfodto ReturnToVendorInfodto = new ReturnToVendorInfodto(RTVInfo.getPoNumber(),
-				RTVInfo.getSupplierId(), RTVInfo.getSupplierName(), RTVInfo.getDate());
+		if (!RTVInfo.getStatus().equals("complete")) {
+			ReturnToVendorInfodto ReturnToVendorInfodto = new ReturnToVendorInfodto(RTVInfo.getPoNumber(),
+					RTVInfo.getSupplierId(), RTVInfo.getSupplierName(), RTVInfo.getDate(), RTVInfo.getStatus());
 
-		RTvCombinedDto.setRtvInfodto(ReturnToVendorInfodto);
+			RTvCombinedDto.setRtvInfodto(ReturnToVendorInfodto);
 
-		List<ReturnToVendorProducts> rtvProducts = rtvProductsRepo.findByrtvInfo(RTVInfo);
-		List<ReturnToVendorProductsdto> rtvProductsdto = new ArrayList<>();
+			List<ReturnToVendorProducts> rtvProducts = rtvProductsRepo.findByrtvInfo(RTVInfo);
+			List<ReturnToVendorProductsdto> rtvProductsdto = new ArrayList<>();
 
-		for (int i = 0; i < rtvProducts.size(); i++) {
-			rtvProductsdto.add(new ReturnToVendorProductsdto(rtvProducts.get(i).getId(),
-					rtvProducts.get(i).getItemNumber(), rtvProducts.get(i).getItemName(),
-					rtvProducts.get(i).getCategory(), rtvProducts.get(i).getColor(), rtvProducts.get(i).getPrice(),
-					rtvProducts.get(i).getSize(), rtvProducts.get(i).getImageData(), rtvProducts.get(i).getStore(),
-					rtvProducts.get(i).getReturnQty(), rtvProducts.get(i).getRtvInfo().getRtvId()));
+			for (int i = 0; i < rtvProducts.size(); i++) {
+				rtvProductsdto.add(new ReturnToVendorProductsdto(rtvProducts.get(i).getId(),
+						rtvProducts.get(i).getItemNumber(), rtvProducts.get(i).getItemName(),
+						rtvProducts.get(i).getCategory(), rtvProducts.get(i).getColor(), rtvProducts.get(i).getPrice(),
+						rtvProducts.get(i).getSize(), rtvProducts.get(i).getImageData(), rtvProducts.get(i).getStore(),
+						rtvProducts.get(i).getReturnQty(), rtvProducts.get(i).getRtvInfo().getRtvId()));
+			}
+
+			RTvCombinedDto.setRtvProductsdto(rtvProductsdto);
+			System.out.println("RTvCombinedDto : " + RTvCombinedDto);
 		}
 
-		RTvCombinedDto.setRtvProductsdto(rtvProductsdto);
-		System.out.println("RTvCombinedDto : " + RTvCombinedDto);
 		return RTvCombinedDto;
 
 	}
 
-	// Function to save RTV data in RTV table
+	// Function to save RTV data in RTV master table
 	@Override
-	public String saveRTVProcessProducts(ReturnToVendorProcessDto RTVProcessDto) {
-
+	public String saveRTVProcessProducts(ReturnToVendorProcessDto RTVProcessDto, int rtvId) {
+		ReturnToVendorInfo RTVInfo = rtvInfoRepo.findByrtvId(rtvId);
 		ReturnToVendorProcessInfo RTVProcessInfo = new ReturnToVendorProcessInfo(
-				RTVProcessDto.getRtvProcessInfo().getPoNumber(),
-				RTVProcessDto.getRtvProcessInfo().getSupplierId(), RTVProcessDto.getRtvProcessInfo().getSupplierName(),
-				RTVProcessDto.getRtvProcessInfo().getStatus(), RTVProcessDto.getRtvProcessInfo().getReason(),
-				RTVProcessDto.getRtvProcessInfo().getDate());
+				RTVProcessDto.getRtvProcessInfo().getPoNumber(), RTVProcessDto.getRtvProcessInfo().getSupplierId(),
+				RTVProcessDto.getRtvProcessInfo().getSupplierName(), RTVProcessDto.getRtvProcessInfo().getStatus(),
+				RTVProcessDto.getRtvProcessInfo().getReason(), RTVProcessDto.getRtvProcessInfo().getDate());
 
 		rtvProcessInfoRepo.save(RTVProcessInfo);
 
@@ -126,6 +126,8 @@ public class RerurnToVendorServiceImpl implements ReturnToVendorService {
 		}
 
 		rtvProcessProductsRepo.saveAll(rtvProcessProducts);
+		RTVInfo.setStatus("complete"); // setting the status of rtv list..
+		rtvInfoRepo.save(RTVInfo);
 		return "Products saved successfully";
 	}
 
@@ -146,16 +148,17 @@ public class RerurnToVendorServiceImpl implements ReturnToVendorService {
 		System.out.println("RTVProcessInfo : " + RTVProcessInfo);
 		return RTVProcessInfo;
 	}
+
 	@Override
-	public List<ReturnToVendorProcessInfo> getMatchedRTVById(String id) {
-		List<ReturnToVendorProcessInfo> ReturnToVendor = rtvProcessInfoRepo.findByRtvIdContaining(id);
-		return ReturnToVendor;
-	}
-	
-	@Override
-	public List<ReturnToVendorProcessInfo> getMatchedRTVBySupplier(String name) {
-		List<ReturnToVendorProcessInfo> ReturnToVendor = rtvProcessInfoRepo.findBySupplierNameContaining(name);
-		return ReturnToVendor;
+	public List<Integer> getAllRTVId() {
+		List<ReturnToVendorInfo> ReturnToVendor = rtvInfoRepo.findAll();
+		List<Integer> RTVIdList = new ArrayList<>();
+		for (int i = 0; i < ReturnToVendor.size(); i++) {
+			if (ReturnToVendor.get(i).getStatus().equals("pending")) {
+				RTVIdList.add(ReturnToVendor.get(i).getRtvId());
+			}
+		}
+		return RTVIdList;
 	}
 
 }

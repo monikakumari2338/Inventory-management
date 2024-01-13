@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration"/>
-    <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.ItemDetailsDto"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.ItemDetailsRepo"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.ItemDetails"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Items"/>
@@ -37,11 +35,9 @@
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Stores"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.InventoryAdjustmentRepo"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.InventoryAdjustment"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
     <fullyQualifiedTypeName name="java.util.HashMap"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.StoreAndInTransitInventorydto"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.ProductDetails"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.DsdInvoiceRepo"/>
@@ -56,8 +52,12 @@
     <fullyQualifiedTypeName name="jakarta.persistence.PersistenceContext"/>
     <fullyQualifiedTypeName name="jakarta.persistence.EntityManager"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.PurchaseOrderRepo"/>
-    <fullyQualifiedTypeName name="java.lang.Integer"/>
     <fullyQualifiedTypeName name="java.time.LocalDate"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Product"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.PurchaseOrderOnLoadDTO"/>
+    <fullyQualifiedTypeName name="java.util.HashSet"/>
+    <fullyQualifiedTypeName name="java.util.Set"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>

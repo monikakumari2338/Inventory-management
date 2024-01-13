@@ -84,4 +84,11 @@ public class DSDController {
 		return new ResponseEntity<>(suppliers, HttpStatus.OK);
 	}
 
+	// Api to get all suppliers from supplier table
+	@GetMapping("/getall/suppliers")
+	public ResponseEntity<List<String>> getSuppliers() {
+		List<String> suppliers = dsdService.getAllSuppliers();
+		return new ResponseEntity<>(suppliers, HttpStatus.OK);
+	}
+
 }

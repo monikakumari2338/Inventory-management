@@ -20,6 +20,7 @@ public class ReturnToVendorInfo {
 	private int supplierId;
 	private String supplierName;
 	private LocalDate date;
+	private String status;
 
 	public ReturnToVendorInfo() {
 		super();
@@ -66,12 +67,21 @@ public class ReturnToVendorInfo {
 		this.date = date;
 	}
 
-	public ReturnToVendorInfo(int poNumber, int supplierId, String supplierName, LocalDate date) {
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public ReturnToVendorInfo(int poNumber, int supplierId, String supplierName, LocalDate date, String status) {
 		super();
 		this.poNumber = poNumber;
 		this.supplierId = supplierId;
 		this.supplierName = supplierName;
 		this.date = date;
+		this.status = status;
 	}
 
 	@Override

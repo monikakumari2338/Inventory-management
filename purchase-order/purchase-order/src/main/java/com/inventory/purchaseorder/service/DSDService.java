@@ -27,4 +27,6 @@ public interface DSDService {
 	List<DsdInvoice> getViewDsdByDate(LocalDate date);
 
 	Set<String> getAllDSDSuppliers();
+
+	List<String> getAllSuppliers();
 }

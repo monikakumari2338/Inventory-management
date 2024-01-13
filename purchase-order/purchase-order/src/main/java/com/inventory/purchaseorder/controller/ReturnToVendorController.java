@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.inventory.purchaseorder.dto.ReturnToVendorCombinedDto;
 import com.inventory.purchaseorder.dto.ReturnToVendorProcessDto;
 import com.inventory.purchaseorder.entity.InventoryAdjustment;
+import com.inventory.purchaseorder.entity.ReturnToVendorInfo;
 import com.inventory.purchaseorder.entity.ReturnToVendorProcessInfo;
 import com.inventory.purchaseorder.entity.ReturnToVendorProcessProducts;
 import com.inventory.purchaseorder.service.ReturnToVendorService;
@@ -41,9 +42,10 @@ public class ReturnToVendorController {
 	}
 
 	// Api to create and save RTV data in RTV table
-	@PostMapping("/addrtvitems")
-	public ResponseEntity<String> addRTVProducts(@RequestBody ReturnToVendorProcessDto RTVProcessDto) {
-		String success_msg = RTVService.saveRTVProcessProducts(RTVProcessDto);
+	@PostMapping("/addrtvitems/{rtvId}")
+	public ResponseEntity<String> addRTVProducts(@RequestBody ReturnToVendorProcessDto RTVProcessDto,
+			@PathVariable int rtvId) {
+		String success_msg = RTVService.saveRTVProcessProducts(RTVProcessDto,rtvId);
 		return new ResponseEntity<>(success_msg, HttpStatus.OK);
 	}
 
@@ -53,23 +55,19 @@ public class ReturnToVendorController {
 		List<ReturnToVendorProcessInfo> ReturnToVendorProcessInfo = RTVService.getAllViewVendorReturn();
 		return new ResponseEntity<>(ReturnToVendorProcessInfo, HttpStatus.OK);
 	}
-	
-	// Api to get RTV master process list by id
-		@GetMapping("/getrtv/{rtvId}")
-		public ResponseEntity<List<ReturnToVendorProcessProducts>> getRTV(@PathVariable int rtvId) {
-			List<ReturnToVendorProcessProducts> products = RTVService.getRTVProcessProducts(rtvId);
-			return new ResponseEntity<>(products, HttpStatus.OK);
-		}
 
-		@GetMapping("/getMatched/rtv/id/{id}")
-		public ResponseEntity< List<ReturnToVendorProcessInfo>> getMatchedRTVListById(@PathVariable String id) {
-			 List<ReturnToVendorProcessInfo> rtv_list = RTVService.getMatchedRTVById(id);
-			return new ResponseEntity<>(rtv_list, HttpStatus.OK);
-		}
-		
-		@GetMapping("/getMatched/rtv/supplier/{name}")
-		public ResponseEntity< List<ReturnToVendorProcessInfo>> getMatchedRTVListBySupplier(@PathVariable String name) {
-			 List<ReturnToVendorProcessInfo> rtv_list = RTVService.getMatchedRTVBySupplier(name);
-			return new ResponseEntity<>(rtv_list, HttpStatus.OK);
-		}
+	// Api to get RTV master process list by id
+	@GetMapping("/getrtv/{rtvId}")
+	public ResponseEntity<List<ReturnToVendorProcessProducts>> getRTV(@PathVariable int rtvId) {
+		List<ReturnToVendorProcessProducts> products = RTVService.getRTVProcessProducts(rtvId);
+		return new ResponseEntity<>(products, HttpStatus.OK);
+	}
+
+	@GetMapping("/all/rtvid")
+	public ResponseEntity<List<Integer>> getMatchedRTVListById() {
+		List<Integer> rtv_list = RTVService.getAllRTVId();
+		return new ResponseEntity<>(rtv_list, HttpStatus.OK);
+	}
+
+	
 }
