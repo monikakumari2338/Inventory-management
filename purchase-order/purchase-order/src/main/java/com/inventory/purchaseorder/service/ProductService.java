@@ -20,4 +20,6 @@ public interface ProductService {
 	public StoreAndInTransitInventorydto getInventory();
 
 	List<Product> getMatchedProductsByItemNumber(String item_number);
+
+	List<String> getAllCategories();
 }

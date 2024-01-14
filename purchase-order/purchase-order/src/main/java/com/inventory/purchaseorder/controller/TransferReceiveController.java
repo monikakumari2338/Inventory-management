@@ -1,6 +1,7 @@
 package com.inventory.purchaseorder.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -70,8 +71,8 @@ public class TransferReceiveController {
 	}
 
 	@GetMapping("/asn")
-	public ResponseEntity<List<String>> getAllASN() {
-		List<String> asnList = transferReceiveService.getAllTransferReceive();
+	public ResponseEntity<Set<String>> getAllASN() {
+		Set<String> asnList = transferReceiveService.getAllTransferReceive();
 		return new ResponseEntity<>(asnList, HttpStatus.OK);
 	}
 

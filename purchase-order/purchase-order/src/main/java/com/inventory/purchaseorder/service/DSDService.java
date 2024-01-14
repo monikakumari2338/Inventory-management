@@ -9,6 +9,7 @@ import java.util.Set;
 import com.inventory.purchaseorder.dto.DsdReceiveItemsdto;
 import com.inventory.purchaseorder.dto.ProductCombineddto;
 import com.inventory.purchaseorder.entity.DsdInvoice;
+import com.inventory.purchaseorder.entity.DsdSuppliers;
 
 public interface DSDService {
 
@@ -28,5 +29,5 @@ public interface DSDService {
 
 	Set<String> getAllDSDSuppliers();
 
-	List<String> getAllSuppliers();
+	List<DsdSuppliers> getAllSuppliers();
 }

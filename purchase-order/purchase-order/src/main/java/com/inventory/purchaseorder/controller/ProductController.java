@@ -1,7 +1,7 @@
 package com.inventory.purchaseorder.controller;
 
 import java.util.List;
-
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,7 +24,6 @@ import com.inventory.purchaseorder.entity.InventoryAdjustment;
 import com.inventory.purchaseorder.entity.Product;
 import com.inventory.purchaseorder.service.ProductService;
 
-
 @RestController
 @RequestMapping("/product")
 public class ProductController {
@@ -32,39 +31,42 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
-	
 	// Api to save data in Master product table
 	@PostMapping("/addproducts/{received_qty}")
-	public ResponseEntity<List<ProductCombineddto>> add_Products(@RequestBody List<ProductCombineddto> productCombineddto,@PathVariable int received_qty) {
-		List<ProductCombineddto> productCombineddto1 = productService.saveProducts(productCombineddto,received_qty);
+	public ResponseEntity<List<ProductCombineddto>> add_Products(
+			@RequestBody List<ProductCombineddto> productCombineddto, @PathVariable int received_qty) {
+		List<ProductCombineddto> productCombineddto1 = productService.saveProducts(productCombineddto, received_qty);
 		return new ResponseEntity<>(productCombineddto1, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/getProductByitemNumber/{itemNumber}")
-	public ResponseEntity<ProductsByItemNumberdto> getProductByitemNumber(@PathVariable String itemNumber )
-	{
-		ProductsByItemNumberdto productDto=productService.getByItemnumber(itemNumber);
-		return new ResponseEntity<>(productDto,HttpStatus.OK);	
+	public ResponseEntity<ProductsByItemNumberdto> getProductByitemNumber(@PathVariable String itemNumber) {
+		ProductsByItemNumberdto productDto = productService.getByItemnumber(itemNumber);
+		return new ResponseEntity<>(productDto, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/dashboard/getinventory")
-	public ResponseEntity<List<categorydto>> getInventory()
-	{
-		List<categorydto> categorydto=productService.getCategoryStock();
-		return new ResponseEntity<>(categorydto,HttpStatus.OK);	
+	public ResponseEntity<List<categorydto>> getInventory() {
+		List<categorydto> categorydto = productService.getCategoryStock();
+		return new ResponseEntity<>(categorydto, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/dashboard/storeandtransit/getinventory")
-	public ResponseEntity<StoreAndInTransitInventorydto> getStoreIntransitInventory()
-	{
-		StoreAndInTransitInventorydto storeAndInTransitInventorydto=productService.getInventory();
-		return new ResponseEntity<>(storeAndInTransitInventorydto,HttpStatus.OK);	
+	public ResponseEntity<StoreAndInTransitInventorydto> getStoreIntransitInventory() {
+		StoreAndInTransitInventorydto storeAndInTransitInventorydto = productService.getInventory();
+		return new ResponseEntity<>(storeAndInTransitInventorydto, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/getMatched/products/itemnumber/{itemnumber}")
-	public ResponseEntity< List<Product>> getMatchedItemNumber(@PathVariable String itemnumber) {
-		 List<Product> Products = productService.getMatchedProductsByItemNumber(itemnumber);
+	public ResponseEntity<List<Product>> getMatchedItemNumber(@PathVariable String itemnumber) {
+		List<Product> Products = productService.getMatchedProductsByItemNumber(itemnumber);
 		return new ResponseEntity<>(Products, HttpStatus.OK);
+	}
+
+	@GetMapping("/getall/categories")
+	public ResponseEntity<List<String>> getAllCategory() {
+		List<String> categories = productService.getAllCategories();
+		return new ResponseEntity<>(categories, HttpStatus.OK);
 	}
 
 }

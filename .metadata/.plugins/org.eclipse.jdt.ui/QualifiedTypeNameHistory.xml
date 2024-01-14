@@ -22,7 +22,6 @@
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.Productdto"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.ProductDetailsdto"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.ProductCombineddto"/>
-    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Category"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.repository.DsdSuppliersRepo"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.DsdSuppliers"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.service.DSDService"/>
@@ -55,9 +54,10 @@
     <fullyQualifiedTypeName name="java.time.LocalDate"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Product"/>
     <fullyQualifiedTypeName name="com.inventory.purchaseorder.dto.PurchaseOrderOnLoadDTO"/>
-    <fullyQualifiedTypeName name="java.util.HashSet"/>
-    <fullyQualifiedTypeName name="java.util.Set"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="java.util.HashSet"/>
+    <fullyQualifiedTypeName name="java.util.Set"/>
+    <fullyQualifiedTypeName name="com.inventory.purchaseorder.entity.Category"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>

@@ -1,8 +1,9 @@
 package com.inventory.purchaseorder.serviceimpl;
 
 import java.util.ArrayList;
-
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -255,9 +256,9 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	
 
 	@Override
-	public List<String> getAllTransferReceive() {
+	public Set<String> getAllTransferReceive() {
 
-		List<String> asnNumber_list = new ArrayList<>();
+		Set<String> asnNumber_list = new HashSet<>();
 		List<TransferReceiveInfo> transferReceiveInfo_list = TransferRecieveRepo.findAll();
 
 		for (int i = 0; i < transferReceiveInfo_list.size(); i++) {

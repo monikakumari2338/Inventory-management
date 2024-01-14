@@ -257,13 +257,13 @@ public class DSDServiceImpl implements DSDService {
 	}
 
 	@Override
-	public List<String> getAllSuppliers() {
+	public List<DsdSuppliers> getAllSuppliers() {
 		List<DsdSuppliers> dsdSuppliers = DsdRepo.findAll();
-		List<String> supplierList = new ArrayList<>();
-		for (int i = 0; i < dsdSuppliers.size(); i++) {
-			supplierList.add(dsdSuppliers.get(i).getSupplierName());
-		}
-		return supplierList;
+		//List<String> supplierList = new ArrayList<>();
+//		for (int i = 0; i < dsdSuppliers.size(); i++) {
+//			supplierList.add(dsdSuppliers.get(i).getSupplierName());
+//		}
+		return dsdSuppliers;
 
 	}
 
