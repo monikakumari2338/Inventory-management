@@ -25,7 +25,7 @@ public class StockCountCreationController {
 	@Autowired
 	private StockCountCreationService stockCountCreationService;
 
-	// Api to save dsd items in Dsd Receive table
+	
 	@PostMapping("/createstockcount")
 	public ResponseEntity<StockCountCreationCombinedDto> saveStockCount(
 			@RequestBody StockCountCreationCombinedDto stockCountCombinedDto) {

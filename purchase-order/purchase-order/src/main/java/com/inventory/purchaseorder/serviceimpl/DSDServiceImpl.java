@@ -93,8 +93,17 @@ public class DSDServiceImpl implements DSDService {
 	public List<DsdInvoice> getDsdSupplierInvoices(int supplier) {
 		DsdSuppliers dsdSuppliers = DsdRepo.findBySupplierId(supplier);
 		List<DsdInvoice> DsdInvoice1 = invoiceRepo.findAllBySupplierId(dsdSuppliers);
-		System.out.println("DsdInvoice : " + DsdInvoice1);
-		return DsdInvoice1;
+		List<DsdInvoice> DsdInvoice2 = new ArrayList<>();
+		for(int i=0;i<DsdInvoice1.size();i++)
+		{
+			if(DsdInvoice1.get(i).getStatus().equals("pending"))
+			{
+				DsdInvoice2.add(DsdInvoice1.get(i));
+			}
+		}
+		
+		System.out.println("DsdInvoice : " + DsdInvoice2);
+		return DsdInvoice2;
 	}
 
 	// Function to save Dsd products in Master product table

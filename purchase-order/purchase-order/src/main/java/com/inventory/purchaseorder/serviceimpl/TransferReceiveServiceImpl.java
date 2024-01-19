@@ -118,13 +118,17 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		System.out.println("DsdInvoice : " + transferReceiveInfo);
 		List<TransferReceiveInfodto> transferReceiveInfodto = new ArrayList<>();
 		for (int i = 0; i < transferReceiveInfo.size(); i++) {
-			TransferReceiveInfodto transferReceiveInfodto1 = new TransferReceiveInfodto(
-					transferReceiveInfo.get(i).getTransferId(), transferReceiveInfo.get(i).getStoreFrom(),
-					transferReceiveInfo.get(i).getStoreTo(), transferReceiveInfo.get(i).getExpected_qty(),
-					transferReceiveInfo.get(i).getReceived_qty(), transferReceiveInfo.get(i).getStatus(),
-					transferReceiveInfo.get(i).getAsn().getAsnId());
+			if(transferReceiveInfo.get(i).getStatus().equals("pending"))
+			{
+				TransferReceiveInfodto transferReceiveInfodto1 = new TransferReceiveInfodto(
+						transferReceiveInfo.get(i).getTransferId(), transferReceiveInfo.get(i).getStoreFrom(),
+						transferReceiveInfo.get(i).getStoreTo(), transferReceiveInfo.get(i).getExpected_qty(),
+						transferReceiveInfo.get(i).getReceived_qty(), transferReceiveInfo.get(i).getStatus(),
+						transferReceiveInfo.get(i).getAsn().getAsnId());
 
-			transferReceiveInfodto.add(transferReceiveInfodto1);
+				transferReceiveInfodto.add(transferReceiveInfodto1);
+			}
+			
 		}
 		return transferReceiveInfodto;
 	}
@@ -133,12 +137,14 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	@Override
 	public List<TransferReceiveProductsdto> getTransferReceiveProducts(int transferId) {
 		TransferReceiveInfo transferReceiveInfo = TransferRecieveRepo.findBytransferId(transferId);
-		List<TransferReceiveProducts> transferReceiveProducts = transferReceiveProdutcsRepo
-				.findBytransferInfo(transferReceiveInfo);
-		System.out.println("transferReceiveInfo : " + transferReceiveInfo);
-		System.out.println("transferReceiveProducts : " + transferReceiveProducts);
-
 		List<TransferReceiveProductsdto> transferReceiveProductsdto = new ArrayList<>();
+//		System.out.println("transferReceiveInfo : " + transferReceiveInfo);
+//		System.out.println("transferReceiveProducts : " + transferReceiveProducts);
+		if(transferReceiveInfo.getStatus().equals("pending"))
+		{
+			List<TransferReceiveProducts> transferReceiveProducts = transferReceiveProdutcsRepo
+					.findBytransferInfo(transferReceiveInfo);
+		
 		for (int i = 0; i < transferReceiveProducts.size(); i++) {
 			transferReceiveProductsdto.add(new TransferReceiveProductsdto(
 					transferReceiveProducts.get(i).getItemNumber(), transferReceiveProducts.get(i).getItemName(),
@@ -147,6 +153,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 					transferReceiveProducts.get(i).getSize(), transferReceiveProducts.get(i).getImageData(),
 					transferReceiveProducts.get(i).getStore(), transferReceiveProducts.get(i).getStock(),
 					transferReceiveProducts.get(i).getTransferInfo().getTransferId()));
+		}
 		}
 		return transferReceiveProductsdto;
 	}
@@ -246,6 +253,8 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 			}
 
 		}
+		transferReceiveInfo.setStatus("complete");
+		TransferRecieveRepo.save(transferReceiveInfo);
 
 //		dsdInvoice.setStatus("complete");
 //		invoiceRepo.save(dsdInvoice);

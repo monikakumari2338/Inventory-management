@@ -53,7 +53,6 @@ public class TransferReceiveController {
 		return new ResponseEntity<>(transferReceiveInfo, HttpStatus.OK);
 	}
 
-	// Api to save dsd items in master product table
 	@PostMapping("/savetransferproduct/{transferid}")
 	public ResponseEntity<List<ProductCombineddto>> saveDsdProducts(
 			@RequestBody List<ProductCombineddto> productCombineddto, @PathVariable int transferid) {
