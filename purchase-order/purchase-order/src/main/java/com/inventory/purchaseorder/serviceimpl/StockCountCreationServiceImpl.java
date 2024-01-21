@@ -68,29 +68,32 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 	@Override
 	public StockCountCreationCombinedDto getProductsByDate(LocalDate date) {
 		StockCountCreation ScCreation = creationRepo.findByDate(date);
-		List<StockCountCreationProducts> stockCountCreationProducts = creationProductsRepo.findByStockcount(ScCreation);
-
 		StockCountCreationCombinedDto stockCountCreationCombinedDto = new StockCountCreationCombinedDto();
-
-		StockCountCreationdto stockCountCreationdto = new StockCountCreationdto(ScCreation.getCountId(),
-				ScCreation.getCountDescription(), ScCreation.getDate(), ScCreation.getStatus(),
-				ScCreation.getTotalBookQty());
-		stockCountCreationCombinedDto.setCreationdto(stockCountCreationdto);
-
 		List<StockCountCreationProductsdto> stockCountCreationProductsdto = new ArrayList<>();
+		if (ScCreation.getStatus().equals("pending")) {
 
-		for (int i = 0; i < stockCountCreationProducts.size(); i++) {
+			List<StockCountCreationProducts> stockCountCreationProducts = creationProductsRepo
+					.findByStockcount(ScCreation);
 
-			stockCountCreationProductsdto.add(new StockCountCreationProductsdto(
-					stockCountCreationProducts.get(i).getId(), stockCountCreationProducts.get(i).getItemNumber(),
-					stockCountCreationProducts.get(i).getItemName(), stockCountCreationProducts.get(i).getCategory(),
-					stockCountCreationProducts.get(i).getColor(), stockCountCreationProducts.get(i).getPrice(),
-					stockCountCreationProducts.get(i).getSize(), stockCountCreationProducts.get(i).getImageData(),
-					stockCountCreationProducts.get(i).getStore(), stockCountCreationProducts.get(i).getBookQty(),
-					stockCountCreationProducts.get(i).getStockcount().getCountId()));
+			StockCountCreationdto stockCountCreationdto = new StockCountCreationdto(ScCreation.getCountId(),
+					ScCreation.getCountDescription(), ScCreation.getDate(), ScCreation.getStatus(),
+					ScCreation.getTotalBookQty());
+			stockCountCreationCombinedDto.setCreationdto(stockCountCreationdto);
+
+			for (int i = 0; i < stockCountCreationProducts.size(); i++) {
+
+				stockCountCreationProductsdto.add(new StockCountCreationProductsdto(
+						stockCountCreationProducts.get(i).getId(), stockCountCreationProducts.get(i).getItemNumber(),
+						stockCountCreationProducts.get(i).getItemName(),
+						stockCountCreationProducts.get(i).getCategory(), stockCountCreationProducts.get(i).getColor(),
+						stockCountCreationProducts.get(i).getPrice(), stockCountCreationProducts.get(i).getSize(),
+						stockCountCreationProducts.get(i).getImageData(), stockCountCreationProducts.get(i).getStore(),
+						stockCountCreationProducts.get(i).getBookQty(),
+						stockCountCreationProducts.get(i).getStockcount().getCountId()));
+			}
+
+			stockCountCreationCombinedDto.setCreationProductsdto(stockCountCreationProductsdto);
 		}
-
-		stockCountCreationCombinedDto.setCreationProductsdto(stockCountCreationProductsdto);
 		return stockCountCreationCombinedDto;
 	}
 

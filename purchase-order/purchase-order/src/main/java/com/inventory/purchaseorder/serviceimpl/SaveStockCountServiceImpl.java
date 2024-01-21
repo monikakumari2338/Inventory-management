@@ -12,8 +12,9 @@ import com.inventory.purchaseorder.dto.SaveStockCountCombinedDto;
 import com.inventory.purchaseorder.dto.SaveStockCountProductsdto;
 import com.inventory.purchaseorder.entity.SaveStockCountInfo;
 import com.inventory.purchaseorder.entity.SaveStockCountProducts;
+import com.inventory.purchaseorder.entity.StockCountCreation;
 import com.inventory.purchaseorder.repository.SaveStockProductsRepo;
-
+import com.inventory.purchaseorder.repository.StockCreationRepo;
 import com.inventory.purchaseorder.repository.SaveStockInfoRepo;
 
 @Service
@@ -25,9 +26,17 @@ public class SaveStockCountServiceImpl implements SaveStockCountService {
 	@Autowired
 	private SaveStockProductsRepo saveStockProductsRepo;
 
+	@Autowired
+	private StockCreationRepo creationRepo;
+
 	@Override
 	public SaveStockCountCombinedDto saveProducts(SaveStockCountCombinedDto saveStockCountCombinedDto) {
 
+		StockCountCreation ScCreation = creationRepo
+				.findByCountId(saveStockCountCombinedDto.getSaveStockCountInfo().getCountId());
+		System.out.print("status " +ScCreation.getStatus());
+		if(ScCreation.getStatus().equals("pending"))
+		{
 		SaveStockCountInfo StockCountInfo = new SaveStockCountInfo(
 				saveStockCountCombinedDto.getSaveStockCountInfo().getCountId(),
 				saveStockCountCombinedDto.getSaveStockCountInfo().getCountDescription(),
@@ -58,8 +67,12 @@ public class SaveStockCountServiceImpl implements SaveStockCountService {
 
 			saveStockProductsRepo.save(StockCountProduct);
 		}
-		return saveStockCountCombinedDto;
 
+		ScCreation.setStatus("completed");
+		creationRepo.save(ScCreation);
+		System.out.print("inside " +ScCreation.getStatus());		
+		}
+		return saveStockCountCombinedDto;
 	}
 
 	@Override
@@ -69,12 +82,12 @@ public class SaveStockCountServiceImpl implements SaveStockCountService {
 		return stockCountInfoList;
 
 	}
-	
+
 	@Override
 	public List<SaveStockCountProducts> getStockCountProductsByCountId(int id) {
-		System.out.print("id "+id);
-		SaveStockCountInfo countObject=saveStockInfoRepo.findByCountId(id);
-		System.out.print("countObject "+countObject);
+		// System.out.print("id "+id);
+		SaveStockCountInfo countObject = saveStockInfoRepo.findByCountId(id);
+		// System.out.print("countObject "+countObject);
 		List<SaveStockCountProducts> stockCountProducts = saveStockProductsRepo.findByStockcount(countObject);
 		return stockCountProducts;
 
