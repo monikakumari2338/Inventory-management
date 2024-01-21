@@ -265,7 +265,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 	
 
 	@Override
-	public Set<String> getAllTransferReceive() {
+	public Set<String> getAllAsnIdFromTransferReceive() {
 
 		Set<String> asnNumber_list = new HashSet<>();
 		List<TransferReceiveInfo> transferReceiveInfo_list = TransferRecieveRepo.findAll();
@@ -278,6 +278,12 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		}
 
 		return asnNumber_list;
+	}
+	@Override
+	public List<TransferReceiveInfo> getAllTransferReceive() {
+
+		List<TransferReceiveInfo> transferReceiveInfo_list = TransferRecieveRepo.findAll();
+		return transferReceiveInfo_list;
 	}
 
 }

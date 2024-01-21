@@ -69,10 +69,18 @@ public class TransferReceiveController {
 		return new ResponseEntity<>(transferReceiveProductsdto, HttpStatus.OK);
 	}
 
+	//Api to get all asn id mapped with transfer receive 
 	@GetMapping("/asn")
 	public ResponseEntity<Set<String>> getAllASN() {
-		Set<String> asnList = transferReceiveService.getAllTransferReceive();
+		Set<String> asnList = transferReceiveService.getAllAsnIdFromTransferReceive();
 		return new ResponseEntity<>(asnList, HttpStatus.OK);
 	}
+	
+	//Api to get all asn id mapped with transfer receive 
+		@GetMapping("/alltransferreceive")
+		public ResponseEntity<List<TransferReceiveInfo>> getAllTransferReceive() {
+			List<TransferReceiveInfo> transferInfoList = transferReceiveService.getAllTransferReceive();
+			return new ResponseEntity<>(transferInfoList, HttpStatus.OK);
+		}
 
 }

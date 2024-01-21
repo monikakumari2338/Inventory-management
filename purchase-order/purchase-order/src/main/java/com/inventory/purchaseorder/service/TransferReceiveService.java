@@ -7,6 +7,7 @@ import java.util.Set;
 import com.inventory.purchaseorder.dto.ProductCombineddto;
 import com.inventory.purchaseorder.dto.TransferReceiveInfodto;
 import com.inventory.purchaseorder.dto.TransferReceiveProductsdto;
+import com.inventory.purchaseorder.entity.TransferReceiveInfo;
 
 public interface TransferReceiveService {
 
@@ -20,5 +21,7 @@ public interface TransferReceiveService {
 
 	List<TransferReceiveProductsdto> getTransferReceiveProducts(int transferId);
 
-	Set<String> getAllTransferReceive();
+	List<TransferReceiveInfo> getAllTransferReceive();
+
+	Set<String> getAllAsnIdFromTransferReceive();
 }
