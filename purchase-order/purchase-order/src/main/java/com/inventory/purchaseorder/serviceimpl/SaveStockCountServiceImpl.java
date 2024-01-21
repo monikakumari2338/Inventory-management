@@ -69,5 +69,15 @@ public class SaveStockCountServiceImpl implements SaveStockCountService {
 		return stockCountInfoList;
 
 	}
+	
+	@Override
+	public List<SaveStockCountProducts> getStockCountProductsByCountId(int id) {
+		System.out.print("id "+id);
+		SaveStockCountInfo countObject=saveStockInfoRepo.findByCountId(id);
+		System.out.print("countObject "+countObject);
+		List<SaveStockCountProducts> stockCountProducts = saveStockProductsRepo.findByStockcount(countObject);
+		return stockCountProducts;
+
+	}
 
 }

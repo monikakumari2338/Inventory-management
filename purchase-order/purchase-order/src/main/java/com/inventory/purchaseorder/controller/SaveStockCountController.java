@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.inventory.purchaseorder.dto.SaveStockCountCombinedDto;
 import com.inventory.purchaseorder.entity.EmailRequest;
 import com.inventory.purchaseorder.entity.SaveStockCountInfo;
+import com.inventory.purchaseorder.entity.SaveStockCountProducts;
 import com.inventory.purchaseorder.service.EmailService;
 import com.inventory.purchaseorder.service.SaveStockCountService;
 
@@ -47,6 +49,12 @@ public class SaveStockCountController {
 	public void sendEMail(@ModelAttribute EmailRequest emailRequest) {
 		System.out.println("Going to Send email: " + emailRequest.toString());
 		emailService.sendEmail(emailRequest);
+	}
+	
+	@GetMapping("/getstockproducts/{id}")
+	public ResponseEntity<List<SaveStockCountProducts>> getStockCountProducts(@PathVariable int id) {
+		List<SaveStockCountProducts> stockCountList = saveStockCountService.getStockCountProductsByCountId(id);
+		return new ResponseEntity<>(stockCountList, HttpStatus.OK);
 	}
 
 }
