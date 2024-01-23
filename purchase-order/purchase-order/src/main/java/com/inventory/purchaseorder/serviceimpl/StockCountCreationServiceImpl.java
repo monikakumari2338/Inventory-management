@@ -41,7 +41,8 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 					StockCountCreationCombinedDto.getCreationdto().getCountDescription(),
 					StockCountCreationCombinedDto.getCreationdto().getDate(),
 					StockCountCreationCombinedDto.getCreationdto().getStatus(),
-					StockCountCreationCombinedDto.getCreationdto().getTotalBookQty());
+					StockCountCreationCombinedDto.getCreationdto().getTotalBookQty(),
+					StockCountCreationCombinedDto.getCreationdto().getReCount());
 
 			creationRepo.save(stockCountCreation);
 
@@ -80,7 +81,7 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 
 			StockCountCreationdto stockCountCreationdto = new StockCountCreationdto(ScCreation.getCountId(),
 					ScCreation.getCountDescription(), ScCreation.getDate(), ScCreation.getStatus(),
-					ScCreation.getTotalBookQty());
+					ScCreation.getTotalBookQty(),ScCreation.getReCount());
 			stockCountCreationCombinedDto.setCreationdto(stockCountCreationdto);
 
 			for (int i = 0; i < stockCountCreationProducts.size(); i++) {

@@ -10,10 +10,10 @@ import com.inventory.purchaseorder.entity.SaveStockCountProducts;
 
 public interface SaveStockCountService {
 
-	SaveStockCountCombinedDto saveProducts(SaveStockCountCombinedDto saveStockCountCombinedDto);
-
 	StockCountOnloadDto getStockCountInfo();
 
 	List<SaveStockCountProducts> getStockCountProductsByCountId(int id);
+
+	SaveStockCountCombinedDto saveProducts(SaveStockCountCombinedDto saveStockCountCombinedDto);
 
 }

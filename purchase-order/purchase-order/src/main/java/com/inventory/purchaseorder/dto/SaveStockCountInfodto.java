@@ -12,6 +12,7 @@ public class SaveStockCountInfodto {
 	private int totalBookQty;
 	private int countedQty;
 	private int varianceQty;
+	private String reCount;
 
 	public SaveStockCountInfodto() {
 		super();
@@ -82,8 +83,17 @@ public class SaveStockCountInfodto {
 		this.varianceQty = varianceQty;
 	}
 
+	public String getReCount() {
+		return reCount;
+	}
+
+	public void setReCount(String reCount) {
+		this.reCount = reCount;
+	}
+
 	public SaveStockCountInfodto(int countId, String countDescription, LocalDateTime startedAt,
-			LocalDateTime completedAt, String status, int totalBookQty, int countedQty, int varianceQty) {
+			LocalDateTime completedAt, String status, int totalBookQty, int countedQty, int varianceQty,
+			String reCount) {
 		super();
 		this.countId = countId;
 		this.countDescription = countDescription;
@@ -93,6 +103,7 @@ public class SaveStockCountInfodto {
 		this.totalBookQty = totalBookQty;
 		this.countedQty = countedQty;
 		this.varianceQty = varianceQty;
+		this.reCount = reCount;
 	}
 
 	@Override

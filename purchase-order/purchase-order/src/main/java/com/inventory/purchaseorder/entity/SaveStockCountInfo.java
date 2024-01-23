@@ -16,6 +16,7 @@ public class SaveStockCountInfo {
 	private int totalBookQty;
 	private int countedQty;
 	private int varianceQty;
+	private String reCount;
 
 	public SaveStockCountInfo() {
 		super();
@@ -86,8 +87,16 @@ public class SaveStockCountInfo {
 		this.varianceQty = varianceQty;
 	}
 
+	public String getReCount() {
+		return reCount;
+	}
+
+	public void setReCount(String reCount) {
+		this.reCount = reCount;
+	}
+
 	public SaveStockCountInfo(int countId, String countDescription, LocalDateTime startedAt, LocalDateTime completedAt,
-			String status, int totalBookQty, int countedQty, int varianceQty) {
+			String status, int totalBookQty, int countedQty, int varianceQty, String reCount) {
 		super();
 		this.countId = countId;
 		this.countDescription = countDescription;
@@ -97,6 +106,7 @@ public class SaveStockCountInfo {
 		this.totalBookQty = totalBookQty;
 		this.countedQty = countedQty;
 		this.varianceQty = varianceQty;
+		this.reCount = reCount;
 	}
 
 	@Override

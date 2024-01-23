@@ -3,7 +3,6 @@ package com.inventory.purchaseorder.serviceimpl;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +35,7 @@ public class SaveStockCountServiceImpl implements SaveStockCountService {
 		StockCountCreation ScCreation = creationRepo
 				.findByCountId(saveStockCountCombinedDto.getSaveStockCountInfo().getCountId());
 		System.out.print("status " + ScCreation.getStatus());
-		if (ScCreation.getStatus().equals("pending")) {
+		if (!ScCreation.getStatus().equals("complete") || ScCreation.getReCount().equals("pending")) {
 			SaveStockCountInfo StockCountInfo = new SaveStockCountInfo(
 					saveStockCountCombinedDto.getSaveStockCountInfo().getCountId(),
 					saveStockCountCombinedDto.getSaveStockCountInfo().getCountDescription(),
@@ -45,7 +44,8 @@ public class SaveStockCountServiceImpl implements SaveStockCountService {
 					saveStockCountCombinedDto.getSaveStockCountInfo().getStatus(),
 					saveStockCountCombinedDto.getSaveStockCountInfo().getTotalBookQty(),
 					saveStockCountCombinedDto.getSaveStockCountInfo().getCountedQty(),
-					saveStockCountCombinedDto.getSaveStockCountInfo().getVarianceQty());
+					saveStockCountCombinedDto.getSaveStockCountInfo().getVarianceQty(),
+					saveStockCountCombinedDto.getSaveStockCountInfo().getReCount());
 
 			saveStockInfoRepo.save(StockCountInfo);
 
@@ -68,7 +68,8 @@ public class SaveStockCountServiceImpl implements SaveStockCountService {
 				saveStockProductsRepo.save(StockCountProduct);
 			}
 
-			ScCreation.setStatus("completed");
+			ScCreation.setStatus(saveStockCountCombinedDto.getSaveStockCountInfo().getStatus());
+			ScCreation.setReCount(saveStockCountCombinedDto.getSaveStockCountInfo().getReCount());
 			creationRepo.save(ScCreation);
 			System.out.print("inside " + ScCreation.getStatus());
 		}
@@ -78,8 +79,8 @@ public class SaveStockCountServiceImpl implements SaveStockCountService {
 	@Override
 	public StockCountOnloadDto getStockCountInfo() {
 		List<StockCountCreation> ScCreation = creationRepo.findByStatus("pending");
-		List<SaveStockCountInfo> stockCountInfoList = saveStockInfoRepo.findByStatus("completed");
-		StockCountOnloadDto stockCountOnloadDto=new StockCountOnloadDto();
+		List<SaveStockCountInfo> stockCountInfoList = saveStockInfoRepo.findAll();
+		StockCountOnloadDto stockCountOnloadDto = new StockCountOnloadDto();
 		stockCountOnloadDto.setPendingList(ScCreation);
 		stockCountOnloadDto.setStockCountInfoList(stockCountInfoList);
 		return stockCountOnloadDto;
