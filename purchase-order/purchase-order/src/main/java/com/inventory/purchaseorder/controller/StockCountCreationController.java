@@ -1,6 +1,7 @@
 package com.inventory.purchaseorder.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.purchaseorder.dto.ProductsByItemNumberdto;
 import com.inventory.purchaseorder.dto.StockCountCreationCombinedDto;
-
+import com.inventory.purchaseorder.entity.SaveStockCountProducts;
+import com.inventory.purchaseorder.entity.StockCountCreationProducts;
 import com.inventory.purchaseorder.service.StockCountCreationService;
 
 @RestController
@@ -25,7 +27,6 @@ public class StockCountCreationController {
 	@Autowired
 	private StockCountCreationService stockCountCreationService;
 
-	
 	@PostMapping("/createstockcount")
 	public ResponseEntity<StockCountCreationCombinedDto> saveStockCount(
 			@RequestBody StockCountCreationCombinedDto stockCountCombinedDto) {
@@ -33,12 +34,18 @@ public class StockCountCreationController {
 				.saveProducts(stockCountCombinedDto);
 		return new ResponseEntity<>(stockCountCreationCombinedDto, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/getProductsbydate/{date}")
-	public ResponseEntity<StockCountCreationCombinedDto> geTodaysProduct(@PathVariable LocalDate date )
-	{
-		StockCountCreationCombinedDto products=stockCountCreationService.getProductsByDate(date);
-		return new ResponseEntity<>(products,HttpStatus.OK);	
+	public ResponseEntity<StockCountCreationCombinedDto> geTodaysProduct(@PathVariable LocalDate date) {
+		StockCountCreationCombinedDto products = stockCountCreationService.getProductsByDate(date);
+		return new ResponseEntity<>(products, HttpStatus.OK);
+	}
+
+	@GetMapping("getpending/stockproducts/{id}")
+	public ResponseEntity<List<StockCountCreationProducts>> getStockCountProducts(@PathVariable int id) {
+		List<StockCountCreationProducts> stockProductList = stockCountCreationService
+				.getStockCountProductsByCountId(id);
+		return new ResponseEntity<>(stockProductList, HttpStatus.OK);
 	}
 
 }

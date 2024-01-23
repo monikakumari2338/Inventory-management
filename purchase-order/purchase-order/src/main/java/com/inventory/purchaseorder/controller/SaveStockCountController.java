@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.purchaseorder.dto.SaveStockCountCombinedDto;
+import com.inventory.purchaseorder.dto.StockCountOnloadDto;
 import com.inventory.purchaseorder.entity.EmailRequest;
 import com.inventory.purchaseorder.entity.SaveStockCountInfo;
 import com.inventory.purchaseorder.entity.SaveStockCountProducts;
@@ -40,17 +41,17 @@ public class SaveStockCountController {
 	}
 
 	@GetMapping("/getinfolist")
-	public ResponseEntity<List<SaveStockCountInfo>> getStockInfo() {
-		List<SaveStockCountInfo> stockCountList = saveStockCountService.getStockCountInfo();
+	public ResponseEntity<StockCountOnloadDto> getStockInfo() {
+		StockCountOnloadDto stockCountList = saveStockCountService.getStockCountInfo();
 		return new ResponseEntity<>(stockCountList, HttpStatus.OK);
 	}
 
-	@PostMapping(value="/mail", consumes = "multipart/form-data")
+	@PostMapping(value = "/mail", consumes = "multipart/form-data")
 	public void sendEMail(@ModelAttribute EmailRequest emailRequest) {
 		System.out.println("Going to Send email: " + emailRequest.toString());
 		emailService.sendEmail(emailRequest);
 	}
-	
+
 	@GetMapping("/getstockproducts/{id}")
 	public ResponseEntity<List<SaveStockCountProducts>> getStockCountProducts(@PathVariable int id) {
 		List<SaveStockCountProducts> stockCountList = saveStockCountService.getStockCountProductsByCountId(id);

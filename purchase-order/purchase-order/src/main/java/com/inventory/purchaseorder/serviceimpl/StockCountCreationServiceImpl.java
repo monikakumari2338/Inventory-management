@@ -2,6 +2,7 @@
 package com.inventory.purchaseorder.serviceimpl;
 
 import java.time.LocalDate;
+
 import java.util.ArrayList;
 
 import java.util.List;
@@ -13,6 +14,8 @@ import com.inventory.purchaseorder.service.StockCountCreationService;
 import com.inventory.purchaseorder.dto.StockCountCreationCombinedDto;
 import com.inventory.purchaseorder.dto.StockCountCreationProductsdto;
 import com.inventory.purchaseorder.dto.StockCountCreationdto;
+import com.inventory.purchaseorder.entity.SaveStockCountInfo;
+import com.inventory.purchaseorder.entity.SaveStockCountProducts;
 import com.inventory.purchaseorder.entity.StockCountCreation;
 import com.inventory.purchaseorder.entity.StockCountCreationProducts;
 import com.inventory.purchaseorder.repository.StockCreationProductsRepo;
@@ -95,6 +98,15 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 			stockCountCreationCombinedDto.setCreationProductsdto(stockCountCreationProductsdto);
 		}
 		return stockCountCreationCombinedDto;
+	}
+
+	@Override
+	public List<StockCountCreationProducts> getStockCountProductsByCountId(int id) {
+		// System.out.print("id "+id);
+		StockCountCreation countObject = creationRepo.findByCountId(id);
+		List<StockCountCreationProducts> stockCountProducts = creationProductsRepo.findByStockcount(countObject);
+		return stockCountProducts;
+
 	}
 
 }
