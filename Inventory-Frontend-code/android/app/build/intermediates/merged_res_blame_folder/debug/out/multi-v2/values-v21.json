@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.inventory.app-mergeDebugResources-37:/values-v21/values-v21.xml",
+            "outputFile": "com.inventory.app-mergeDebugResources-35:/values-v21/values-v21.xml",
             "map": [
                 {
                     "source": "C:\\Users\\monikakumari1\\.gradle\\caches\\transforms-3\\dd33cdba76574cd6269c5bd29e434651\\transformed\\material-1.9.0\\res\\values-v21\\values-v21.xml",

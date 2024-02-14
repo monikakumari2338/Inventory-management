@@ -37,8 +37,6 @@ import com.horcrux.svg.SvgPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 // react-native-view-shot
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
-// react-native-vision-camera
-import com.mrousavy.camera.CameraPackage;
 
 public class PackageList {
   private Application application;
@@ -96,8 +94,7 @@ public class PackageList {
       new RNScreensPackage(),
       new SvgPackage(),
       new VectorIconsPackage(),
-      new RNViewShotPackage(),
-      new CameraPackage()
+      new RNViewShotPackage()
     ));
   }
 }
