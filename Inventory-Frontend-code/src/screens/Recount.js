@@ -19,6 +19,7 @@ import Header from '../components/Header';
 import Footer1 from '../components/Footer1';
 import COLORS from './colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import RecountStockCountScan from './RecountStockCountScan';
 
 const Recount = ({route}) => {
   const {data} = route.params;
@@ -102,22 +103,9 @@ const Recount = ({route}) => {
     navigation.goBack();
   };
 
-  const openPopup = () => {
-    // Validate quantities
-    const newErrors = countedqtys.map(qty => {
-      if (qty === 0 || qty === '' || isNaN(qty)) {
-        return 'Invalid Input';
-      }
-      return '';
-    });
-
-    setFormErrors(newErrors);
-
-    if (newErrors.some(error => error !== '')) {
-      return;
-    }
-
-    setPopupVisible(true);
+  const handleScan = () => {
+    navigation.navigate('RecountStockCountScan', {data: data});
+    //setPopupVisible(true);
   };
 
   const openPopupsave = () => {
@@ -326,40 +314,6 @@ const Recount = ({route}) => {
             <Text style={styles.productDetails}>
               Book Quantity: {product.bookQty}
             </Text>
-
-            {product.stockcount && (
-              <View style={styles.quantityContainer}>
-                <TextInput
-                  style={{
-                    backgroundColor: '#e1ebf5',
-                    height: 35,
-                    width: 55,
-                    borderRadius: 15,
-                    marginBottom: 55,
-                    borderTopLeftRadius: 15,
-                    borderTopRightRadius: 15,
-                    borderColor: '#e1ebf5',
-                    elevation: 9,
-                    paddingHorizontal: -33,
-                    paddingVertical: 8,
-                    textAlign: 'center',
-                  }}
-                  value={countedqtys[index].toString()}
-                  onChangeText={value => {
-                    handlecountedqtychange(index, value);
-                    setFormErrors(prevError => {
-                      const newErrors = [...prevError];
-                      newErrors[index] = '';
-                      return newErrors;
-                    });
-                  }}
-                  keyboardType="numeric"
-                  placeholder="Qty"
-                  underlineColor="transparent"
-                />
-                <Text style={styles.errorText}>{formErrors[index]}</Text>
-              </View>
-            )}
           </View>
         </View>
       </Pressable>
@@ -367,7 +321,7 @@ const Recount = ({route}) => {
 
   return (
     <View style={{flex: 1}}>
-   <Header showBackButton={true} />
+      <Header showBackButton={true} />
       <TouchableWithoutFeedback onPress={handlepress}>
         <View style={{flex: 1}}>
           <View style={{top: 1, marginBottom: -75}}>
@@ -378,13 +332,14 @@ const Recount = ({route}) => {
               style={{top: -45, left: 50, fontSize: 30, color: COLORS.black}}>
               Initaite Recount
             </Text>
-            <TouchableOpacity style={styles.addQuantity} onPress={openPopup}>
-              <Text style={styles.addQuantityButtonText}>Save Confirm</Text>
-            </TouchableOpacity>
+
             <TouchableOpacity
               style={styles.addQuantitysave}
               onPress={openPopupsave}>
               <Text style={styles.addQuantityButtonText}>Save</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.addQuantity} onPress={handleScan}>
+              <Text style={styles.addQuantityButtonText}>Scan</Text>
             </TouchableOpacity>
           </View>
 
@@ -535,9 +490,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: -20,
     borderRadius: 10,
     marginHorizontal: 160,
-    left: 150,
-    marginTop: -30,
-    top: -15,
+    left: '35%',
+    //marginTop: "-3%",
+    top: '-40%',
   },
   addQuantityButtonText: {
     color: 'white',
@@ -568,8 +523,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 10,
     marginHorizontal: 170,
-    top: -54,
-    left: 64,
+    top: '-16%',
+    left: '14%',
   },
   buttonText1: {
     color: 'white',

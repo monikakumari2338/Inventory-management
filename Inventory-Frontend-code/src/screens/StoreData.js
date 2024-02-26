@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Pressable,
+  Alert,
 } from 'react-native';
 import CycleCount from './CycleCount';
 import {Table, Row, Rows} from 'react-native-table-component';
@@ -18,6 +19,11 @@ import Footer1 from '../components/Footer1';
 import Header from '../components/Header';
 import ItemScanner from './ItemScanner.js';
 import PoSearch from './PoSearch.js';
+// import Fontisto from './react-native-vector-icons/Fontisto'
+// import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import TRsearch from './TRsearch.js';
 import DsdSearch from './DsdSearch.js';
 import Rtvsearch from './Rtvsearch.js';
@@ -31,68 +37,83 @@ import ViewInv from './ViewInv';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {storeContext} from '../StoreContext/LoggedStoreContext';
 
-const Tile = ({
-  storeName,
-  storeAddress,
-  storeStock,
-  size,
-  color,
-  currentStore,
-}) => (
-  <View>
-    <Text
-      style={{
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: 'black',
-        marginBottom: 5,
-      }}>
-      {storeName}
-    </Text>
-    <View
-      style={{
-        marginBottom: 5,
-      }}>
-      <Text style={{color: 'grey', fontWeight: 'bold', fontSize: 16}}>
-        Address
-      </Text>
-      <Text style={{color: 'grey', fontSize: 16}}>{storeAddress}</Text>
-    </View>
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-      }}>
-      <Text style={{fontWeight: 'bold', color: 'grey', fontSize: 16}}>
-        Size:
-      </Text>
-      <Text style={{color: 'grey', left: -10, fontSize: 16}}>{size}</Text>
-
-      <Text style={{fontWeight: 'bold', color: 'grey', fontSize: 16}}>
-        Color:
-      </Text>
-      <Text style={{color: 'grey', left: -10, fontSize: 16}}>{color}</Text>
-    </View>
-    <View style={{marginTop: 5, marginBottom: -20}}>
-      <Text style={{fontWeight: 'bold', color: 'grey', fontSize: 16}}>
-        Store Stock:
-      </Text>
-      <Text style={{color: 'grey', left: 92, fontSize: 16, top: -21}}>
-        {storeStock}
-      </Text>
-    </View>
-    {/* <View style={{marginTop: 5, marginBottom: -20}}>
-      <Text style={{fontWeight: 'bold', color: 'grey', fontSize: 16}}>
-        Current Store:
-      </Text>
-      <Text style={{color: 'grey', left: 92, fontSize: 16, top: -21}}>
-        {currentStore}
-      </Text>
-    </View> */}
-  </View>
-);
-
 const StoreData = ({route}) => {
+  const distance = ['11.8km', '25km', '18.6km'];
+  const Tile = ({
+    storeName,
+    storeAddress,
+    storeStock,
+    size,
+    color,
+    distance,
+  }) => (
+    <View>
+      <Text
+        style={{
+          fontSize: 16,
+          fontWeight: 'bold',
+          color: 'black',
+          marginBottom: 5,
+        }}>
+        {storeName}
+      </Text>
+      <View
+        style={{
+          marginBottom: 5,
+        }}>
+        <Text style={{color: 'grey', fontWeight: 'bold', fontSize: 16}}>
+          Address
+        </Text>
+        <Text style={{color: 'grey', fontSize: 16}}>{storeAddress}</Text>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+        <Text style={{fontWeight: 'bold', color: 'grey', fontSize: 16}}>
+          Size:
+        </Text>
+        <Text style={{color: 'grey', left: -10, fontSize: 16}}>{size}</Text>
+
+        <Text style={{fontWeight: 'bold', color: 'grey', fontSize: 16}}>
+          Color:
+        </Text>
+        <Text style={{color: 'grey', left: -10, fontSize: 16}}>{color}</Text>
+      </View>
+      <View style={{marginTop: 5, marginBottom: -20}}>
+        <Text style={{fontWeight: 'bold', color: 'grey', fontSize: 16}}>
+          Store Stock:
+        </Text>
+        <Text style={{color: 'grey', left: 92, fontSize: 16, top: -21}}>
+          {storeStock}
+        </Text>
+      </View>
+      <View style={{marginTop: 5, marginBottom: -20}}>
+        <Text style={{fontWeight: 'bold', color: 'grey', fontSize: 16}}>
+          Distance:
+        </Text>
+
+        <Text style={{color: 'grey', left: 72, fontSize: 16, top: -21}}>
+          {distance}
+        </Text>
+      </View>
+
+      <View>
+        <TouchableOpacity onPress={() => handleClick(storeName)}>
+          <FontAwesome5
+            name="map-marker-alt"
+            size={25}
+            style={{
+              left: '85%',
+              position: 'absolute',
+              top: '2%',
+            }}></FontAwesome5>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
   const {itemName, itemNumber, color, size, category} = route.params;
 
   const [storeData, setStoreData] = useState([]);
@@ -100,6 +121,7 @@ const StoreData = ({route}) => {
   const [selectedMenuItem, setSelectedMenuItem] = useState(null);
   const [selectedStore, setSelectedStore] = useState(' ');
   const navigation = useNavigation();
+
   //console.log('data ', data);
   const store = [
     'Dashboard',
@@ -163,7 +185,12 @@ const StoreData = ({route}) => {
         const response = await axios.get(
           `http://172.20.10.9:8083/store/buddystores/${itemNumber}/${color}/${size}`,
         );
-        setStoreData(response.data);
+        const ResponseData = response.data;
+        const filteredData = ResponseData.filter(
+          item => item.storeName !== 'Ambience Mall',
+        );
+        //console.log('filteredData:', filteredData);
+        setStoreData(filteredData);
       } catch (error) {
         console.log(error);
       }
@@ -171,7 +198,10 @@ const StoreData = ({route}) => {
 
     fetchStoreData();
   }, [itemName, itemNumber, color, size]);
-
+ 
+  const handleDistance = index => {
+    return distance[index];
+  };
   const renderTiles = () => {
     if (!storeData) {
       return null;
@@ -188,15 +218,15 @@ const StoreData = ({route}) => {
           storeStock={data.storeStock}
           size={size}
           color={color}
+          distance={handleDistance(index)}
+          // handleClick={handleClick(data.storeName)}
         />
       </Pressable>
     ));
   };
 
-  //console.log('storeData ', storeData);
-
   const {value} = storeContext();
-  //console.log('store : ', value);
+  //console.log('storeData : ', storeData);
 
   const handleTileClick = storeName => {
     let store = [];
@@ -208,6 +238,16 @@ const StoreData = ({route}) => {
       itemName: itemName,
       category: category,
       storeName: storeName,
+    });
+  };
+  const handleClick = storeName => {
+    //let selectedStore = [];
+    const selectedStore = storeData.filter(
+      store => store.storeName === storeName,
+    );
+    //console.log('store from handle click:', selectedStore);
+    navigation.navigate('StoreMap', {
+      selectedStore: selectedStore,
     });
   };
 
@@ -239,6 +279,25 @@ const StoreData = ({route}) => {
               }}>
               {itemName}
             </Text>
+            <Text
+              style={{
+                top: -20,
+                textAlign: 'center',
+                fontSize: 18,
+                color: '#333333',
+              }}>
+              {itemNumber}
+            </Text>
+            <Text
+              style={{
+                top: '-62%',
+                textAlign: 'center',
+                fontWeight: 'bold',
+                fontSize: 16,
+                color: '#333333',
+              }}>
+              Store Id: 3
+            </Text>
           </View>
           <ScrollView>
             <Pressable onPress={closeMenu}>
@@ -265,11 +324,14 @@ const styles = StyleSheet.create({
   tilesContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    padding: 7,
+    padding: 5,
     justifyContent: 'space-between',
+    marginBottom: '7%',
+    marginTop: '-3%',
   },
   tile: {
     width: '48%',
+    height: '50%',
     backgroundColor: '#fff',
     padding: 5,
     marginVertical: 10,

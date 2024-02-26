@@ -38,6 +38,7 @@ import Viewrtv from './Viewrtv.js';
 import ViewInv from './ViewInv.js';
 import {storeContext} from '../StoreContext/LoggedStoreContext';
 import axios from 'axios';
+import {useEffect} from 'react';
 const BuddyStoreDetails = ({route}) => {
   const {storedata, itemName, itemNumber, category, storeName} = route.params;
   const {value} = storeContext();
@@ -49,6 +50,7 @@ const BuddyStoreDetails = ({route}) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [productData, setProductData] = useState(null);
+  const [responsedata, setResponsedata] = useState([]);
 
   const store = [
     'Dashboard',
@@ -108,16 +110,35 @@ const BuddyStoreDetails = ({route}) => {
     closeMenu();
   };
 
+  const fetchBuddyStoreData = async () => {
+    try {
+      const response = await axios.get(
+        `http://172.20.10.9:8083/product/getProductByitemNumber/${itemNumber}/${storeName}`,
+      );
+      const responseData = response.data;
+      //console.log('responseData ', responseData);
+      setResponsedata(responseData);
+    } catch (error) {
+      console.log(' Error ', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBuddyStoreData();
+  }, []);
+
   const handleInputChange = async input => {
     setItemNumber(input);
     try {
       const response = await axios.get(
         `http://172.20.10.9:8083/product/getMatched/products/itemnumber/${input}`,
       );
-    const data =response.data;
-     
-      const filteredSuggestions=data.filter(item =>item.store.storeName===storeName)
-      console.log("filteredSuggestions bsvxs",filteredSuggestions)
+      const data = response.data;
+
+      const filteredSuggestions = data.filter(
+        item => item.store.storeName === storeName,
+      );
+      console.log('filteredSuggestions bsvxs', filteredSuggestions);
       setSuggestions(filteredSuggestions);
     } catch (error) {
       console.log(error);
@@ -152,16 +173,26 @@ const BuddyStoreDetails = ({route}) => {
     closeMenu();
   };
 
-  //   const [selectedColor, setSelectedColor] = useState(storedata.color);
+  const [selectedColor, setSelectedColor] = useState(storedata.color);
 
-  //   const [selectedSize, setSelectedSize] = useState(storedata.size);
-  //   const colors = [...new Set(storedata.map(product => product.color))];
-  //   const sizes = [...new Set(storedata.map(product => product.size))];
+  const [selectedSize, setSelectedSize] = useState(storedata.size);
 
-  //   const selectedProduct = storedata.find(
-  //     product => product.color === selectedColor && product.size === selectedSize,
-  //   );
+  const colors = [
+    ...new Set(responsedata.productDetailsdto?.map(product => product.color)),
+  ];
 
+  const sizes = [
+    ...new Set(responsedata.productDetailsdto?.map(product => product.size)),
+  ];
+
+  const selectedProduct = responsedata.productDetailsdto?.find(
+    product => product.color === selectedColor && product.size === selectedSize,
+  );
+
+  // console.log('selectedProduct', selectedProduct);
+
+  // console.log('color1', colors);
+  // console.log('sizes', sizes);
   return (
     <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
       <Header showBackButton={true} />
@@ -239,7 +270,9 @@ const BuddyStoreDetails = ({route}) => {
                 <TouchableOpacity
                   key={suggestion.product.itemNumber}
                   style={styles.suggestionItem}
-                  onPress={() => handleSuggestionSelect(suggestion.product.itemNumber)}>
+                  onPress={() =>
+                    handleSuggestionSelect(suggestion.product.itemNumber)
+                  }>
                   <Text>{suggestion.product.itemNumber}</Text>
                 </TouchableOpacity>
               ))}
@@ -281,19 +314,23 @@ const BuddyStoreDetails = ({route}) => {
                   <View style={styles.textContainer1}>
                     <Text style={styles.verticalText1}>
                       {'\u20B9'}
-                      {storedata.price}
+                      {selectedProduct?.price}
                     </Text>
 
-                    <Text style={styles.verticalText2}>{storedata.size}</Text>
+                    <Text style={styles.verticalText2}>
+                      {selectedProduct?.size}
+                    </Text>
 
-                    <Text style={styles.verticalText3}>{storedata.color}</Text>
+                    <Text style={styles.verticalText3}>
+                      {selectedProduct?.color}
+                    </Text>
                   </View>
                 </View>
 
                 <Image
                   style={styles.productImage}
                   contentFit="cover"
-                  source={{uri: storedata.imageData}}
+                  source={{uri: selectedProduct?.imageData}}
                 />
 
                 <Text
@@ -336,52 +373,52 @@ const BuddyStoreDetails = ({route}) => {
                     styles.iphone13FlexBox,
                     {fontSize: 18},
                   ]}>
-                  Current Stock: {storedata.storeStock}
+                  Current Stock: {selectedProduct?.stock}
                 </Text>
               </View>
 
-              {/* <View style={styles.viewContainer}>
-                  <Picker
-                    style={{
-                      flex: 1,
-                      backgroundColor: 'white',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderRadius: 2,
-                      borderColor: 'red',
-                      borderWidth: 2,
-                      marginTop: 10,
-                      zIndex: 1,
-                      top: -10,
-                      elevation: 5,
-                    }}
-                    selectedValue={selectedColor}
-                    onValueChange={itemValue => setSelectedColor(itemValue)}>
-                    {colors.map(color => (
-                      <Picker.Item key={color} label={color} value={color} />
-                    ))}
-                  </Picker>
+              <View style={styles.viewContainer}>
+                <Picker
+                  style={{
+                    flex: 1,
+                    backgroundColor: 'white',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 2,
+                    borderColor: 'red',
+                    borderWidth: 2,
+                    marginTop: 10,
+                    zIndex: 1,
+                    top: -10,
+                    elevation: 5,
+                  }}
+                  selectedValue={selectedColor}
+                  onValueChange={itemValue => setSelectedColor(itemValue)}>
+                  {colors.map(color => (
+                    <Picker.Item key={color} label={color} value={color} />
+                  ))}
+                </Picker>
 
-                  <Picker
-                    style={{
-                      flex: 1,
-                      backgroundColor: 'white',
-                      marginLeft: 10,
-                      borderRadius: 9,
-                      borderColor: 'red',
-                      borderWidth: 2,
-                      marginTop: 10,
-                      zIndex: 1,
-                      top: -10,
-                      elevation: 5,
-                    }}
-                    selectedValue={selectedSize}
-                    onValueChange={itemValue => setSelectedSize(itemValue)}>
-                    {sizes.map(size => (
-                      <Picker.Item key={size} label={size} value={size} />
-                    ))}
-                  </Picker>
-                </View> */}
+                <Picker
+                  style={{
+                    flex: 1,
+                    backgroundColor: 'white',
+                    marginLeft: 10,
+                    borderRadius: 9,
+                    borderColor: 'red',
+                    borderWidth: 2,
+                    marginTop: 10,
+                    zIndex: 1,
+                    top: -10,
+                    elevation: 5,
+                  }}
+                  selectedValue={selectedSize}
+                  onValueChange={itemValue => setSelectedSize(itemValue)}>
+                  {sizes.map(size => (
+                    <Picker.Item key={size} label={size} value={size} />
+                  ))}
+                </Picker>
+              </View>
             </View>
           </ScrollView>
         </View>
@@ -398,7 +435,7 @@ const BuddyStoreDetails = ({route}) => {
 };
 const styles = StyleSheet.create({
   viewContainer: {
-    bottom: -480,
+    bottom: -420,
     marginLeft: 20,
     flexDirection: 'row',
     width: '90%',
@@ -474,7 +511,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   iphone14ProMax1Child: {
-    top: 345,
+    top: 300,
     left: 16,
     width: 378,
     height: 103,
@@ -482,28 +519,28 @@ const styles = StyleSheet.create({
   },
 
   productImage: {
-    top: 25,
-    left: 124,
+    top: -7,
+    left: '32%',
     width: 150,
-    height: 177,
+    height: 150,
     position: 'absolute',
   },
   iphone13Pink: {
-    top: 190,
+    top: 145,
     left: 124,
     fontFamily: FontFamily.openSansSemiBold,
     color: Color.black,
     fontWeight: 'bold',
   },
   itemnumbber: {
-    top: 222,
+    top: 180,
     left: 124,
     fontFamily: FontFamily.openSansSemiBold,
 
     color: Color.black,
   },
   category: {
-    top: 245,
+    top: 210,
     left: 124,
     fontFamily: FontFamily.openSansSemiBold,
 
@@ -517,13 +554,13 @@ const styles = StyleSheet.create({
     color: Color.black,
   },
   inStock10: {
-    top: 285,
+    top: 250,
     left: -30,
     color: '#34a853',
     fontFamily: FontFamily.openSansRegular,
   },
   inStock1: {
-    top: 285,
+    top: 245,
     left: 225,
     color: '#34a853',
     fontFamily: FontFamily.openSansRegular,

@@ -40,36 +40,40 @@ const CycleCount = ({route}) => {
   const [selectedMenuItem, setSelectedMenuItem] = useState(null);
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isPopupVisiblesave, setPopupVisiblesave] = useState(false);
-  const [pendingdata, setData] = useState([
-    {creationProductsdto: null, creationdto: null},
-  ]);
+  const [pendingdata, setData] = useState('');
   const [adhocdata, setAdhocData] = useState([
     {creationProductsdto: null, creationdto: null},
   ]);
 
-  const fetchpendingData = async () => {
+  
+  
+  const fetchTodaysData = async () => {
+    const store = 'Ambience Mall';
     try {
       const currentDate = new Date().toISOString().split('T')[0];
       const response = await axios.get(
-        `http://172.20.10.9:8083/stockcount/getProductsbydate/${currentDate}`,
+        `http://172.20.10.9:8083/stockcount/getProductsbydate/${currentDate}/${store}`,
       );
       const responseData = response.data;
+      console.log('responseData : ', responseData);
       setData(responseData);
-      console.log('data response : ', pendingdata);
+      if (responseData.creationProductsdto !== null) {
+        navigation.navigate('CycleStart', {data: responseData});
+      }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.log('Error fetching pending data:', error);
     }
   };
 
-  useEffect(() => {
-    fetchpendingData();
-  }, []);
+  // useEffect(() => {
+  //   fetchpendingData();
+  // }, []);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      fetchpendingData();
-    }, []),
-  );
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     fetchpendingData();
+  //   }, []),
+  // );
 
   const fetchAdhocStockCountData = async () => {
     try {
@@ -78,7 +82,7 @@ const CycleCount = ({route}) => {
       );
       const responseData = response.data;
       setAdhocData(responseData);
-      console.log('Adhoc count response : ', adhocdata);
+      //console.log('Adhoc count response : ', adhocdata);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -187,7 +191,10 @@ const CycleCount = ({route}) => {
   };
 
   const handleAdhocDetailsPress = adhocId => {
-    navigation.navigate('AdhocCountDetails', {countDetails: pendingArray});
+    const pendingArray = adhocdata.filter(obj => obj.adhocId === adhocId);
+    navigation.navigate('AdhocCountDetails', {
+      countDetails: pendingArray,
+    });
   };
 
   const handleRecount = countId => {
@@ -206,15 +213,28 @@ const CycleCount = ({route}) => {
         console.log('Recount Error fetching count details:', error);
       });
   };
+
+  const handleAdhocRecount = adhocId => {
+    console.log('adhoc id', adhocId);
+    axios
+      .get(`http://172.20.10.9:8083/savestockcount/get/adhoc/${adhocId}`)
+      .then(response => {
+        const countDetails = response.data;
+        const keyToFilter = 'firstvarianceQty';
+        const filterData = countDetails.filter(item => item[keyToFilter]);
+        navigation.navigate('Recount', {data: filterData});
+        // console.log('count details : ', countDetails);
+        // console.log('filterData details : ', filterData);
+      })
+      .catch(error => {
+        console.log('Recount Error fetching count details:', error);
+      });
+  };
   const uniqueArray = Array.from(
     new Set(adhocdata.map(obj => obj.adhocId)),
   ).map(id => adhocdata.find(obj => obj.adhocId === id));
-  console.log('uniqueArray ', uniqueArray);
+  //console.log('uniqueArray ', uniqueArray);
 
-  const pendingArray = adhocdata.filter(
-    obj => obj.adhocId === 'afe15814290f9a75',
-  );
-  console.log('filtered array ', pendingArray);
   const handlePostvar = countId => {
     axios
       .get(`http://172.20.10.9:8083/savestockcount/getstockproducts/${countId}`)
@@ -255,7 +275,7 @@ const CycleCount = ({route}) => {
     } catch (error) {
       console.log('Error fetching data:', error);
       setPopupVisiblesave(true);
-      console.log('currentdata', responseData);
+      //console.log('currentdata', responseData);
     }
   };
 
@@ -295,13 +315,13 @@ const CycleCount = ({route}) => {
     return focusOnScreen;
   }, [navigation]);
 
-  useEffect(() => {
-    const focusOnScreen = navigation.addListener('focus', () => {
-      fetchpendingData();
-    });
+  // useEffect(() => {
+  //   const focusOnScreen = navigation.addListener('focus', () => {
+  //     fetchpendingData();
+  //   });
 
-    return focusOnScreen;
-  }, [navigation]);
+  //   return focusOnScreen;
+  // }, [navigation]);
 
   const handleCount = async countId => {
     try {
@@ -352,13 +372,13 @@ const CycleCount = ({route}) => {
 
     const combinedList = [...pendingList, ...savedDataList];
     //console.log('savedDataList ', savedDataList);
-    // console.log('pendingdata ', pendingdata);
+    //console.log('pendingdata ', pendingdata);
     // console.log('pendingList ', pendingList);
     return (
       <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
         <TouchableWithoutFeedback onPress={handlepress}>
           <View style={{flex: 1}}>
-          <Header showBackButton={true} />
+            <Header showBackButton={true} />
 
             <View style={{top: 1}}>
               <TouchableOpacity onPress={toggleMenu}>
@@ -397,39 +417,36 @@ const CycleCount = ({route}) => {
                   Pending Count
                 </Text>
 
-                {pendingdata.creationProductsdto === null ? (
-                  <View style={styles.pendingcycleCount}>
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        color: 'black',
-                        fontWeight: 500,
-                      }}>
-                      No Pending Count
-                    </Text>
-                  </View>
-                ) : (
-                  <View style={styles.pendingcycleCount}>
-                    <Text
-                      style={{
-                        fontSize: 18,
-                        color: 'black',
-                        fontWeight: 500,
-                      }}>
-                      Today's Count
-                    </Text>
-                    <Text>
-                      {/* CountId: {pendingdata.creationProductsdto[0].countId} */}
-                    </Text>
-                    <TouchableOpacity
-                      style={styles.StartButton}
-                      onPress={() =>
-                        handleCount(pendingdata.creationProductsdto[0].countId)
-                      }>
-                      <Text style={styles.StartButtonText}>Start Count</Text>
-                    </TouchableOpacity>
-                  </View>
+                {pendingdata.creationProductsdto === null && (
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      color: 'red',
+                      fontWeight: 500,
+                      left: '55%',
+                      top: '-1.6%',
+                    }}>
+                    No Scheduled Count
+                  </Text>
                 )}
+                <View style={styles.pendingcycleCount}>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      color: 'black',
+                      fontWeight: 500,
+                    }}>
+                    Today's Count
+                  </Text>
+                  <Text>
+                    {/* CountId: {pendingdata.creationProductsdto[0].countId} */}
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.StartButton}
+                    onPress={() => fetchTodaysData()}>
+                    <Text style={styles.StartButtonText}>Start Count</Text>
+                  </TouchableOpacity>
+                </View>
 
                 {/* adhoc counts */}
                 <Text
@@ -442,9 +459,9 @@ const CycleCount = ({route}) => {
                   Adhoc Counts
                 </Text>
 
-                <View style={styles.adhoccycleCount}>
+                <ScrollView style={styles.adhoccycleCount}>
                   {uniqueArray.map(({adhocId, reason}) => (
-                    <ScrollView style={styles.cycleCountContainer}>
+                    <View style={styles.adhocCountContainer}>
                       <TouchableOpacity
                         onPress={() => adhocToggleExpand(adhocId)}
                         style={styles.cycleCountButton}>
@@ -504,16 +521,16 @@ const CycleCount = ({route}) => {
                             <Text style={styles.postText}>Post Variance</Text>
                           </TouchableOpacity>
                           <TouchableOpacity
-                          //onPress={() => handleRecount(countId)}
-                          // disabled={status == 'complete'}
+                            onPress={() => handleAdhocRecount(adhocId)}
+                            // disabled={status == 'complete'}
                           >
                             <Text style={styles.adhocrecount}>Recount</Text>
                           </TouchableOpacity>
                         </View>
                       )}
-                    </ScrollView>
+                    </View>
                   ))}
-                </View>
+                </ScrollView>
                 {savedDataList.map(
                   ({
                     countId,
@@ -728,16 +745,23 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     flex: 1,
-    marginBottom: 86,
+    // marginBottom: 86,
   },
   cycleCountContainer: {
-    marginBottom: 16,
+    marginBottom: 1,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 8,
+    overflow: 'hidden',
+    marginTop: 1,
+  },
+  adhocCountContainer: {
+    marginBottom: "1%",
     borderWidth: 1,
     borderColor: '#E0EAEE',
     borderRadius: 8,
     overflow: 'hidden',
   },
-
   testCountContainer: {
     marginBottom: 10,
     borderWidth: 1,
@@ -758,7 +782,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
 
     borderRadius: 8,
-    overflow: 'hidden',
+    //overflow: 'visible',
   },
   pendingcycleCount: {
     padding: 12,
@@ -772,6 +796,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: 'hidden',
     marginBottom: 15,
+    top: '-0.1%',
+    position: 'relative',
   },
   adhoccycleCount: {
     padding: 5,
@@ -783,13 +809,15 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     borderWidth: 1,
     borderRadius: 2,
-    overflow: 'hidden',
-    marginBottom: 15,
+    //overflow: 'hidden',
+    marginBottom: 1,
+    // height: '40%',
+    position: 'relative',
   },
   cycleCountText: {
     fontSize: 16,
     // fontWeight: 'bold',
-    marginBottom: 5,
+    marginBottom: 2,
     lineHeight: 24,
     color: '#4A486F',
     fontWeight: '500',
@@ -825,7 +853,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     padding: 15,
-    marginBottom: -4,
+    marginBottom: "1%",
   },
 
   addButton: {

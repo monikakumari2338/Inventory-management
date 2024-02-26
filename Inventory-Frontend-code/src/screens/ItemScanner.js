@@ -30,6 +30,7 @@ import axios from 'axios';
 import Viewrtv from './Viewrtv';
 import ViewInv from './ViewInv';
 import {storeContext} from '../StoreContext/LoggedStoreContext';
+import Scanner from './Scanner';
 
 const ItemScanner = () => {
   const [itemNumber, setItemNumber] = useState('');
@@ -40,7 +41,8 @@ const ItemScanner = () => {
   const [noDataFound, setNoDataFound] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-
+  const [inputValue, setInputValue] = useState('');
+  const numericRegex = /^[0-9]+$/;
   const store = [
     'Dashboard',
     'StockCheck',
@@ -107,29 +109,79 @@ const ItemScanner = () => {
     closeMenu();
   };
   const {value} = storeContext();
-  const val = 'delhi103';
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get(
-        `http://172.20.10.9:8083/product/getProductByitemNumber/${itemNumber}/${val}`,
-      );
-      const responseData = response.data;
-      if (responseData.length === 0) {
-        setProductData([]);
+  const val = 'Ambience Mall';
+
+  const handleIconClick = async () => {
+    const numericRegex = /^[0-9]+$/;
+    const result = numericRegex.test(inputValue);
+    if (result === true) {
+      console.log('result', result);
+      try {
+        const response = await axios.get(
+          `http://172.20.10.9:8083/product/getProductByitemNumber/${inputValue}/${val}`,
+        );
+        const responseData = response.data;
+        console.log('responseData val ', responseData);
+        if (responseData.length === 0) {
+          setProductData([]);
+          setNoDataFound(true);
+          setErrorMessage('No data Found');
+        } else {
+          setProductData(responseData);
+          setNoDataFound(false);
+          navigation.navigate('StockCheck', {productData: responseData});
+        }
+      } catch (error) {
+        console.log(error);
         setNoDataFound(true);
-        setErrorMessage('No data Found');
-      } else {
-        setProductData(responseData);
-        setNoDataFound(false);
-        navigation.navigate('StockCheck', {productData: responseData});
       }
-    } catch (error) {
-      console.log(error);
-      setNoDataFound(true);
+      setItemNumber('');
+      setSuggestions([]);
+    } else {
+      try {
+        const response = await axios.get(
+          `http://172.20.10.9:8083/product/getProductByitemName/${inputValue}/${val}`,
+        );
+        const responseData = response.data;
+        if (responseData.length === 0) {
+          setProductData([]);
+          setNoDataFound(true);
+          setErrorMessage('No data Found');
+        } else {
+          setProductData(responseData);
+          setNoDataFound(false);
+          navigation.navigate('StockCheck', {productData: responseData});
+        }
+      } catch (error) {
+        console.log(error);
+        setNoDataFound(true);
+      }
+      setItemNumber('');
+      setSuggestions([]);
     }
-    setItemNumber('');
-    setSuggestions([]);
   };
+  // const handleSearch = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `http://172.20.10.9:8083/product/getProductByitemName/${inputValue}/${val}`,
+  //     );
+  //     const responseData = response.data;
+  //     if (responseData.length === 0) {
+  //       setProductData([]);
+  //       setNoDataFound(true);
+  //       setErrorMessage('No data Found');
+  //     } else {
+  //       setProductData(responseData);
+  //       setNoDataFound(false);
+  //       navigation.navigate('StockCheck', {productData: responseData});
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     setNoDataFound(true);
+  //   }
+  //   setItemNumber('');
+  //   setSuggestions([]);
+  // };
 
   const handleSuggestionSelect = async selectedItemNumber => {
     setItemNumber(selectedItemNumber);
@@ -157,22 +209,49 @@ const ItemScanner = () => {
   };
 
   const handleInputChange = async input => {
-    setItemNumber(input);
-    try {
-      const response = await axios.get(
-        `http://172.20.10.9:8083/product/getMatched/products/itemnumber/${input}`,
-      );
-      const data = response.data;
-      const filteredSuggestions = data.filter(
-        item => item.store.storeName === val,
-      );
-      console.log('filteredSuggestions bsvxs', filteredSuggestions);
-      setSuggestions(filteredSuggestions);
-    } catch (error) {
-      console.log(error);
+    setInputValue(input);
+    const numericRegex = /^[0-9]+$/;
+    const result = numericRegex.test(input);
+
+    if (result === true) {
+      try {
+        const response = await axios.get(
+          `http://172.20.10.9:8083/product/getMatched/products/itemnumber/${input}`,
+        );
+        const data = response.data;
+        const filteredSuggestions = data.filter(
+          item => item.store.storeName === val,
+        );
+        //console.log('filteredSuggestions bsvxs', filteredSuggestions);
+        setSuggestions(filteredSuggestions);
+      } catch (error) {
+        console.log(error);
+      }
+      setNoDataFound(input.length > 0 && suggestions.length === 0);
+    } else {
+      try {
+        const response = await axios.get(
+          `http://172.20.10.9:8083/product/getMatched/products/Itemname/${input}`,
+        );
+        const data = response.data;
+        console.log('data ', data);
+        const filteredSuggestions = data.filter(
+          item => item.store.storeName === val,
+        );
+        //console.log('filteredSuggestions bsvxs', filteredSuggestions);
+        setSuggestions(filteredSuggestions);
+      } catch (error) {
+        console.log(error);
+      }
+      setNoDataFound(input.length > 0 && suggestions.length === 0);
     }
-    setNoDataFound(input.length > 0 && suggestions.length === 0);
   };
+
+  const handleScan = () => {
+    navigation.navigate(Scanner);
+  };
+
+
 
   return (
     <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
@@ -218,14 +297,19 @@ const ItemScanner = () => {
                 color: '#333',
                 paddingLeft: 10,
               }}
-              placeholder="Enter Item Number"
-              value={itemNumber}
+              placeholder="Enter Item Number/ Item Name"
+              value={inputValue}
               onChangeText={handleInputChange}
             />
-            <TouchableOpacity onPress={handleSearch}>
+            <TouchableOpacity onPress={handleIconClick}>
               <Icon name="search" size={20} color="#333" style={{left: -10}} />
             </TouchableOpacity>
           </View>
+          <Text style={styles.orText}>OR</Text>
+          <TouchableOpacity onPress={handleScan}>
+            <Text style={styles.scan}>Scan Barcode</Text>
+          </TouchableOpacity>
+
           {/* {noDataFound && (
             <View
               style={{
@@ -255,7 +339,65 @@ const ItemScanner = () => {
             </View>
           )} */}
           {/* Suggestions */}
-          {suggestions.length > 0 && (
+          {numericRegex.test(inputValue)
+            ? suggestions.length > 0 && (
+                <ScrollView
+                  style={{
+                    maxHeight: 140,
+                    backgroundColor: 'white',
+                    elevation: 7,
+                    position: 'absolute',
+                    top: 124,
+                    left: 21,
+                    borderRadius: 11,
+                    zIndex: 1,
+                    width: '90%',
+                    paddingHorizontal: 27,
+                    paddingVertical: 5,
+                    elevation: 4,
+                  }}>
+                  {suggestions.map(suggestion => (
+                    <TouchableOpacity
+                      key={suggestion.product.itemNumber}
+                      style={styles.suggestionItem}
+                      onPress={() =>
+                        handleSuggestionSelect(suggestion.product.itemNumber)
+                      }>
+                      <Text>{suggestion.product.itemNumber}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              )
+            : suggestions.length > 0 && (
+                <ScrollView
+                  style={{
+                    maxHeight: 140,
+                    backgroundColor: 'white',
+                    elevation: 7,
+                    position: 'absolute',
+                    top: 124,
+                    left: 21,
+                    borderRadius: 11,
+                    zIndex: 1,
+                    width: '90%',
+                    paddingHorizontal: 27,
+                    paddingVertical: 5,
+                    elevation: 4,
+                  }}>
+                  {suggestions.map(suggestion => (
+                    <TouchableOpacity
+                      key={suggestion.product.id}
+                      style={styles.suggestionItem}
+                      onPress={() =>
+                        handleSuggestionSelect(suggestion.product.itemNumber)
+                      }>
+                      <Text>{suggestion.product.itemName}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              )}
+
+          {/* {suggestions.length > 0 && (
             <ScrollView
               style={{
                 maxHeight: 140,
@@ -278,11 +420,11 @@ const ItemScanner = () => {
                   onPress={() =>
                     handleSuggestionSelect(suggestion.product.itemNumber)
                   }>
-                  <Text>{suggestion.product.itemNumber}</Text>
+                  <Text>{suggestion.product.itemName}</Text>
                 </TouchableOpacity>
               ))}
             </ScrollView>
-          )}
+          )} */}
 
           {noDataFound && suggestions.length === 0 && (
             <ScrollView
@@ -325,6 +467,27 @@ const styles = StyleSheet.create({
     padding: 10,
     fontStyle: 'italic',
     fontWeight: '500',
+  },
+  scan: {
+    top: '120%',
+    fontSize: 19,
+    textAlign: 'center',
+    //position: 'relative',
+    color: 'white',
+    borderWidth: 1,
+    left: '23%',
+    borderRadius: 15,
+    width: '50%',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderWidth: 1,
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primary,
+  },
+  orText: {
+    left: '45%',
+    fontSize: 18,
+    top: '4%',
   },
 });
 

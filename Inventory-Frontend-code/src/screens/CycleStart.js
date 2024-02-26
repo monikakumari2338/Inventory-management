@@ -41,7 +41,8 @@ const CycleStart = ({route}) => {
   const [formErrors, setFormErrors] = useState(Array(data?.length).fill(''));
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [selectedMenuItem, setSelectedMenuItem] = useState(null);
-
+  const [error, setError] = useState(null);
+  console.log('data cycle count :', data);
   const store = [
     'Dashboard',
     'StockCheck',
@@ -134,21 +135,26 @@ const CycleStart = ({route}) => {
   };
   const openPopupsave = () => {
     // Validate quantities
-    const newErrors = countedqtys.map(qty => {
-      if (qty === 0 || qty === '' || isNaN(qty)) {
-        return 'Invalid Input';
-      }
-      return '';
-    });
+    // const newErrors = countedqtys.map(qty => {
+    //   if (qty === 0 || qty === '' || isNaN(qty)) {
+    //     return 'Invalid Input';
+    //   }
+    //   return '';
+    // });
 
-    setFormErrors(newErrors);
+    // setFormErrors(newErrors);
 
-    if (newErrors.some(error => error !== '')) {
-      return;
+    // if (newErrors.some(error => error !== '')) {
+    //   return;
+    // }
+    //saveDataLocally();
+    if (data.creationProductsdto[0].count > 0) {
+      setPopupVisiblesave(true);
+      handlesaveddata();
+    } else {
+      setError('Scan product to Save');
+      console.log('Scan product to Save');
     }
-    saveDataLocally();
-
-    setPopupVisiblesave(true);
   };
 
   const closePopup = () => {
@@ -165,6 +171,10 @@ const CycleStart = ({route}) => {
     closePopupsave();
   };
 
+  const handlescan = () => {
+    setError(null);
+    navigation.navigate('ScheduledStockCountScan', {products: data});
+  };
   const handlecountedqtychange = (index, value) => {
     const isNumeric = /^[0-9]*$/.test(value);
     const newCountedqtys = [...countedqtys];
@@ -178,20 +188,20 @@ const CycleStart = ({route}) => {
   };
 
   const handlesaveddata = () => {
-    const countId = data[0]?.stockcount?.countId || '';
-    const countDescription = data[0]?.stockcount?.countDescription || '';
+    const countId = data.creationdto?.countId || '';
+    const countDescription = data.creationdto?.countDescription || '';
 
     // Calculate totalBookQty and countedQty
-    const totalBookQty = data.reduce(
-      (sum, product) => sum + product.bookQty,
-      0,
-    );
+    const totalBookQty = data.creationdto?.totalBookQty;
 
-    const countedQty = countedqtys.reduce(
-      (sum, countedQty) => sum + parseFloat(countedQty),
-      0,
-    );
-
+    let countedQty = 0;
+    data.creationProductsdto.map(item => {
+      countedQty = countedQty + item.count;
+    });
+    // const countedQty = countedqtys.reduce(
+    //   (sum, countedQty) => sum + parseFloat(countedQty),
+    //   0,
+    // );
     const varianceQty = totalBookQty - countedQty;
     // Get current date and time for startedAt and completedAt
     const currentDate = new Date();
@@ -212,19 +222,21 @@ const CycleStart = ({route}) => {
         varianceQty: Math.abs(totalBookQty - countedQty),
         reCount,
       },
-      saveStockCountProducts: data.map((product, index) => ({
-        itemNumber: product.itemNumber,
-        itemName: product.itemName,
-        category: product.category,
-        color: product.color,
-        price: product.price,
-        size: product.size,
-        imageData: product.imageData,
-        store: product.store,
-        bookQty: product.bookQty,
-        countedQty: parseFloat(countedqtys[index]),
-        varianceQty: Math.abs(parseFloat(product.bookQty) - countedqtys[index]),
-      })),
+      saveStockCountProducts: data.creationProductsdto.map(
+        (product, index) => ({
+          itemNumber: product.itemNumber,
+          itemName: product.itemName,
+          category: product.category,
+          color: product.color,
+          price: product.price,
+          size: product.size,
+          imageData: product.imageData,
+          store: product.store,
+          bookQty: product.bookQty,
+          countedQty: product.count,
+          varianceQty: Math.abs(parseFloat(product.bookQty) - product.count),
+        }),
+      ),
     };
 
     axios({
@@ -308,7 +320,7 @@ const CycleStart = ({route}) => {
   };
 
   const renderProductCards = () =>
-    data?.map((product, index) => (
+    data.creationProductsdto?.map((product, index) => (
       <Pressable key={`${product.itemNumber}-${index}`} onPress={closeMenu}>
         <View style={styles.productCard}>
           <Image
@@ -317,7 +329,7 @@ const CycleStart = ({route}) => {
           />
 
           <View style={styles.productInfo}>
-            <Text style={{color: 'black'}}>
+            <Text style={{color: 'black', top: '-20%'}}>
               Item Number: {product.itemNumber}
             </Text>
             <Text
@@ -333,40 +345,22 @@ const CycleStart = ({route}) => {
               Book Quantity: {product.bookQty}
             </Text>
 
-            {product.stockcount && (
-              <View style={styles.quantityContainer}>
-                <TextInput
-                  style={{
-                    backgroundColor: '#e1ebf5',
-                    height: 35,
-
-                    width: 55,
-                    borderRadius: 15,
-                    marginBottom: 55,
-                    borderTopLeftRadius: 15,
-                    borderTopRightRadius: 15,
-                    borderColor: '#e1ebf5',
-                    elevation: 9,
-                    paddingHorizontal: -33,
-                    paddingVertical: 8,
-                    textAlign: 'center',
-                  }}
-                  value={countedqtys[index].toString()}
-                  onChangeText={value => {
-                    handlecountedqtychange(index, value);
-                    setFormErrors(prevError => {
-                      const newErrors = [...prevError];
-                      newErrors[index] = '';
-                      return newErrors;
-                    });
-                  }}
-                  keyboardType="numeric"
-                  placeholder="Qty"
-                  underlineColor="transparent"
-                />
-                <Text style={styles.errorText}>{formErrors[index]}</Text>
-              </View>
-            )}
+            <View style={styles.quantityContainer}>
+              <Text
+                style={{
+                  backgroundColor: COLORS.primary,
+                  color: 'white',
+                  paddingVertical: 10,
+                  paddingHorizontal: 20,
+                  borderRadius: 10,
+                  marginHorizontal: 10,
+                  left: '10%',
+                  top: '10%',
+                  borderRadius: 40,
+                }}>
+                {product.count ? product.count : 0}
+              </Text>
+            </View>
           </View>
         </View>
       </Pressable>
@@ -374,7 +368,7 @@ const CycleStart = ({route}) => {
 
   return (
     <View style={{flex: 1, flexGrow: 1}}>
-       <Header showBackButton={true} />
+      <Header showBackButton={true} />
       <TouchableWithoutFeedback onPress={handlepress}>
         <View style={{flex: 1}}>
           <View style={{top: 1, marginBottom: -60}}>
@@ -385,17 +379,28 @@ const CycleStart = ({route}) => {
               style={{top: -45, left: 50, fontSize: 30, color: COLORS.black}}>
               Stock Count
             </Text>
-            <TouchableOpacity onPress={openPopup}>
+            {/* <TouchableOpacity onPress={openPopup}>
               <View style={styles.addQuantity}>
                 <Text style={styles.addQuantityButtonText}>Save Confirm</Text>
               </View>
+            </TouchableOpacity> */}
+            <TouchableOpacity style={styles.save} onPress={openPopupsave}>
+              <Text style={styles.addQuantityButtonText}>Save</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.addQuantitysave}
-              onPress={openPopupsave}>
-              <Text style={styles.addQuantityButtonText}>Save</Text>
+              onPress={handlescan}>
+              <Text style={styles.addQuantityButtonText}>Scan</Text>
             </TouchableOpacity>
           </View>
+          {error == null ? (
+            ''
+          ) : (
+            <Text
+              style={{color: 'red', left: '63%', fontWeight: 500, top: '1%'}}>
+              {error}
+            </Text>
+          )}
 
           <View style={{left: 158, top: 24}}>
             <Modal
@@ -497,12 +502,14 @@ const CycleStart = ({route}) => {
 
 const styles = StyleSheet.create({
   quantityContainer: {
-    top: -110,
-    marginLeft: 220,
+    top: '-120%',
+    marginLeft: 200,
     flexDirection: 'column',
     alignItems: 'center',
     marginBottom: -90,
+    position: 'relative',
   },
+
   container: {
     padding: 16,
     top: -18,
@@ -516,10 +523,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flex: 1,
     alignItems: 'center',
-    padding: 15,
+    padding: '8%',
     borderRadius: 5,
     paddingHorizontal: 7,
-    margin: 2,
+    margin: 5,
     marginHorizontal: -5,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 4},
@@ -536,9 +543,10 @@ const styles = StyleSheet.create({
     flex: 2,
   },
   productDetails: {
+    top: '-21%',
     fontSize: 16,
     color: 'grey',
-    marginTop: 8,
+    marginTop: 6,
   },
   addQuantity: {
     backgroundColor: COLORS.primary,
@@ -556,12 +564,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: -20,
     borderRadius: 10,
     marginHorizontal: 160,
-    left: 50,
-    top: -64,
+    left: '10%',
+    top: '-39%',
   },
   addQuantityButtonText: {
     color: 'white',
     textAlign: 'center',
+  },
+  save: {
+    backgroundColor: COLORS.primary,
+    paddingVertical: 10,
+    paddingHorizontal: -20,
+    borderRadius: 10,
+    marginHorizontal: 160,
+    left: '35%',
+    top: '-15%',
   },
   text1: {
     fontSize: 18,

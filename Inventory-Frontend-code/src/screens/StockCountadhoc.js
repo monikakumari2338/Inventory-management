@@ -146,27 +146,29 @@ const StockCountadhoc = () => {
   };
 
   const handleCategoryProducts = categoryid => {
+    const store = 'Ambience Mall';
     axios
       .get(
-        `http://172.20.10.9:8083/product/getall/productbycategory/${categoryid}`,
+        `http://172.20.10.9:8083/product/getall/productbycategory/${categoryid}/${store}`,
       )
       .then(response => {
         setCategoryProducts(response.data);
         // navigation.navigate('Postvrnc', {countDetails});
+        // console.log("data",response.data);
       })
       .catch(error => {
         console.log('Error fetching count details:', error);
       });
   };
-
+  // console.log('categoryProducts: ', categoryProducts[4].product.category);
   const handleStartCountButton = () => {
-    const data = categoryProducts.filter(item =>
-      checkedItems.includes(item.id),
-    );
+    // const data = categoryProducts.filter(item =>
+    //   checkedItems.includes(item.id),
+    // );
 
-    console.log('data : ', data);
+    console.log('data : ', categoryProducts);
     navigation.navigate('StockCountadhocProducts', {
-      products: data,
+      products: categoryProducts,
       reason: selectedReason,
     });
   };
@@ -305,8 +307,19 @@ const StockCountadhoc = () => {
             {categoryProducts === null ? (
               ''
             ) : (
-              // <View style={styles.card}>
-              <View style={styles.tableContainer}>
+              <View style={styles.card}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 500,
+                    left: '1%',
+                    lineHeight: 24,
+                    color: '#4A486F',
+                  }}>
+                  Location: {categoryProducts[0].product.category.location}
+                </Text>
+
+                {/* <View style={styles.tableContainer}>
                 <View style={styles.tableHeader}>
                   <Text style={styles.headerText}> </Text>
                   <Text style={styles.headerText}>Item No.</Text>
@@ -353,6 +366,7 @@ const StockCountadhoc = () => {
                     ))}
                   </ScrollView>
                 </View>
+              </View> */}
               </View>
             )}
 

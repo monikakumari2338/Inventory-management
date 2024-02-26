@@ -19,6 +19,8 @@ import com.reactnativecommunity.art.ARTPackage;
 import com.reactnativecommunity.checkbox.ReactCheckBoxPackage;
 // @react-native-picker/picker
 import com.reactnativecommunity.picker.RNCPickerPackage;
+// react-native-camera
+import org.reactnative.camera.RNCameraPackage;
 // react-native-fs
 import com.rnfs.RNFSPackage;
 // react-native-gesture-handler
@@ -27,6 +29,8 @@ import com.swmansion.gesturehandler.RNGestureHandlerPackage;
 import com.christopherdro.htmltopdf.RNHTMLtoPDFPackage;
 // react-native-image-picker
 import com.imagepicker.ImagePickerPackage;
+// react-native-permissions
+import com.zoontek.rnpermissions.RNPermissionsPackage;
 // react-native-safe-area-context
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 // react-native-screens
@@ -37,6 +41,8 @@ import com.horcrux.svg.SvgPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 // react-native-view-shot
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
+// react-native-webview
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 
 public class PackageList {
   private Application application;
@@ -86,15 +92,18 @@ public class PackageList {
       new ARTPackage(),
       new ReactCheckBoxPackage(),
       new RNCPickerPackage(),
+      new RNCameraPackage(),
       new RNFSPackage(),
       new RNGestureHandlerPackage(),
       new RNHTMLtoPDFPackage(),
       new ImagePickerPackage(),
+      new RNPermissionsPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),
       new SvgPackage(),
       new VectorIconsPackage(),
-      new RNViewShotPackage()
+      new RNViewShotPackage(),
+      new RNCWebViewPackage()
     ));
   }
 }

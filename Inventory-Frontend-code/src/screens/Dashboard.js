@@ -134,12 +134,12 @@ function Dashboard() {
               <Text
                 style={{
                   top: '-10%',
-                  left: '70%',
+                  left: '80%',
                   fontSize: 16,
                   color: COLORS.black,
                   fontWeight: 500,
                 }}>
-                Store: {value}
+                Store Id: 3
               </Text>
 
               {/* <View style={styles.viewContainer}>

@@ -31,11 +31,13 @@ import ViewInv from './ViewInv';
 import Viewrtv from './Viewrtv';
 import ViewDSD from './ViewDSD';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
+import SyncStorage from 'sync-storage';
 
 const StockCountadhocProducts = ({route}) => {
-  const {products, reason} = route.params;
-
+  const {products, reason, sku} = route.params;
+  //console.log('sku', sku);
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [isPopupVisiblesave, setPopupVisiblesave] = useState(false);
   const [showModal, setshowmodal] = useState(false);
@@ -43,6 +45,7 @@ const StockCountadhocProducts = ({route}) => {
   const navigation = useNavigation();
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [selectedMenuItem, setSelectedMenuItem] = useState(null);
+  const [error, setError] = useState(null);
   const [countedqtys, setCountedqtys] = useState(
     Array(products?.length).fill(0),
   );
@@ -104,6 +107,17 @@ const StockCountadhocProducts = ({route}) => {
       closeMenu();
     }
   };
+
+  // const data = products.map(product => ({...product, count: 0}));
+  //console.log('new data', data);
+
+  // useEffect(() => {
+  //   SyncStorage.set('localStorageData', data);
+  // }, [data]);
+
+  // const result = SyncStorage.get('localStorageData');
+  // console.log('result ', result);
+
   const openPopup = () => {
     // Validate quantities
     const newErrors = countedqtys.map(qty => {
@@ -121,23 +135,30 @@ const StockCountadhocProducts = ({route}) => {
 
     setPopupVisible(true);
   };
+
   const openPopupsave = () => {
     // Validate quantities
-    const newErrors = countedqtys.map(qty => {
-      if (qty === 0 || qty === '' || isNaN(qty)) {
-        return 'Invalid Input';
-      }
-      return '';
-    });
 
-    setFormErrors(newErrors);
+    // const newErrors = countedqtys.map(qty => {
+    //   if (qty === 0 || qty === '' || isNaN(qty)) {
+    //     return 'Invalid Input';
+    //   }
+    //   return '';
+    // });
 
-    if (newErrors.some(error => error !== '')) {
-      return;
+    // setFormErrors(newErrors);
+
+    // if (newErrors.some(error => error !== '')) {
+    //   return;
+    // }
+
+    if (products[0].count > 0) {
+      setPopupVisiblesave(true);
+      handlesaveddata();
+    } else {
+      setError('Scan product to Save');
+      console.log('Scan product to Save');
     }
-    //saveDataLocally();
-
-    setPopupVisiblesave(true);
   };
   const openModal = () => {
     setPopupVisible(false);
@@ -158,7 +179,7 @@ const StockCountadhocProducts = ({route}) => {
   const handleNoClick = () => {
     closePopup();
   };
-  const handleNoClicksave = () => {
+  const handleOkClicksave = () => {
     closePopupsave();
   };
   const handlecountedqtychange = (index, value) => {
@@ -186,8 +207,8 @@ const StockCountadhocProducts = ({route}) => {
     const savearr = products.map((item, index) => ({
       adhocId: uniqueId,
       bookQty: item.stock,
-      firstcountedQty: countedqtys[index],
-      firstvarianceQty: item.stock - countedqtys[index],
+      firstcountedQty: item.count,
+      firstvarianceQty: item.stock - item.count,
       reCountQty: 0,
       recountVarianceQty: 0,
       reCountStatus: 'pending',
@@ -210,13 +231,14 @@ const StockCountadhocProducts = ({route}) => {
       .then(response => {
         console.log('save array response ', response.data);
         closePopup();
-        navigation.navigate('CycleCount');
+        //navigation.navigate('CycleCount');
       })
       .catch(error => {
         console.log('Error ', error);
       });
   };
-  //console.log('products ', products);
+
+  console.log('products stock ', products);
   const renderProductCards = () =>
     products?.map((Item, index) => (
       <Pressable
@@ -240,7 +262,21 @@ const StockCountadhocProducts = ({route}) => {
 
             {/* {Item.stockcount && ( */}
             <View style={styles.quantityContainer}>
-              <TextInput
+              <Text
+                style={{
+                  backgroundColor: COLORS.primary,
+                  color: 'white',
+                  paddingVertical: 10,
+                  paddingHorizontal: 20,
+                  borderRadius: 10,
+                  marginHorizontal: 10,
+                  left: '10%',
+                  top: '10%',
+                  borderRadius: 40,
+                }}>
+                {Item.count ? Item.count : 0}
+              </Text>
+              {/* <TextInput
                 style={{
                   backgroundColor: '#e1ebf5',
                   height: 35,
@@ -268,14 +304,15 @@ const StockCountadhocProducts = ({route}) => {
                 keyboardType="numeric"
                 placeholder="Qty"
                 underlineColor="transparent"
-              />
-              <Text style={styles.errorText}>{formErrors[index]}</Text>
+              /> */}
+              {/* <Text style={styles.errorText}>{formErrors[index]}</Text> */}
             </View>
             {/* } */}
           </View>
         </View>
       </Pressable>
     ));
+
   function generateUniqueId() {
     return 'yxxxxyxxxyxxxyxx'.replace(/[xy]/g, function (c) {
       var r = (Math.random() * 16) | 0,
@@ -285,9 +322,13 @@ const StockCountadhocProducts = ({route}) => {
   }
   const uniqueId = generateUniqueId();
 
+  const handlescan = () => {
+    setError(null);
+    navigation.navigate('StockCountScan', {products: products, reason: reason});
+  };
   return (
     <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
-     <Header showBackButton={true} />
+      <Header showBackButton={true} />
       <TouchableWithoutFeedback onPress={handlepress}>
         <View style={{flex: 1}}>
           <View style={{top: 1}}>
@@ -305,18 +346,26 @@ const StockCountadhocProducts = ({route}) => {
               Stock Count
             </Text>
           </View>
-          <TouchableOpacity onPress={openPopup}>
+          {/* <TouchableOpacity onPress={openPopup}>
             <View style={styles.addQuantity}>
               <Text style={styles.addQuantityButtonText}>Save Confirm</Text>
             </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.addQuantitysave}
-            onPress={openPopupsave}>
+          </TouchableOpacity> */}
+          <TouchableOpacity style={styles.save} onPress={openPopupsave}>
             <Text style={styles.addQuantityButtonText}>Save</Text>
           </TouchableOpacity>
-
-          <View style={{left: 158, top: 24}}>
+          <TouchableOpacity style={styles.addQuantitysave} onPress={handlescan}>
+            <Text style={styles.addQuantityButtonText}>Scan</Text>
+          </TouchableOpacity>
+          {error == null ? (
+            ''
+          ) : (
+            <Text
+              style={{color: 'red', left: '63%', fontWeight: 500, top: '-4%'}}>
+              {error}
+            </Text>
+          )}
+          <View style={{left: 15, top: 20}}>
             <Modal
               animationType="slide"
               transparent={true}
@@ -367,7 +416,7 @@ const StockCountadhocProducts = ({route}) => {
                 <View style={styles.buttonContainer1}>
                   <TouchableOpacity
                     style={styles.buttonsave}
-                    onPress={handleNoClicksave}>
+                    onPress={handleOkClicksave}>
                     <Text style={styles.buttonText1}>Ok</Text>
                   </TouchableOpacity>
                 </View>
@@ -415,7 +464,7 @@ const StockCountadhocProducts = ({route}) => {
 };
 const styles = StyleSheet.create({
   quantityContainer: {
-    top: -65,
+    top: '-60%',
     marginLeft: 200,
     flexDirection: 'column',
     alignItems: 'center',
@@ -452,7 +501,7 @@ const styles = StyleSheet.create({
   },
   productInfo: {
     flex: 2,
-    top: '-4%',
+    top: '-9%',
   },
   productDetails: {
     fontSize: 16,
@@ -469,14 +518,23 @@ const styles = StyleSheet.create({
     marginTop: -30,
     top: 15,
   },
+  save: {
+    backgroundColor: COLORS.primary,
+    paddingVertical: 10,
+    paddingHorizontal: -20,
+    borderRadius: 10,
+    marginHorizontal: 160,
+    left: '10%',
+    top: '-1.5%',
+  },
   addQuantitysave: {
     backgroundColor: COLORS.primary,
     paddingVertical: 10,
     paddingHorizontal: -20,
     borderRadius: 10,
     marginHorizontal: 160,
-    left: 50,
-    top: -23,
+    left: '35%',
+    top: '-7%',
   },
   addQuantityButtonText: {
     color: 'white',

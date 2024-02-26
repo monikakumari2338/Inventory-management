@@ -128,7 +128,7 @@ const Login = ({navigation}) => {
           </Text>
         </View>
         <ScrollView style={{maxHeight: 800}}>
-          <View style={{marginBottom: 12}}>
+          <View style={{marginTop: "-12%"}}>
             <Text
               style={{
                 fontSize: 16,
@@ -192,7 +192,7 @@ const Login = ({navigation}) => {
             )}
           </View>
 
-          <View style={{marginBottom: 12}}>
+          <View style={{marginTop: "2%"}}>
             <Text
               style={{
                 fontSize: 16,
