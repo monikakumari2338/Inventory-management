@@ -34,9 +34,8 @@ import ViewDSD from './ViewDSD';
 import RNFS from 'react-native-fs';
 import {json} from 'react-router-dom';
 
-const Postvrnc = ({route}) => {
+const AdhocPostVrnc = ({route}) => {
   const {countDetails} = route.params || {};
-  console.log('countDetails : ', countDetails);
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [searchInput, setSearchInput] = useState('');
@@ -48,6 +47,7 @@ const Postvrnc = ({route}) => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [selectedMenuItem, setSelectedMenuItem] = useState(null);
   const [downloadfile, setdownloadfile] = useState('');
+  console.log(countDetails);
   const store = [
     'Dashboard',
     'StockCheck',
@@ -144,10 +144,10 @@ const Postvrnc = ({route}) => {
                 <p><strong>Size:</strong> ${item.size}</p>
                 <p><strong>Color:</strong> ${item.color}</p>
                 <p><strong>Booked:</strong> ${item.bookQty}</p>
-                <p><strong>Counted:</strong> ${item.countedQty}</p>
-                <p><strong>Variance:</strong> ${item.varianceQty}</p>
-                <p><strong>ReCount Qty:</strong> ${item.reCountQty}</p>
-                <p><strong>ReCount Variance:</strong> ${item.recountVarianceQty}</p>
+                <p><strong>firstcountedQty:</strong> ${item.firstcountedQty}</p>
+                <p><strong>firstvarianceQty:</strong> ${item.firstvarianceQty}</p>
+                <p><strong>reCountQty:</strong> ${item.reCountQty}</p>
+                <p><strong>recountVarianceQty:</strong> ${item.recountVarianceQty}</p>
               </div>
             `,
               )
@@ -304,7 +304,7 @@ const Postvrnc = ({route}) => {
                     <Text style={[styles.headerText]}>Booked</Text>
                     <Text style={[styles.headerText]}>First Counted Qty</Text>
                     <Text style={[styles.headerText]}>First Variance</Text>
-                    <Text style={[styles.headerText]}>Recount Qty</Text>
+                    <Text style={[styles.headerText]}>ReCount Qty</Text>
                     <Text style={[styles.headerText]}>Recount Variance</Text>
                   </View>
                   <View style={{height: 600}}>
@@ -322,10 +322,10 @@ const Postvrnc = ({route}) => {
                             <Text style={[styles.rowText]}>{item.color}</Text>
                             <Text style={[styles.rowText]}>{item.bookQty}</Text>
                             <Text style={[styles.rowText]}>
-                              {item.countedQty}
+                              {item.firstcountedQty}
                             </Text>
                             <Text style={[styles.rowText]}>
-                              {item.varianceQty}
+                              {item.firstvarianceQty}
                             </Text>
                             <Text style={[styles.rowText]}>
                               {item.reCountQty}
@@ -425,9 +425,9 @@ const styles = StyleSheet.create({
 
   headerText: {
     color: 'white',
-    paddingHorizontal: 1,
-    paddingVertical: 5,
+    paddingHorizontal: 9,
     fontSize: 16,
+    paddingVertical: 5,
     textAlign: 'center',
     top: 1,
     flex: 1,
@@ -521,4 +521,4 @@ const stylesToInline = styleObj =>
     })
     .join(' ');
 
-export default Postvrnc;
+export default AdhocPostVrnc;

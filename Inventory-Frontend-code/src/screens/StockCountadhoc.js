@@ -32,6 +32,7 @@ import ViewDSD from './ViewDSD';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import StockCountadhocProducts from './StockCountadhocProducts';
+import {Alert} from 'react-native';
 
 const StockCountadhoc = () => {
   const navigation = useNavigation();
@@ -147,6 +148,7 @@ const StockCountadhoc = () => {
 
   const handleCategoryProducts = categoryid => {
     const store = 'Ambience Mall';
+    console.log('id: ', categoryid);
     axios
       .get(
         `http://172.20.10.9:8083/product/getall/productbycategory/${categoryid}/${store}`,
@@ -154,23 +156,28 @@ const StockCountadhoc = () => {
       .then(response => {
         setCategoryProducts(response.data);
         // navigation.navigate('Postvrnc', {countDetails});
-        // console.log("data",response.data);
+        console.log(' category data', response.data);
       })
       .catch(error => {
         console.log('Error fetching count details:', error);
       });
   };
-  // console.log('categoryProducts: ', categoryProducts[4].product.category);
+  //console.log('categoryProducts: ', categoryProducts);
   const handleStartCountButton = () => {
     // const data = categoryProducts.filter(item =>
     //   checkedItems.includes(item.id),
     // );
 
-    console.log('data : ', categoryProducts);
-    navigation.navigate('StockCountadhocProducts', {
-      products: categoryProducts,
-      reason: selectedReason,
-    });
+    if (category === '' || selectedReason === '') {
+      Alert.alert('Please select the reason and category');
+    }
+    //console.log('data : ', categoryProducts);
+    else {
+      navigation.navigate('StockCountadhocProducts', {
+        products: categoryProducts,
+        reason: selectedReason,
+      });
+    }
   };
   const validateReason = () => {
     selectedReason === ' '
@@ -507,6 +514,7 @@ const styles = StyleSheet.create({
   },
   EODbtn: {
     fontFamily: 'PlusJakartaSans-Medium',
+    textAlign:'center',
     fontSize: 16,
     lineHeight: 24,
     color: 'white',

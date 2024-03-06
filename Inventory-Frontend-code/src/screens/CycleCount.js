@@ -29,8 +29,6 @@ import ViewDSD from './ViewDSD.js';
 import Viewrtv from './Viewrtv.js';
 import InvAdj from './InvAdj.js';
 import ViewInv from './ViewInv';
-import StockCountadhoc from './StockCountadhoc';
-import AdhocCountDetails from './AdhocCountDetails';
 
 const CycleCount = ({route}) => {
   const navigation = useNavigation();
@@ -41,12 +39,13 @@ const CycleCount = ({route}) => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isPopupVisiblesave, setPopupVisiblesave] = useState(false);
   const [pendingdata, setData] = useState('');
+  const [isPopupVisible, setPopupVisible] = useState(false);
+  const [isAdhocPopupVisible, setAdhocPopupVisible] = useState(false);
+  const [countId, setCountId] = useState(null);
   const [adhocdata, setAdhocData] = useState([
     {creationProductsdto: null, creationdto: null},
   ]);
 
-  
-  
   const fetchTodaysData = async () => {
     const store = 'Ambience Mall';
     try {
@@ -55,25 +54,30 @@ const CycleCount = ({route}) => {
         `http://172.20.10.9:8083/stockcount/getProductsbydate/${currentDate}/${store}`,
       );
       const responseData = response.data;
-      console.log('responseData : ', responseData);
+      // console.log('hey');
+      //console.log('CurrentDate data : ', responseData);
       setData(responseData);
-      if (responseData.creationProductsdto !== null) {
-        navigation.navigate('CycleStart', {data: responseData});
-      }
+      // if (responseData.creationProductsdto !== null) {
+      //   navigation.navigate('CycleStart', {data: responseData});
+      // }
     } catch (error) {
-      console.log('Error fetching pending data:', error);
+      console.log('CurrentDate data Error fetching pending data:', error);
     }
   };
 
-  // useEffect(() => {
-  //   fetchpendingData();
-  // }, []);
+  useEffect(() => {
+    fetchTodaysData();
+  }, []);
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     fetchpendingData();
-  //   }, []),
-  // );
+  const handleTodaydata = () => {
+    navigation.navigate('CycleStart', {data: pendingdata});
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchTodaysData();
+    }, []),
+  );
 
   const fetchAdhocStockCountData = async () => {
     try {
@@ -177,7 +181,7 @@ const CycleCount = ({route}) => {
       prevId === adhocId ? null : shouldEcpand ? adhocId : null,
     );
   };
-
+  //console.log('expandedId ', expandedId);
   const handleDetailsPress = countId => {
     axios
       .get(`http://172.20.10.9:8083/savestockcount/getstockproducts/${countId}`)
@@ -213,16 +217,16 @@ const CycleCount = ({route}) => {
         console.log('Recount Error fetching count details:', error);
       });
   };
-
+  // console.log('pendingdata todays count', pendingdata);
   const handleAdhocRecount = adhocId => {
-    console.log('adhoc id', adhocId);
+    //console.log('adhoc id', adhocId);
     axios
       .get(`http://172.20.10.9:8083/savestockcount/get/adhoc/${adhocId}`)
       .then(response => {
         const countDetails = response.data;
         const keyToFilter = 'firstvarianceQty';
         const filterData = countDetails.filter(item => item[keyToFilter]);
-        navigation.navigate('Recount', {data: filterData});
+        navigation.navigate('AdhocRecount', {data: filterData});
         // console.log('count details : ', countDetails);
         // console.log('filterData details : ', filterData);
       })
@@ -233,7 +237,7 @@ const CycleCount = ({route}) => {
   const uniqueArray = Array.from(
     new Set(adhocdata.map(obj => obj.adhocId)),
   ).map(id => adhocdata.find(obj => obj.adhocId === id));
-  //console.log('uniqueArray ', uniqueArray);
+  // console.log('uniqueArray ', uniqueArray);
 
   const handlePostvar = countId => {
     axios
@@ -243,13 +247,47 @@ const CycleCount = ({route}) => {
         navigation.navigate('Postvrnc', {countDetails});
       })
       .catch(error => {
-        console.log('post variance Error fetching count details:', error);
+        console.log(
+          'schedule post variance Error fetching count details:',
+          error,
+        );
+      });
+  };
+  const handleAdhocPostvar = (adhocId) => {
+    axios
+      .get(`http://172.20.10.9:8083/savestockcount/get/adhoc/${adhocId}`)
+      .then(response => {
+        const countDetails = response.data;
+        navigation.navigate('AdhocPostVrnc', {countDetails: countDetails});
+      })
+      .catch(error => {
+        console.log('Adhoc post variance Error fetching count details:', error);
       });
   };
 
+  const openPostvarModal = countId => {
+    setCountId(countId);
+    console.log('count id', countId);
+    setExpandedId(null);
+    setPopupVisible(true);
+  };
+
+  const openAdhocPostvarModal = adhocId => {
+    setCountId(adhocId);
+    console.log('count id', countId);
+    setAdhocPopupVisible(true);
+  };
+  const closePopup = () => {
+    setPopupVisible(false);
+  };
+
+  const closeAdhocPopup = () => {
+    setAdhocPopupVisible(false);
+  };
   const handleadhocCount = () => {
     navigation.navigate('StockCountadhoc');
   };
+  const currentDate = new Date().toISOString().split('T')[0];
 
   const handleButtonPress = async () => {
     try {
@@ -290,6 +328,7 @@ const CycleCount = ({route}) => {
       const combinedList = [...pendingList, ...stockCountInfoList];
 
       setApiData(combinedList);
+      //console.log('response data', responseData);
     } catch (error) {
       console.log('InfoList Error fetching data:', error);
     }
@@ -373,7 +412,7 @@ const CycleCount = ({route}) => {
     const combinedList = [...pendingList, ...savedDataList];
     //console.log('savedDataList ', savedDataList);
     //console.log('pendingdata ', pendingdata);
-    // console.log('pendingList ', pendingList);
+    //console.log('api ', apiData);
     return (
       <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
         <TouchableWithoutFeedback onPress={handlepress}>
@@ -394,60 +433,63 @@ const CycleCount = ({route}) => {
                 }}>
                 Stock Count
               </Text>
+              <Text
+                style={{
+                  top: '-60%',
+                  left: '80%',
+                  fontSize: 16,
+                  color: COLORS.black,
+                  fontWeight: 500,
+                }}>
+                Store Id: 3
+              </Text>
               <TouchableOpacity
                 style={[
                   styles.addButton,
-                  (!apiData || apiData.length === 0) && styles.disabledButton,
+                  // (!apiData || apiData.length === 0) && styles.disabledButton,
                 ]}
                 onPress={handleadhocCount}
-                disabled={!apiData || apiData.length === 0}>
+                //disabled={!apiData || apiData.length === 0}
+              >
                 <Text style={styles.addButtonText}>Adhoc Count</Text>
               </TouchableOpacity>
             </View>
 
             <ScrollView style={styles.container}>
               <Pressable onPress={closeMenu}>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    color: 'black',
-                    fontWeight: 500,
-                    top: -3,
-                  }}>
-                  Pending Count
-                </Text>
-
-                {pendingdata.creationProductsdto === null && (
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      color: 'red',
-                      fontWeight: 500,
-                      left: '55%',
-                      top: '-1.6%',
-                    }}>
-                    No Scheduled Count
-                  </Text>
+                {pendingdata.creationProductsdto !== null && (
+                  <View>
+                    <Text
+                      style={{
+                        color: 'black',
+                        fontWeight: '500',
+                        fontSize: 18,
+                        left: '0.1%',
+                        top: '-1%',
+                      }}>
+                      Today's Count
+                    </Text>
+                    <View style={styles.pendingcycleCount}>
+                      <Text
+                        style={{
+                          fontSize: 18,
+                          color: 'black',
+                          fontWeight: 500,
+                          top: '20%',
+                        }}>
+                        {currentDate}
+                      </Text>
+                      <Text>
+                        {/* CountId: {pendingdata.creationProductsdto[0].countId} */}
+                      </Text>
+                      <TouchableOpacity
+                        style={styles.StartButton}
+                        onPress={() => handleTodaydata()}>
+                        <Text style={styles.StartButtonText}>Start Count</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
                 )}
-                <View style={styles.pendingcycleCount}>
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      color: 'black',
-                      fontWeight: 500,
-                    }}>
-                    Today's Count
-                  </Text>
-                  <Text>
-                    {/* CountId: {pendingdata.creationProductsdto[0].countId} */}
-                  </Text>
-                  <TouchableOpacity
-                    style={styles.StartButton}
-                    onPress={() => fetchTodaysData()}>
-                    <Text style={styles.StartButtonText}>Start Count</Text>
-                  </TouchableOpacity>
-                </View>
-
                 {/* adhoc counts */}
                 <Text
                   style={{
@@ -459,78 +501,87 @@ const CycleCount = ({route}) => {
                   Adhoc Counts
                 </Text>
 
-                <ScrollView style={styles.adhoccycleCount}>
-                  {uniqueArray.map(({adhocId, reason}) => (
-                    <View style={styles.adhocCountContainer}>
-                      <TouchableOpacity
-                        onPress={() => adhocToggleExpand(adhocId)}
-                        style={styles.cycleCountButton}>
-                        <Text style={styles.cycleCountText}>
-                          Adhoc id:{` ${adhocId}`}
-                        </Text>
+                <View style={styles.adhoccycleCount}>
+                  <ScrollView>
+                    {uniqueArray.map(({adhocId, reason, reCountStatus}) => (
+                      <View style={styles.adhocCountContainer}>
+                        <TouchableOpacity
+                          onPress={() => adhocToggleExpand(adhocId)}
+                          style={styles.cycleCountButton}>
+                          <Text style={styles.cycleCountText}>
+                            Adhoc id:{` ${adhocId}`}
+                          </Text>
 
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            marginBottom: 5,
-                            lineHeight: 24,
-                            color: '#4A486F',
-                            fontWeight: '500',
-                          }}>
-                          Reason: {`${reason}`}
-                        </Text>
-                        <Ionicons
-                          name={
-                            adhocexpandedId === adhocId
-                              ? 'chevron-down-sharp'
-                              : 'chevron-forward-sharp'
-                          }
-                          style={{
-                            fontWeight: 'bold',
-                            left: '95%',
-                            marginTop: -24,
-                          }}
-                          size={23}
-                          color="black"
-                        />
-                      </TouchableOpacity>
+                          <Text
+                            style={{
+                              fontSize: 16,
+                              marginBottom: 5,
+                              lineHeight: 24,
+                              color: '#4A486F',
+                              fontWeight: '500',
+                            }}>
+                            Reason: {`${reason}`}
+                          </Text>
+                          <Ionicons
+                            name={
+                              adhocexpandedId === adhocId
+                                ? 'chevron-down-sharp'
+                                : 'chevron-forward-sharp'
+                            }
+                            style={{
+                              fontWeight: 'bold',
+                              left: '95%',
+                              marginTop: -24,
+                            }}
+                            size={23}
+                            color="black"
+                          />
+                        </TouchableOpacity>
 
-                      {adhocexpandedId === adhocId && (
-                        <View style={styles.detailsContainer}>
-                          <TouchableOpacity
-                            onPress={() => handleAdhocDetailsPress(adhocId)}>
-                            <Text style={styles.countdtls}>DETAILS</Text>
-                            <Ionicons
-                              name={'chevron-forward-sharp'}
-                              style={{
-                                fontWeight: 'bold',
-                                right: -337,
-                                marginTop: -18,
-                              }}
-                              size={19}
-                              color="black"
-                            />
-                          </TouchableOpacity>
+                        {adhocexpandedId === adhocId && (
+                          <View style={styles.detailsContainer}>
+                            <TouchableOpacity
+                              onPress={() => handleAdhocDetailsPress(adhocId)}>
+                              <Text style={styles.countdtls}>DETAILS</Text>
+                              <Ionicons
+                                name={'chevron-forward-sharp'}
+                                style={{
+                                  fontWeight: 'bold',
+                                  right: -331,
+                                  marginTop: -18,
+                                }}
+                                size={19}
+                                color="black"
+                              />
+                            </TouchableOpacity>
 
-                          {/* {status !== 'complete' && ( */}
-                          <TouchableOpacity
-                            style={styles.Postvar}
-                            // onPress={() => handlePostvar(adhocId)}
-                            // disabled={status !== 'complete'}
-                          >
-                            <Text style={styles.postText}>Post Variance</Text>
-                          </TouchableOpacity>
-                          <TouchableOpacity
-                            onPress={() => handleAdhocRecount(adhocId)}
-                            // disabled={status == 'complete'}
-                          >
-                            <Text style={styles.adhocrecount}>Recount</Text>
-                          </TouchableOpacity>
-                        </View>
-                      )}
-                    </View>
-                  ))}
-                </ScrollView>
+                            {/* {status !== 'complete' && ( */}
+                            <TouchableOpacity
+                              style={styles.Postvar}
+                              onPress={() => handleAdhocPostvar(adhocId)}
+                              // disabled={status !== 'complete'}
+                            >
+                              <Text style={styles.postText}>Post Variance</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                              onPress={() => handleAdhocRecount(adhocId)}
+                              disabled={reCountStatus == 'complete'}>
+                              <Text
+                                style={
+                                  reCountStatus == 'complete'
+                                    ? styles.recountdisabled
+                                    : styles.recount
+                                }>
+                                Recount
+                              </Text>
+                            </TouchableOpacity>
+                          </View>
+                        )}
+                      </View>
+                    ))}
+                  </ScrollView>
+                </View>
+
                 {savedDataList.map(
                   ({
                     countId,
@@ -698,6 +749,7 @@ const CycleCount = ({route}) => {
                     </View>
                   ),
                 )}
+
                 <Modal
                   animationType="slide"
                   transparent={true}
@@ -717,6 +769,69 @@ const CycleCount = ({route}) => {
                           style={styles.buttonsave}
                           onPress={handleNoClicksave}>
                           <Text style={styles.buttonText1}>Ok</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                </Modal>
+
+                <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={isPopupVisible}
+                  onRequestClose={closePopup}>
+                  <View style={styles.modalContainer1}>
+                    <View style={styles.modalsaveContent1}>
+                      <Icon
+                        style={{textAlign: 'center', marginBottom: 15}}
+                        name="save-outline"
+                        size={55}
+                        color="#699BF7"
+                      />
+                      <Text style={styles.text1}>
+                        Do you want to Post this Variance?
+                      </Text>
+                      <View style={styles.buttonContainer1}>
+                        <TouchableOpacity
+                          style={styles.button1}
+                          onPress={handlePostvar}>
+                          <Text style={styles.buttonText1}>Yes</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={styles.button1}
+                          onPress={closePopup}>
+                          <Text style={styles.buttonText1}>No</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                </Modal>
+                <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={isAdhocPopupVisible}
+                  onRequestClose={closeAdhocPopup}>
+                  <View style={styles.modalContainer1}>
+                    <View style={styles.modalsaveContent1}>
+                      <Icon
+                        style={{textAlign: 'center', marginBottom: 15}}
+                        name="save-outline"
+                        size={55}
+                        color="#699BF7"
+                      />
+                      <Text style={styles.text1}>
+                        Do you want to Post this Adhoc Variance?
+                      </Text>
+                      <View style={styles.buttonContainer1}>
+                        <TouchableOpacity
+                          style={styles.button1}
+                          onPress={handleAdhocPostvar}>
+                          <Text style={styles.buttonText1}>Yes</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={styles.button1}
+                          onPress={closeAdhocPopup}>
+                          <Text style={styles.buttonText1}>No</Text>
                         </TouchableOpacity>
                       </View>
                     </View>
@@ -745,7 +860,8 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     flex: 1,
-    // marginBottom: 86,
+    marginTop: '1%',
+    marginBottom: '18%',
   },
   cycleCountContainer: {
     marginBottom: 1,
@@ -756,7 +872,7 @@ const styles = StyleSheet.create({
     marginTop: 1,
   },
   adhocCountContainer: {
-    marginBottom: "1%",
+    marginBottom: '1%',
     borderWidth: 1,
     borderColor: '#E0EAEE',
     borderRadius: 8,
@@ -780,9 +896,8 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.2,
     shadowRadius: 2,
-
     borderRadius: 8,
-    //overflow: 'visible',
+    overflow: 'hidden',
   },
   pendingcycleCount: {
     padding: 12,
@@ -796,23 +911,24 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: 'hidden',
     marginBottom: 15,
-    top: '-0.1%',
+    top: '0.02%',
     position: 'relative',
   },
   adhoccycleCount: {
     padding: 5,
+    //maxHeight: '40%',
     backgroundColor: 'white',
-    elevation: 5,
-    shadowColor: 'black',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
+    // elevation: 5,
+    // shadowColor: 'black',
+    // shadowOffset: {width: 0, height: 2},
+    // shadowOpacity: 0.2,
+    // shadowRadius: 2,
     borderWidth: 1,
     borderRadius: 2,
     //overflow: 'hidden',
     marginBottom: 1,
-    // height: '40%',
-    position: 'relative',
+    //height: '40%',
+    //position: 'relative',
   },
   cycleCountText: {
     fontSize: 16,
@@ -853,7 +969,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     padding: 15,
-    marginBottom: "1%",
+    marginBottom: '1%',
   },
 
   addButton: {
@@ -867,6 +983,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginHorizontal: 3,
     marginVertical: 100,
+  },
+  button1: {
+    backgroundColor: COLORS.primary,
+    paddingVertical: 10,
+    paddingHorizontal: 28,
+    borderRadius: 20,
+    marginHorizontal: 30,
   },
   disabledButton: {
     position: 'absolute',
@@ -883,7 +1006,8 @@ const styles = StyleSheet.create({
 
   StartButton: {
     position: 'absolute',
-    bottom: -100,
+    //bottom: "-200%",
+    top: '-244%',
     right: -10,
     backgroundColor: COLORS.primary,
     paddingVertical: 10,
@@ -899,7 +1023,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     marginLeft: 80,
-    marginTop: -5,
+    marginTop: '-1%',
     backgroundColor: COLORS.bluelight,
     color: COLORS.white,
   },
@@ -910,7 +1034,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     marginLeft: 80,
-    marginTop: -5,
+    marginTop: '-1%',
     backgroundColor: COLORS.graylight,
   },
 
@@ -944,8 +1068,9 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   recount: {
-    top: 2,
-    left: -260,
+    top: '-15%',
+    left: -270,
+    alignItems: 'flex-start',
     borderColor: COLORS.primary,
     paddingVertical: 6,
     paddingHorizontal: 9,
@@ -954,8 +1079,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.white,
     borderWidth: 1,
-    marginTop: -5,
+    marginTop: '-1%',
     backgroundColor: COLORS.bluelight,
+    position: 'absolute',
   },
 
   adhocrecount: {
@@ -973,8 +1099,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.bluelight,
   },
   recountdisabled: {
-    top: 2,
-    left: -260,
+    top: '-15%',
+    left: -270,
+    alignItems: 'flex-start',
     borderColor: COLORS.primary,
     paddingVertical: 6,
     paddingHorizontal: 9,
@@ -983,8 +1110,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.primary,
     borderWidth: 1,
-    marginTop: -5,
+    marginTop: '-1%',
     backgroundColor: COLORS.graylight,
+    position: 'absolute',
   },
   detailtext: {
     width: '100%',
@@ -1008,6 +1136,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalsaveContent1: {
+    paddingVertical: 40,
+    paddingHorizontal: 28,
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
   },
   modalContent1: {
     paddingVertical: 15,

@@ -59,7 +59,7 @@ const StoreData = ({route}) => {
       </Text>
       <View
         style={{
-          marginBottom: 5,
+          margin: 3,
         }}>
         <Text style={{color: 'grey', fontWeight: 'bold', fontSize: 16}}>
           Address
@@ -99,17 +99,19 @@ const StoreData = ({route}) => {
         </Text>
       </View>
 
-      <View>
-        <TouchableOpacity onPress={() => handleClick(storeName)}>
-          <FontAwesome5
-            name="map-marker-alt"
-            size={25}
-            style={{
-              left: '85%',
-              position: 'absolute',
-              top: '2%',
-            }}></FontAwesome5>
-        </TouchableOpacity>
+      <View style={{alignSelf: 'flex-end', top: '-100%', right: '14%'}}>
+        <FontAwesome5
+          name="map-marker-alt"
+          size={25}
+          onPress={() => handleClick(storeName)}
+          style={{
+            //flex:1,
+            // alignSelf:'flex-end',
+            // justifyContent:'flex-end',
+            // left: '85%',
+            position: 'absolute',
+            //top: '-10%',
+          }}></FontAwesome5>
       </View>
     </View>
   );
@@ -189,7 +191,7 @@ const StoreData = ({route}) => {
         const filteredData = ResponseData.filter(
           item => item.storeName !== 'Ambience Mall',
         );
-        //console.log('filteredData:', filteredData);
+        //console.log('ResponseData:', filteredData);
         setStoreData(filteredData);
       } catch (error) {
         console.log(error);
@@ -198,13 +200,20 @@ const StoreData = ({route}) => {
 
     fetchStoreData();
   }, [itemName, itemNumber, color, size]);
- 
+
   const handleDistance = index => {
     return distance[index];
   };
+  //console.log('storeData :', storeData);
   const renderTiles = () => {
-    if (!storeData) {
-      return null;
+    if (storeData.length === 0) {
+      return (
+        <View style={{backgroundColor: '#AFDCEC', padding: 20, left: 17}}>
+          <Text style={{color: 'black', fontSize: 28, textAlign: 'center'}}>
+            Oops! {'\n'}product is not available in any other store
+          </Text>
+        </View>
+      );
     }
 
     return storeData.map((data, index) => (
@@ -212,7 +221,7 @@ const StoreData = ({route}) => {
         style={styles.tile}
         onPress={() => handleTileClick(data.storeName)}>
         <Tile
-          key={index}
+          key={data.storeId}
           storeName={data.storeName}
           storeAddress={data.storeAddress}
           storeStock={data.storeStock}
@@ -331,7 +340,7 @@ const styles = StyleSheet.create({
   },
   tile: {
     width: '48%',
-    height: '50%',
+    height: 200,
     backgroundColor: '#fff',
     padding: 5,
     marginVertical: 10,

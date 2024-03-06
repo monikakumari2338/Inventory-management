@@ -222,8 +222,18 @@ const ItemScanner = () => {
         const filteredSuggestions = data.filter(
           item => item.store.storeName === val,
         );
-        //console.log('filteredSuggestions bsvxs', filteredSuggestions);
-        setSuggestions(filteredSuggestions);
+        console.log('filteredSuggestions bsvxs', filteredSuggestions);
+
+        const uniqueItemNumbers = {};
+
+        filteredSuggestions.forEach(obj => {
+          if (!uniqueItemNumbers[obj.product.itemNumber]) {
+            uniqueItemNumbers[obj.product.itemNumber] = obj;
+          }
+        });
+
+        const uniqueObjects = Object.values(uniqueItemNumbers);
+        setSuggestions(uniqueObjects);
       } catch (error) {
         console.log(error);
       }
@@ -238,8 +248,16 @@ const ItemScanner = () => {
         const filteredSuggestions = data.filter(
           item => item.store.storeName === val,
         );
+        const uniqueItemNumbers = {};
+        filteredSuggestions.forEach(obj => {
+          if (!uniqueItemNumbers[obj.product.itemName]) {
+            uniqueItemNumbers[obj.product.itemName] = obj;
+          }
+        });
+
+        const uniqueObjects = Object.values(uniqueItemNumbers);
         //console.log('filteredSuggestions bsvxs', filteredSuggestions);
-        setSuggestions(filteredSuggestions);
+        setSuggestions(uniqueObjects);
       } catch (error) {
         console.log(error);
       }
@@ -250,8 +268,6 @@ const ItemScanner = () => {
   const handleScan = () => {
     navigation.navigate(Scanner);
   };
-
-
 
   return (
     <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
@@ -358,7 +374,7 @@ const ItemScanner = () => {
                   }}>
                   {suggestions.map(suggestion => (
                     <TouchableOpacity
-                      key={suggestion.product.itemNumber}
+                      key={suggestion.id}
                       style={styles.suggestionItem}
                       onPress={() =>
                         handleSuggestionSelect(suggestion.product.itemNumber)

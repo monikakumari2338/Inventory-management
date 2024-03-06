@@ -138,8 +138,15 @@ const BuddyStoreDetails = ({route}) => {
       const filteredSuggestions = data.filter(
         item => item.store.storeName === storeName,
       );
-      console.log('filteredSuggestions bsvxs', filteredSuggestions);
-      setSuggestions(filteredSuggestions);
+      const uniqueItemNumbers = {};
+      filteredSuggestions.forEach(obj => {
+        if (!uniqueItemNumbers[obj.product.itemNumber]) {
+          uniqueItemNumbers[obj.product.itemNumber] = obj;
+        }
+      });
+
+      const uniqueObjects = Object.values(uniqueItemNumbers);
+      setSuggestions(uniqueObjects);
     } catch (error) {
       console.log(error);
     }

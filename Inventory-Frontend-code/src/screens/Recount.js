@@ -89,7 +89,7 @@ const Recount = ({route}) => {
     closeMenu();
   };
 
-  console.log('data ', data);
+  console.log('recount data ', data);
   const [countedqtys, setCountedqtys] = useState(Array(data?.length).fill(0));
 
   const openModal = () => {
@@ -104,26 +104,11 @@ const Recount = ({route}) => {
   };
 
   const handleScan = () => {
-    navigation.navigate('RecountStockCountScan', {data: data});
+    navigation.navigate('RecountStockCountScan', {products: data});
     //setPopupVisible(true);
   };
 
   const openPopupsave = () => {
-    // Validate quantities
-    const newErrors = countedqtys.map(qty => {
-      if (qty === 0 || qty === '' || isNaN(qty)) {
-        return 'Invalid Input';
-      }
-      return '';
-    });
-
-    setFormErrors(newErrors);
-
-    if (newErrors.some(error => error !== '')) {
-      return;
-    }
-    saveDataLocally();
-
     setPopupVisiblesave(true);
   };
   const closePopupsave = () => {
@@ -163,12 +148,11 @@ const Recount = ({route}) => {
       0,
     );
 
-    const reCountQty = countedqtys.reduce(
-      (sum, countedQty) => sum + parseFloat(countedQty),
-      0,
-    );
+    let countedQty = 0;
+    data.map(item => {
+      countedQty = countedQty + (item.count ? item.count : 0);
+    });
 
-    const varianceQty = totalBookQty - reCountQty;
     // Get current date and time for startedAt and completedAt
     const currentDate = new Date();
     const startedAt = currentDate.toISOString();
@@ -184,11 +168,11 @@ const Recount = ({route}) => {
         completedAt,
         status: 'complete',
         totalBookQty,
-        countedQty: 0,
-        varianceQty: Math.abs(totalBookQty - reCountQty),
+        countedQty,
+        varianceQty: Math.abs(totalBookQty - countedQty),
         reCount: 'complete',
-        reCountQty,
-        recountVarianceQty: Math.abs(totalBookQty - reCountQty),
+        reCountQty: countedQty,
+        recountVarianceQty: Math.abs(totalBookQty - countedQty),
       },
       saveStockCountProducts: data.map((product, index) => ({
         itemNumber: product.itemNumber,
@@ -201,14 +185,16 @@ const Recount = ({route}) => {
         store: product.store,
         bookQty: product.bookQty,
         countedQty: product.countedQty,
-        reCountQty: parseFloat(countedqtys[index]),
+        reCountQty: product.count ? product.count : 0,
         varianceQty: product.varianceQty,
         recountVarianceQty: Math.abs(
-          parseFloat(product.bookQty) - countedqtys[index],
+          parseFloat(product.bookQty) - (product.count ? product.count : 0),
         ),
+        sku: product.sku,
       })),
     };
 
+    //console.log('save array : -- ', savearr);
     axios({
       method: 'post',
       url: 'http://172.20.10.9:8083/savestockcount/save/recount',
@@ -296,10 +282,11 @@ const Recount = ({route}) => {
           <Image
             style={styles.productImage}
             source={{uri: product.imageData}}
+            resizeMode="contain"
           />
 
           <View style={styles.productInfo}>
-            <Text style={{color: 'black'}}>
+            <Text style={{color: 'black', top: '-20%'}}>
               Item Number: {product.itemNumber}
             </Text>
             <Text
@@ -314,6 +301,22 @@ const Recount = ({route}) => {
             <Text style={styles.productDetails}>
               Book Quantity: {product.bookQty}
             </Text>
+            <View style={styles.quantityContainer}>
+              <Text
+                style={{
+                  backgroundColor: COLORS.primary,
+                  color: 'white',
+                  paddingVertical: 10,
+                  paddingHorizontal: 20,
+                  borderRadius: 10,
+                  marginHorizontal: 10,
+                  left: '10%',
+                  top: '10%',
+                  borderRadius: 40,
+                }}>
+                {product.count ? product.count : 0}
+              </Text>
+            </View>
           </View>
         </View>
       </Pressable>
@@ -333,13 +336,13 @@ const Recount = ({route}) => {
               Initaite Recount
             </Text>
 
+            <TouchableOpacity style={styles.addQuantity} onPress={handleScan}>
+              <Text style={styles.addQuantityButtonText}>Scan</Text>
+            </TouchableOpacity>
             <TouchableOpacity
               style={styles.addQuantitysave}
               onPress={openPopupsave}>
               <Text style={styles.addQuantityButtonText}>Save</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.addQuantity} onPress={handleScan}>
-              <Text style={styles.addQuantityButtonText}>Scan</Text>
             </TouchableOpacity>
           </View>
 
@@ -347,35 +350,35 @@ const Recount = ({route}) => {
             <Modal
               animationType="slide"
               transparent={true}
-              visible={isPopupVisible}
-              onRequestClose={closePopup}>
+              visible={isPopupVisiblesave}
+              onRequestClose={closePopupsave}>
               <View style={styles.modalContainer1}>
                 <View style={styles.modalsaveContent1}>
-                  <Icon
+                  {/* <Icon
                     style={{textAlign: 'center', marginBottom: 15}}
                     name="save-outline"
                     size={55}
                     color="#699BF7"
-                  />
+                  /> */}
                   <Text style={styles.text1}>
                     Do you want to save this Cycle Count?
                   </Text>
                   <View style={styles.buttonContainer1}>
                     <TouchableOpacity
                       style={styles.button1}
-                      onPress={openModal}>
+                      onPress={handlesaveddata}>
                       <Text style={styles.buttonText1}>Yes</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.button1}
-                      onPress={handleNoClick}>
+                      onPress={closePopupsave}>
                       <Text style={styles.buttonText1}>No</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
               </View>
             </Modal>
-            <Modal
+            {/* <Modal
               animationType="slide"
               transparent={true}
               visible={isPopupVisiblesave}
@@ -398,7 +401,7 @@ const Recount = ({route}) => {
                   </View>
                 </View>
               </View>
-            </Modal>
+            </Modal> */}
           </View>
 
           <Modal
@@ -444,11 +447,12 @@ const Recount = ({route}) => {
 
 const styles = StyleSheet.create({
   quantityContainer: {
-    top: -110,
-    marginLeft: 220,
+    top: '-120%',
+    marginLeft: 200,
     flexDirection: 'column',
     alignItems: 'center',
     marginBottom: -90,
+    position: 'relative',
   },
   container: {
     padding: 16,
@@ -460,10 +464,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flex: 1,
     alignItems: 'center',
-    padding: 15,
+    padding: '7%',
     borderRadius: 5,
     paddingHorizontal: 7,
-    margin: 2,
+    margin: 5,
     marginHorizontal: -5,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 4},
@@ -480,9 +484,10 @@ const styles = StyleSheet.create({
     flex: 2,
   },
   productDetails: {
+    top: '-25%',
     fontSize: 16,
     color: 'grey',
-    marginTop: 8,
+    marginTop: 4,
   },
   addQuantity: {
     backgroundColor: COLORS.primary,
@@ -490,9 +495,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: -20,
     borderRadius: 10,
     marginHorizontal: 160,
-    left: '35%',
+    left: '10%',
     //marginTop: "-3%",
-    top: '-40%',
+    top: '-11%',
   },
   addQuantityButtonText: {
     color: 'white',
@@ -522,9 +527,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
-    marginHorizontal: 170,
-    top: '-16%',
-    left: '14%',
+    marginHorizontal: 160,
+    top: '-35%',
+    left: '35%',
   },
   buttonText1: {
     color: 'white',
@@ -562,7 +567,7 @@ const styles = StyleSheet.create({
   buttonContainer1: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: 19,
+    marginTop: '10%',
   },
 });
 

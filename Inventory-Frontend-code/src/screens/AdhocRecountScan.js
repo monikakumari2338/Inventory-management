@@ -12,7 +12,7 @@ import Scanner from './Scanner';
 import Header from '../components/Header';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
-const RecountStockCountScan = ({route}) => {
+const AdhocRecountScan = ({route}) => {
   const {products, reason} = route.params;
   const navigation = useNavigation();
   const [inputValue, setInputValue] = useState('');
@@ -44,9 +44,9 @@ const RecountStockCountScan = ({route}) => {
         creationProductsdto: data,
         creationdto: products.creationdto,
       };
-      //console.log('data from adhoc scan ', data);
+      console.log('data from scan ', data);
       //setProductData(responseData);
-      navigation.navigate('Recount', {
+      navigation.navigate('AdhocRecount', {
         data: data,
       });
     } catch (error) {
@@ -99,4 +99,4 @@ const RecountStockCountScan = ({route}) => {
   );
 };
 
-export default RecountStockCountScan;
+export default AdhocRecountScan;

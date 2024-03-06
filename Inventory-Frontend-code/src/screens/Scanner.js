@@ -1,4 +1,10 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 import {React} from 'react';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {useState} from 'react';
@@ -12,6 +18,8 @@ const Scanner = ({onScan}) => {
   const [result, setResult] = useState();
   const [productData, setProductData] = useState(null);
   const navigation = useNavigation();
+  const height = Dimensions.get('window').height;
+  const width = Dimensions.get('window').width;
   const onSuccess = e => {
     setResult(e.data);
     const code = e.data;
@@ -45,22 +53,31 @@ const Scanner = ({onScan}) => {
   //   }
   // };
 
-  const handleScanButton = () => {
-    onScan();
-  };
+  // const handleScanButton = () => {
+  //   onScan();
+  // };
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, flexDirection: 'row'}}>
       <QRCodeScanner
         onRead={onSuccess}
         topContent={<Text style={styles.centerText}>Scan Bar code</Text>}
-        bottomContent={
-          <View style={{flex: 1}}>
-            <TouchableOpacity onPress={handleScanButton}>
-              <Text style={styles.buttonText}>Scan</Text>
-            </TouchableOpacity>
-          </View>
-        }
+        // bottomContent={
+
+        // }
       />
+      <View>
+        <View
+          style={{
+            justifyContent: 'flex-end',
+            height: height * 0.525,
+            alignSelf: 'center',
+            width: width,
+          }}>
+          {/* <TouchableOpacity onPress={handleScanButton}>
+            <Text style={styles.buttonText}>Scan</Text>
+          </TouchableOpacity> */}
+        </View>
+      </View>
     </View>
   );
 };
@@ -78,7 +95,7 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   buttonText: {
-    top: '150%',
+    top: '120%',
     fontSize: 18,
     textAlign: 'center',
     color: 'white',

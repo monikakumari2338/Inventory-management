@@ -21,7 +21,7 @@ const StockCountScan = ({route}) => {
   const handleScan = () => {
     console.log('scan');
   };
-
+  console.log('products cc', products);
   const storeVal = 'Ambience Mall';
   const handleIconClick = async () => {
     try {
@@ -39,6 +39,7 @@ const StockCountScan = ({route}) => {
             count: countitem + 1,
           };
         }
+        return item;
       });
       console.log('products scan: ', data);
       //setProductData(responseData);
@@ -51,7 +52,7 @@ const StockCountScan = ({route}) => {
       console.log(error);
     }
   };
-  console.log(inputValue);
+  //console.log(inputValue);
   return (
     <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
       <Header showBackButton={true} />

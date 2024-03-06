@@ -145,7 +145,7 @@ const StockCheck = ({route}) => {
 
   return (
     <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
-     <Header showBackButton={true} />
+      <Header showBackButton={true} />
       <TouchableWithoutFeedback onPress={handlepress}>
         <ScrollView>
           <View style={{flex: 1}}>
@@ -197,6 +197,7 @@ const StockCheck = ({route}) => {
                     style={styles.productImage}
                     contentFit="cover"
                     source={{uri: selectedProduct.imageData}}
+                    resizeMode="contain"
                   />
 
                   <Text

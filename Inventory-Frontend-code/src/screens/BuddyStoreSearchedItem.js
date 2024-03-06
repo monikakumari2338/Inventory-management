@@ -124,10 +124,14 @@ const BuddyStoreSearchedItem = ({route}) => {
   const selectedProduct = productData.productDetailsdto.find(
     product => product.color === selectedColor && product.size === selectedSize,
   );
-
+  // console.log('colors :', colors);
+  // console.log('sizes :', sizes);
+  // console.log('selectedColor :', selectedColor);
+  // console.log('selectedSize :', selectedSize);
+  // console.log('selectedProduct :', selectedProduct);
   return (
     <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
-     <Header showBackButton={true} />
+      <Header showBackButton={true} />
       <TouchableWithoutFeedback onPress={handlepress}>
         <ScrollView>
           <View style={{flex: 1}}>
@@ -145,131 +149,148 @@ const BuddyStoreSearchedItem = ({route}) => {
                 Buddy Store Stock Check
               </Text>
             </View>
-            <ScrollView>
-              <View style={[styles.iphone14ProMax1]}>
-                <View>
-                  <View
-                    style={[styles.iphone14ProMax1Child, styles.childBorder1]}>
-                    <View style={styles.textContainer}>
-                      <Text style={styles.verticalText}>Price</Text>
+            {selectedProduct ? (
+              <ScrollView>
+                <View style={[styles.iphone14ProMax1]}>
+                  <View>
+                    <View
+                      style={[
+                        styles.iphone14ProMax1Child,
+                        styles.childBorder1,
+                      ]}>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.verticalText}>Price</Text>
 
-                      <Text style={styles.verticalText}>Size</Text>
+                        <Text style={styles.verticalText}>Size</Text>
 
-                      <Text style={[styles.verticalText, {left: 7}]}>
-                        Color
-                      </Text>
+                        <Text style={[styles.verticalText, {left: 7}]}>
+                          Color
+                        </Text>
+                      </View>
+                      <View style={styles.textContainer1}>
+                        <Text style={styles.verticalText1}>
+                          {'\u20B9'}
+                          {selectedProduct.price}
+                        </Text>
+
+                        <Text style={styles.verticalText2}>
+                          {selectedProduct.size}
+                        </Text>
+
+                        <Text style={styles.verticalText3}>
+                          {selectedProduct.color}
+                        </Text>
+                      </View>
                     </View>
-                    <View style={styles.textContainer1}>
-                      <Text style={styles.verticalText1}>
-                        {'\u20B9'}
-                        {selectedProduct.price}
-                      </Text>
 
-                      <Text style={styles.verticalText2}>
-                        {selectedProduct.size}
-                      </Text>
+                    <Image
+                      style={styles.productImage}
+                      contentFit="cover"
+                      source={{uri: selectedProduct.imageData}}
+                    />
 
-                      <Text style={styles.verticalText3}>
-                        {selectedProduct.color}
-                      </Text>
-                    </View>
+                    <Text
+                      style={[
+                        styles.iphone13Pink,
+                        styles.iphone13FlexBox,
+                        {fontSize: 22},
+                      ]}>
+                      {productData.itemName}
+                    </Text>
+
+                    <Text
+                      style={[
+                        styles.category,
+                        styles.iphone13FlexBox,
+                        {fontSize: 18},
+                      ]}>
+                      {productData.categoryName}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.itemnumbber,
+                        styles.iphone13FlexBox,
+                        {fontSize: 18},
+                      ]}>
+                      Item number :{productData.itemNumber}
+                    </Text>
+
+                    <Text
+                      style={[
+                        styles.inStock10,
+                        styles.iphone13FlexBox,
+                        {fontSize: 18},
+                      ]}>
+                      In Stock
+                    </Text>
+                    <Text
+                      style={[
+                        styles.inStock1,
+                        styles.iphone13FlexBox,
+                        {fontSize: 18},
+                      ]}>
+                      Current Stock: {selectedProduct.stock}
+                    </Text>
                   </View>
 
-                  <Image
-                    style={styles.productImage}
-                    contentFit="cover"
-                    source={{uri: selectedProduct.imageData}}
-                  />
+                  <View style={styles.viewContainer}>
+                    <Picker
+                      style={{
+                        flex: 1,
+                        backgroundColor: 'white',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 2,
+                        borderColor: 'red',
+                        borderWidth: 2,
+                        marginTop: 10,
+                        zIndex: 1,
+                        top: -10,
+                        elevation: 5,
+                      }}
+                      selectedValue={selectedColor}
+                      onValueChange={itemValue => setSelectedColor(itemValue)}>
+                      {colors.map(color => (
+                        <Picker.Item key={color} label={color} value={color} />
+                      ))}
+                    </Picker>
 
-                  <Text
-                    style={[
-                      styles.iphone13Pink,
-                      styles.iphone13FlexBox,
-                      {fontSize: 22},
-                    ]}>
-                    {productData.itemName}
-                  </Text>
-
-                  <Text
-                    style={[
-                      styles.category,
-                      styles.iphone13FlexBox,
-                      {fontSize: 18},
-                    ]}>
-                    {productData.categoryName}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.itemnumbber,
-                      styles.iphone13FlexBox,
-                      {fontSize: 18},
-                    ]}>
-                    Item number :{productData.itemNumber}
-                  </Text>
-
-                  <Text
-                    style={[
-                      styles.inStock10,
-                      styles.iphone13FlexBox,
-                      {fontSize: 18},
-                    ]}>
-                    In Stock
-                  </Text>
-                  <Text
-                    style={[
-                      styles.inStock1,
-                      styles.iphone13FlexBox,
-                      {fontSize: 18},
-                    ]}>
-                    Current Stock: {selectedProduct.stock}
-                  </Text>
+                    <Picker
+                      style={{
+                        flex: 1,
+                        backgroundColor: 'white',
+                        marginLeft: 10,
+                        borderRadius: 9,
+                        borderColor: 'red',
+                        borderWidth: 2,
+                        marginTop: 10,
+                        zIndex: 1,
+                        top: -10,
+                        elevation: 5,
+                      }}
+                      selectedValue={selectedSize}
+                      onValueChange={itemValue => setSelectedSize(itemValue)}>
+                      {sizes.map(size => (
+                        <Picker.Item key={size} label={size} value={size} />
+                      ))}
+                    </Picker>
+                  </View>
                 </View>
-
-                <View style={styles.viewContainer}>
-                  <Picker
-                    style={{
-                      flex: 1,
-                      backgroundColor: 'white',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderRadius: 2,
-                      borderColor: 'red',
-                      borderWidth: 2,
-                      marginTop: 10,
-                      zIndex: 1,
-                      top: -10,
-                      elevation: 5,
-                    }}
-                    selectedValue={selectedColor}
-                    onValueChange={itemValue => setSelectedColor(itemValue)}>
-                    {colors.map(color => (
-                      <Picker.Item key={color} label={color} value={color} />
-                    ))}
-                  </Picker>
-
-                  <Picker
-                    style={{
-                      flex: 1,
-                      backgroundColor: 'white',
-                      marginLeft: 10,
-                      borderRadius: 9,
-                      borderColor: 'red',
-                      borderWidth: 2,
-                      marginTop: 10,
-                      zIndex: 1,
-                      top: -10,
-                      elevation: 5,
-                    }}
-                    selectedValue={selectedSize}
-                    onValueChange={itemValue => setSelectedSize(itemValue)}>
-                    {sizes.map(size => (
-                      <Picker.Item key={size} label={size} value={size} />
-                    ))}
-                  </Picker>
-                </View>
+              </ScrollView>
+            ) : (
+              <View
+                style={{
+                  backgroundColor: '#AFDCEC',
+                  padding: 10,
+                  left: 1,
+                  top: 10,
+                }}>
+                <Text
+                  style={{color: 'black', fontSize: 28, textAlign: 'center'}}>
+                  Oops! {'\n'}This variant is not available
+                </Text>
               </View>
-            </ScrollView>
-            <Footer1 />
+            )}
           </View>
         </ScrollView>
       </TouchableWithoutFeedback>

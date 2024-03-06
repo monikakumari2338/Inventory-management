@@ -50,6 +50,9 @@ import BuddyStoreDetails from './src/screens/BuddyStoreDetails';
 import BuddyStoreSearchedItem from './src/screens/BuddyStoreSearchedItem';
 import StoreMap from './src/screens/StoreMap';
 import StockCountScan from './src/screens/StockCountScan';
+import AdhocRecount from './src/screens/AdhocRecount';
+import AdhocRecountScan from './src/screens/AdhocRecountScan';
+import AdhocPostVrnc from './src/screens/AdhocPostVrnc';
 import {MyProvider} from './src/StoreContext/LoggedStoreContext';
 const Stack = createNativeStackNavigator();
 
@@ -57,7 +60,7 @@ export default function App() {
   return (
     <MyProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="CycleCount">
+        <Stack.Navigator initialRouteName="Login">
           <Stack.Screen
             name="Recount"
             component={Recount}
@@ -83,6 +86,13 @@ export default function App() {
           <Stack.Screen
             name="Postvrnc"
             component={Postvrnc}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AdhocPostVrnc"
+            component={AdhocPostVrnc}
             options={{
               headerShown: false,
             }}
@@ -181,6 +191,21 @@ export default function App() {
           <Stack.Screen
             name="RecountStockCountScan"
             component={RecountStockCountScan}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="AdhocRecountScan"
+            component={AdhocRecountScan}
+            options={{
+              headerShown: false,
+            }}
+          />
+
+          <Stack.Screen
+            name="AdhocRecount"
+            component={AdhocRecount}
             options={{
               headerShown: false,
             }}

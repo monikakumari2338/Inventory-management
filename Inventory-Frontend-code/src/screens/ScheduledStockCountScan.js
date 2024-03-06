@@ -16,6 +16,7 @@ const ScheduledStockCountScan = ({route}) => {
   const {products, reason} = route.params;
   const navigation = useNavigation();
   const [inputValue, setInputValue] = useState('');
+  const [textValue,setTextValue] = useState('');
   const handleScan = () => {
     console.log('scan');
   };
@@ -37,6 +38,7 @@ const ScheduledStockCountScan = ({route}) => {
             count: countitem + 1,
           };
         }
+        return item;
       });
 
       const newData = {
@@ -52,7 +54,7 @@ const ScheduledStockCountScan = ({route}) => {
       console.log(error);
     }
   };
-  //console.log(inputValue);
+  //console.log("input",inputValue);
   return (
     <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
       <Header showBackButton={true} />
