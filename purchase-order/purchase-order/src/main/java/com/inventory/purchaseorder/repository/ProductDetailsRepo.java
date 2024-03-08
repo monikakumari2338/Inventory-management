@@ -17,10 +17,17 @@ public interface ProductDetailsRepo extends JpaRepository<ProductDetails, Intege
 	List<ProductDetails> findAllByProduct(Product Product);
 
 	List<ProductDetails> findByProductAndColorAndSize(Product Product, String color, String size);
-	// ProductDetails findByProduct(Product Product);
+
+	List<ProductDetails> findByProductAndStore(Product Product, Stores store);
+
+	ProductDetails findByUpc(String upc);
 	
-	//List<ProductDetails> findAllByStock();
-	
+	ProductDetails findBySku(String sku);
+
+	ProductDetails findBySkuAndStore(String sku,Stores store);
+
+	// List<ProductDetails> findAllByStock();
+
 	@Query(nativeQuery = true, value = "SELECT product_details.* FROM product_details INNER JOIN products_db ON products_db.item_number = product_details.item_number WHERE products_db.item_number=:item_number ")
 	List<ProductDetails> findAllProductDetailsByitemNumber(@Param("item_number") String item_number);
 }

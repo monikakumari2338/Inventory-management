@@ -27,17 +27,17 @@ public class StoreServiceImpl implements StoreService {
 	@Autowired
 	private ProductRepo productRepo;
 
-	@Override
-	public StoresDto save_stores(StoresDto storesDto) {
-		Stores stores = new Stores(storesDto.getStoreId(), storesDto.getStoreName(), storesDto.getStoreStock(),
-				storesDto.getStoreAddress());
-
-		storeRepo.save(stores);
-
-		StoresDto storesdto = new StoresDto(stores.getStoreId(), stores.getStoreName(), stores.getStoreStock(),
-				stores.getStoreAddress());
-		return storesdto;
-	}
+//	@Override
+//	public StoresDto save_stores(StoresDto storesDto) {
+//		Stores stores = new Stores(storesDto.getStoreId(), storesDto.getStoreName(), storesDto.getStoreStock(),
+//				storesDto.getStoreAddress());
+//
+//		storeRepo.save(stores);
+//
+//		StoresDto storesdto = new StoresDto(stores.getStoreId(), stores.getStoreName(), stores.getStoreStock(),
+//				stores.getStoreAddress());
+//		return storesdto;
+//	}
 
 	@Override
 	public List<Stores> getStores() {
@@ -73,15 +73,17 @@ public class StoreServiceImpl implements StoreService {
 		Product product = productRepo.findByItemNumber(itemNum);
 		System.out.println("product : " + product);
 		List<ProductDetails> productDetails = productDetailsRepo.findByProductAndColorAndSize(product, color, size);
-		
-		List<Stores> store=new ArrayList<>();
-		List<StoresDto> storesDto=new ArrayList<>();
-		for(int i=0;i<productDetails.size();i++)
-		{
+
+		List<Stores> store = new ArrayList<>();
+		List<StoresDto> storesDto = new ArrayList<>();
+		for (int i = 0; i < productDetails.size(); i++) {
 			store.add(storeRepo.findByStoreId(productDetails.get(i).getStore().getStoreId()));
-			storesDto.add(new StoresDto(store.get(i).getStoreId(),store.get(i).getStoreName(),productDetails.get(i).getStock(),store.get(i).getStoreAddress()));
+			storesDto.add(new StoresDto(store.get(i).getStoreId(), store.get(i).getStoreName(),
+					productDetails.get(i).getSellableStock(), store.get(i).getStoreAddress(),
+					productDetails.get(i).getColor(), productDetails.get(i).getPrice(),
+					productDetails.get(i).getSize(),productDetails.get(i).getImageData()));
 		}
-			
+
 //		System.out.println("ProductDetails : " + productDetails);
 //		System.out.println("store : " + store);
 //		System.out.println("storesDto : " + storesDto);

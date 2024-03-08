@@ -14,7 +14,26 @@ public class SaveStockCountProductsdto {
 	private int bookQty;
 	private int countedQty;
 	private int varianceQty;
+	private int recountVarianceQty;
 	private int countId;
+	private int reCountQty;
+	private String sku;
+
+	public int getRecountVarianceQty() {
+		return recountVarianceQty;
+	}
+
+	public void setRecountVarianceQty(int recountVarianceQty) {
+		this.recountVarianceQty = recountVarianceQty;
+	}
+
+	public int getReCountQty() {
+		return reCountQty;
+	}
+
+	public void setReCountQty(int reCountQty) {
+		this.reCountQty = reCountQty;
+	}
 
 	public SaveStockCountProductsdto() {
 		super();
@@ -125,8 +144,17 @@ public class SaveStockCountProductsdto {
 		this.countId = countId;
 	}
 
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+
 	public SaveStockCountProductsdto(int id, String itemNumber, String itemName, String category, String color,
-			String price, String size, String imageData, String store, int bookQty, int countedQty, int varianceQty) {
+			String price, String size, String imageData, String store, int bookQty, int countedQty, int varianceQty,
+			int recountVarianceQty, int countId, int reCountQty, String sku) {
 		super();
 		this.id = id;
 		this.itemNumber = itemNumber;
@@ -140,6 +168,19 @@ public class SaveStockCountProductsdto {
 		this.bookQty = bookQty;
 		this.countedQty = countedQty;
 		this.varianceQty = varianceQty;
+		this.recountVarianceQty = recountVarianceQty;
+		this.countId = countId;
+		this.reCountQty = reCountQty;
+		this.sku = sku;
+	}
+
+	@Override
+	public String toString() {
+		return "SaveStockCountProductsdto [id=" + id + ", itemNumber=" + itemNumber + ", itemName=" + itemName
+				+ ", category=" + category + ", color=" + color + ", price=" + price + ", size=" + size + ", imageData="
+				+ imageData + ", store=" + store + ", bookQty=" + bookQty + ", countedQty=" + countedQty
+				+ ", varianceQty=" + varianceQty + ", recountVarianceQty=" + recountVarianceQty + ", countId=" + countId
+				+ ", reCountQty=" + reCountQty + ", sku=" + sku + "]";
 	}
 
 }

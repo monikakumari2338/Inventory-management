@@ -1,10 +1,13 @@
 package com.inventory.purchaseorder.entity;
 
 import java.time.LocalDate;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @Entity
@@ -12,11 +15,10 @@ import jakarta.persistence.Table;
 public class InventoryAdjustment {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int adjId;
-	private String reason;
-	private String status;
-	private int supplierId;
+	private String adjId;
+	 @Column(length = 65555)
+	private String imageData;
+	private int totalSku;
 	private LocalDate date;
 
 	public InventoryAdjustment() {
@@ -24,36 +26,28 @@ public class InventoryAdjustment {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getAdjId() {
+	public String getAdjId() {
 		return adjId;
 	}
 
-	public void setAdjId(int adjId) {
+	public void setAdjId(String adjId) {
 		this.adjId = adjId;
 	}
 
-	public String getReason() {
-		return reason;
+	public String getImageData() {
+		return imageData;
 	}
 
-	public void setReason(String reason) {
-		this.reason = reason;
+	public void setImageData(String imageData) {
+		this.imageData = imageData;
 	}
 
-	public String getStatus() {
-		return status;
+	public int getTotalSku() {
+		return totalSku;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public int getSupplierId() {
-		return supplierId;
-	}
-
-	public void setSupplierId(int supplierId) {
-		this.supplierId = supplierId;
+	public void setTotalSku(int totalSku) {
+		this.totalSku = totalSku;
 	}
 
 	public LocalDate getDate() {
@@ -64,19 +58,12 @@ public class InventoryAdjustment {
 		this.date = date;
 	}
 
-	public InventoryAdjustment(String reason, String status, int supplierId, LocalDate date) {
+	public InventoryAdjustment(String adjId, String imageData, int totalSku, LocalDate date) {
 		super();
-
-		this.reason = reason;
-		this.status = status;
-		this.supplierId = supplierId;
+		this.adjId = adjId;
+		this.imageData = imageData;
+		this.totalSku = totalSku;
 		this.date = date;
-	}
-
-	@Override
-	public String toString() {
-		return "InventoryAdjustment [adjId=" + adjId + ", reason=" + reason + ", status=" + status + ", supplierId="
-				+ supplierId + ", date=" + date + "]";
 	}
 
 }

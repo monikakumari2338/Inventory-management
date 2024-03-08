@@ -9,7 +9,7 @@ import com.inventory.purchaseorder.entity.Stores;
 
 public interface StoreService {
 
-	StoresDto save_stores(StoresDto storesDto);
+	//StoresDto save_stores(StoresDto storesDto);
 	List<Stores> getStores();
 	String deleteStore(int id);
 	StoresDto updateStore(int id, StoresDto storesDto);

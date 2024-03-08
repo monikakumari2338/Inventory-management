@@ -35,9 +35,11 @@ public class StockCountCreationController {
 		return new ResponseEntity<>(stockCountCreationCombinedDto, HttpStatus.OK);
 	}
 
-	@GetMapping("/getProductsbydate/{date}")
-	public ResponseEntity<StockCountCreationCombinedDto> geTodaysProduct(@PathVariable LocalDate date) {
-		StockCountCreationCombinedDto products = stockCountCreationService.getProductsByDate(date);
+	@GetMapping("/getProductsbydate/{date}/{store}")
+	public ResponseEntity<StockCountCreationCombinedDto> geTodaysProduct(@PathVariable LocalDate date,
+			@PathVariable String store) {
+		System.out.print("date : " + date);
+		StockCountCreationCombinedDto products = stockCountCreationService.getProductsByDate(date,store);
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 

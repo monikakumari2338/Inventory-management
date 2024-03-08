@@ -18,6 +18,7 @@ public class StockCountCreation {
 	private String status;
 	private int totalBookQty;
 	private String reCount;
+	private String store;
 
 	public StockCountCreation() {
 		super();
@@ -72,8 +73,17 @@ public class StockCountCreation {
 		this.reCount = reCount;
 	}
 
+	public String getStore() {
+		return store;
+	}
+
+	public void setStore(String store) {
+		this.store = store;
+	}
+
+	
 	public StockCountCreation(int countId, String countDescription, LocalDate date, String status, int totalBookQty,
-			String reCount) {
+			String reCount, String store) {
 		super();
 		this.countId = countId;
 		this.countDescription = countDescription;
@@ -81,6 +91,7 @@ public class StockCountCreation {
 		this.status = status;
 		this.totalBookQty = totalBookQty;
 		this.reCount = reCount;
+		this.store = store;
 	}
 
 	@Override

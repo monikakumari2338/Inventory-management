@@ -5,47 +5,23 @@ public class ProductDetailsdto {
 	private String color;
 	private String price;
 	private String size;
-	private int stock;
+	private int sellableStock;
+	private int nonSellableStock;
 	private String imageData;
 	private String store;
 	private String itemNumber;
-	
-	
-	private String poNumber;
-	private String status;
-	private int received_qty;
-	
-	
+	private String upc;
+	private String sku;
+//	private String poNumber;
+//	private String status;
+//	private int received_qty;
 
-	public ProductDetailsdto(String color, String price, String size, int stock, String imageData, String store,
-			String itemNumber, String poNumber, String status,int received_qty) {
-		super();
-		this.color = color;
-		this.price = price;
-		this.size = size;
-		this.stock = stock;
-		this.imageData = imageData;
-		this.store = store;
-		this.itemNumber = itemNumber;
-		this.poNumber = poNumber;
-		this.status = status;
-		this.received_qty=received_qty;
+	public String getUpc() {
+		return upc;
 	}
 
-	public String getPoNumber() {
-		return poNumber;
-	}
-
-	public void setPoNumber(String poNumber) {
-		this.poNumber = poNumber;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
+	public void setUpc(String upc) {
+		this.upc = upc;
 	}
 
 	public ProductDetailsdto() {
@@ -85,14 +61,6 @@ public class ProductDetailsdto {
 		this.size = size;
 	}
 
-	public int getStock() {
-		return stock;
-	}
-
-	public void setStock(int stock) {
-		this.stock = stock;
-	}
-
 	public String getImageData() {
 		return imageData;
 	}
@@ -108,35 +76,44 @@ public class ProductDetailsdto {
 	public void setItemNumber(String itemNumber) {
 		this.itemNumber = itemNumber;
 	}
-	
 
-	public int getReceived_qty() {
-		return received_qty;
+	public String getSku() {
+		return sku;
 	}
 
-	public void setReceived_qty(int received_qty) {
-		this.received_qty = received_qty;
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
 
-	@Override
-	public String toString() {
-		return "ProductDetailsdto [color=" + color + ", price=" + price + ", size=" + size + ", stock=" + stock
-				+ ", imageData=" + imageData + ", store=" + store + ", itemNumber=" + itemNumber + ", poNumber="
-				+ poNumber + ", status=" + status + "]";
+	public int getSellableStock() {
+		return sellableStock;
 	}
 
-	public ProductDetailsdto(String color, String price, String size, int stock, String imageData, String store,
-			String itemNumber) {
+	public void setSellableStock(int sellableStock) {
+		this.sellableStock = sellableStock;
+	}
+
+	public int getNonSellableStock() {
+		return nonSellableStock;
+	}
+
+	public void setNonSellableStock(int nonSellableStock) {
+		this.nonSellableStock = nonSellableStock;
+	}
+
+	public ProductDetailsdto(String color, String price, String size, int sellableStock, int nonSellableStock,
+			String imageData, String store, String itemNumber, String upc, String sku) {
 		super();
 		this.color = color;
 		this.price = price;
 		this.size = size;
-		this.stock = stock;
+		this.sellableStock = sellableStock;
+		this.nonSellableStock = nonSellableStock;
 		this.imageData = imageData;
 		this.store = store;
 		this.itemNumber = itemNumber;
+		this.upc = upc;
+		this.sku = sku;
 	}
-
-
 
 }

@@ -24,6 +24,7 @@ public class StockCountCreationProducts {
 	private String imageData;
 	private String store;
 	private int bookQty;
+	private String sku;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "stockcountId", referencedColumnName = "countId")
@@ -122,10 +123,17 @@ public class StockCountCreationProducts {
 		this.store = store;
 	}
 
-	public StockCountCreationProducts(String itemNumber, String itemName, String category, String color,
-			String price, String size, String imageData, String store, int bookQty, StockCountCreation stockcount) {
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+
+	public StockCountCreationProducts(String itemNumber, String itemName, String category, String color, String price,
+			String size, String imageData, String store, int bookQty, String sku, StockCountCreation stockcount) {
 		super();
-//		this.id = id;
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.category = category;
@@ -135,8 +143,8 @@ public class StockCountCreationProducts {
 		this.imageData = imageData;
 		this.store = store;
 		this.bookQty = bookQty;
+		this.sku = sku;
 		this.stockcount = stockcount;
 	}
 
-	
 }

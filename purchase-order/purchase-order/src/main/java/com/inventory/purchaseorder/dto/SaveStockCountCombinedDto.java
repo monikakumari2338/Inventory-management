@@ -30,4 +30,10 @@ public class SaveStockCountCombinedDto {
 		this.saveStockCountProducts = saveStockCountProducts;
 	}
 
+	@Override
+	public String toString() {
+		return "SaveStockCountCombinedDto [saveStockCountInfo=" + saveStockCountInfo + ", saveStockCountProducts="
+				+ saveStockCountProducts + "]";
+	}
+
 }

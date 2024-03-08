@@ -26,6 +26,25 @@ public class SaveStockCountProducts {
 	private int bookQty;
 	private int countedQty;
 	private int varianceQty;
+	private int recountVarianceQty;
+	private int reCountQty;
+	private String sku;
+
+	public int getReCountQty() {
+		return reCountQty;
+	}
+
+	public void setReCountQty(int reCountQty) {
+		this.reCountQty = reCountQty;
+	}
+
+	public int getRecountVarianceQty() {
+		return recountVarianceQty;
+	}
+
+	public void setRecountVarianceQty(int recountVarianceQty) {
+		this.recountVarianceQty = recountVarianceQty;
+	}
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "stockcountId", referencedColumnName = "countId")
@@ -140,11 +159,18 @@ public class SaveStockCountProducts {
 		this.varianceQty = varianceQty;
 	}
 
-	public SaveStockCountProducts(String itemNumber, String itemName, String category, String color,
-			String price, String size, String imageData, String store, int bookQty, int countedQty, int varianceQty,
-			SaveStockCountInfo stockcount) {
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+
+	public SaveStockCountProducts(String itemNumber, String itemName, String category, String color, String price,
+			String size, String imageData, String store, int bookQty, int countedQty, int varianceQty,
+			int recountVarianceQty, int reCountQty, String sku, SaveStockCountInfo stockcount) {
 		super();
-//		this.id = id;
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.category = category;
@@ -156,6 +182,9 @@ public class SaveStockCountProducts {
 		this.bookQty = bookQty;
 		this.countedQty = countedQty;
 		this.varianceQty = varianceQty;
+		this.recountVarianceQty = recountVarianceQty;
+		this.reCountQty = reCountQty;
+		this.sku = sku;
 		this.stockcount = stockcount;
 	}
 

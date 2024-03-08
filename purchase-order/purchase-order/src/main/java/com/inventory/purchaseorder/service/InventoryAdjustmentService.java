@@ -8,17 +8,16 @@ import java.util.List;
 import com.inventory.purchaseorder.dto.InventoryAdjustmentCombinedDto;
 import com.inventory.purchaseorder.entity.InventoryAdjustment;
 import com.inventory.purchaseorder.entity.InventoryAdjustmentProducts;
+import com.inventory.purchaseorder.entity.ReasonCodes;
 
 public interface InventoryAdjustmentService {
 
 	String saveInventoryAdjustment(InventoryAdjustmentCombinedDto InvAdjCombinedDto);
 
-	List<InventoryAdjustment> getInventoryAdjustment(LocalDate date);
+	List<String> getAllReasonCodes();
 
 	List<InventoryAdjustment> getAllInventoryAdjustment();
 
-	List<InventoryAdjustment> getMatchedInvAdjByid(String id);
-
-	List<InventoryAdjustmentProducts> getInventoryAdjustmentProducts(int id);
+	List<InventoryAdjustmentProducts> getInventoryAdjustmentProductsByID(String id);
 
 }

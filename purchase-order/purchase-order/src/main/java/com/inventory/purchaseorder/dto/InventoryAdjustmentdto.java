@@ -1,12 +1,17 @@
 package com.inventory.purchaseorder.dto;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.persistence.Lob;
 
 public class InventoryAdjustmentdto {
 
-	private String reason;
-	private String status;
-	private int supplierId;
+	private String adjId;
+	private String image;
+	private int totalSku;
 	private LocalDate date;
 
 	public InventoryAdjustmentdto() {
@@ -14,28 +19,20 @@ public class InventoryAdjustmentdto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getReason() {
-		return reason;
+	public String getImage() {
+		return image;
 	}
 
-	public void setReason(String reason) {
-		this.reason = reason;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
-	public String getStatus() {
-		return status;
+	public int getTotalSku() {
+		return totalSku;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public int getSupplierId() {
-		return supplierId;
-	}
-
-	public void setSupplierId(int supplierId) {
-		this.supplierId = supplierId;
+	public void setTotalSku(int totalSku) {
+		this.totalSku = totalSku;
 	}
 
 	public LocalDate getDate() {
@@ -46,19 +43,25 @@ public class InventoryAdjustmentdto {
 		this.date = date;
 	}
 
-	public InventoryAdjustmentdto(String reason, String status, int supplierId, LocalDate date) {
-		super();
+	public String getAdjId() {
+		return adjId;
+	}
 
-		this.reason = reason;
-		this.status = status;
-		this.supplierId = supplierId;
+	public void setAdjId(String adjId) {
+		this.adjId = adjId;
+	}
+
+	public InventoryAdjustmentdto(String adjId, String image, int totalSku, LocalDate date) {
+		super();
+		this.adjId = adjId;
+		this.image = image;
+		this.totalSku = totalSku;
 		this.date = date;
 	}
 
 	@Override
 	public String toString() {
-		return "InventoryAdjustment [reason=" + reason + ", status=" + status + ", supplierId=" + supplierId + ", date="
-				+ date + "]";
+		return "InventoryAdjustmentdto [image=" + image + ", totalSku=" + totalSku + ", date=" + date + "]";
 	}
 
 }

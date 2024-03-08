@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.inventory.purchaseorder.entity.Stores;
 import com.inventory.purchaseorder.entity.TransferReceiveInfo;
 import com.inventory.purchaseorder.dto.ProductCombineddto;
+import com.inventory.purchaseorder.dto.ProductCombineddtotoAdjustInventory;
 import com.inventory.purchaseorder.dto.ProductDetailsdto;
 import com.inventory.purchaseorder.dto.Productdto;
 import com.inventory.purchaseorder.dto.ProductsByItemNumberdto;
@@ -63,12 +64,12 @@ public class ProductServiceImpl implements ProductService {
 	private TransferRecieveInfoRepo transferRecieveInfoRepo;
 
 	@Override
-	public List<ProductCombineddto> saveProducts(List<ProductCombineddto> productCombineddto, int received_qty) {
-
-		PurchaseOrder purchaseOrder = PurchaseOrderRepo
-				.findByPoNumber(productCombineddto.get(0).getProductDetailsdto().getPoNumber());
-		// System.out.print("purchaseOrder " + purchaseOrder);
-		List<PurchaseOrderItems> PurchaseOrderItemsList = itemsRepo.findAllByPurchaseOrder(purchaseOrder);
+	public List<ProductCombineddto> saveProducts(List<ProductCombineddto> productCombineddto) {
+//
+//		PurchaseOrder purchaseOrder = PurchaseOrderRepo
+//				.findByPoNumber(productCombineddto.get(0).getProductDetailsdto().getPoNumber());
+//		// System.out.print("purchaseOrder " + purchaseOrder);
+//		List<PurchaseOrderItems> PurchaseOrderItemsList = itemsRepo.findAllByPurchaseOrder(purchaseOrder);
 		for (int i = 0; i < productCombineddto.size(); i++) {
 //			System.out.print("length "+productCombineddto.size());
 			Stores store = storeRepo.findByStoreName(productCombineddto.get(i).getProductDetailsdto().getStore());
@@ -92,9 +93,15 @@ public class ProductServiceImpl implements ProductService {
 						productCombineddto.get(i).getProductDetailsdto().getColor(),
 						productCombineddto.get(i).getProductDetailsdto().getPrice(),
 						productCombineddto.get(i).getProductDetailsdto().getSize(),
-						productCombineddto.get(i).getProductDetailsdto().getStock(),
-						productCombineddto.get(i).getProductDetailsdto().getImageData(), store, product2);
+						productCombineddto.get(i).getProductDetailsdto().getSellableStock(),
+						productCombineddto.get(i).getProductDetailsdto().getNonSellableStock(),
+						productCombineddto.get(i).getProductDetailsdto().getImageData(), store, product2,
+						productCombineddto.get(i).getProductDetailsdto().getUpc(),
+						productCombineddto.get(i).getProductDetailsdto().getSku());
 
+				int total_stock = productCombineddto.get(i).getProductDetailsdto().getSellableStock()
+						+ productCombineddto.get(i).getProductDetailsdto().getNonSellableStock();
+				productDetails2.setTotalStock(total_stock);
 				productDetailsRepo.save(productDetails2);
 
 			} else {
@@ -103,13 +110,16 @@ public class ProductServiceImpl implements ProductService {
 						productCombineddto.get(i).getProductDetailsdto().getSize(), store, product);
 				int Prev_stock;
 				int new_stock;
-				int total_stock = 0;
+				int totalSellable = 0;
 
 				if (productDetails1 != null) {
-					Prev_stock = productDetails1.getStock();
-					new_stock = productCombineddto.get(i).getProductDetailsdto().getStock();
-					total_stock = Prev_stock + new_stock;
-					productDetails1.setStock(total_stock);
+					Prev_stock = productDetails1.getSellableStock();
+					new_stock = productCombineddto.get(i).getProductDetailsdto().getSellableStock();
+					int nonSellable_stock = productDetails1.getNonSellableStock();
+					totalSellable = Prev_stock + new_stock;
+					int total_stock = totalSellable + nonSellable_stock;
+					productDetails1.setTotalStock(total_stock);
+					productDetails1.setSellableStock(totalSellable);
 					productDetailsRepo.save(productDetails1);
 				}
 
@@ -118,45 +128,50 @@ public class ProductServiceImpl implements ProductService {
 							productCombineddto.get(i).getProductDetailsdto().getColor(),
 							productCombineddto.get(i).getProductDetailsdto().getPrice(),
 							productCombineddto.get(i).getProductDetailsdto().getSize(),
-							productCombineddto.get(i).getProductDetailsdto().getStock(),
-							productCombineddto.get(i).getProductDetailsdto().getImageData(), store, product);
+							productCombineddto.get(i).getProductDetailsdto().getSellableStock(),
+							productCombineddto.get(i).getProductDetailsdto().getNonSellableStock(),
+							productCombineddto.get(i).getProductDetailsdto().getImageData(), store, product,
+							productCombineddto.get(i).getProductDetailsdto().getUpc(),
+							productCombineddto.get(i).getProductDetailsdto().getSku());
 					productDetailsRepo.save(productDetails2);
 				}
 
 			}
 
-			for (int j = 0; j < PurchaseOrderItemsList.size(); j++) {
-				if (PurchaseOrderItemsList.get(i).getPurchaseOrder().getPoNumber() == productCombineddto.get(0)
-						.getProductDetailsdto().getPoNumber())
-
-				{
-					PurchaseOrderItems PurchaseOrderItems = itemsRepo
-							.findByitemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
-					// System.out.print("PurchaseOrderItems "+PurchaseOrderItems);
-
-					if (PurchaseOrderItems != null) {
-						PurchaseOrderItems
-								.setReceivedQty(productCombineddto.get(i).getProductDetailsdto().getReceived_qty());
-					}
-				}
-			}
+//			for (int j = 0; j < PurchaseOrderItemsList.size(); j++) {
+//				if (PurchaseOrderItemsList.get(i).getPurchaseOrder().getPoNumber() == productCombineddto.get(0)
+//						.getProductDetailsdto().getPoNumber())
+//
+//				{
+//					PurchaseOrderItems PurchaseOrderItems = itemsRepo
+//							.findByitemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
+//					// System.out.print("PurchaseOrderItems "+PurchaseOrderItems);
+//
+//					if (PurchaseOrderItems != null) {
+//						PurchaseOrderItems
+//								.setReceivedQty(productCombineddto.get(i).getProductDetailsdto().getReceived_qty());
+//					}
+//				}
+//			}
 		}
 
-		purchaseOrder.setStatus(productCombineddto.get(0).getProductDetailsdto().getStatus());
-		System.out.println("purchaseOrder : " + purchaseOrder);
-		System.out.println("received_qty : " + received_qty);
-		purchaseOrder.setReceived_qty(received_qty);
-		productRepo.save(purchaseOrder);
+//		purchaseOrder.setStatus(productCombineddto.get(0).getProductDetailsdto().getStatus());
+//		System.out.println("purchaseOrder : " + purchaseOrder);
+//		System.out.println("received_qty : " + received_qty);
+//		purchaseOrder.setReceived_qty(received_qty);
+//		productRepo.save(purchaseOrder);
 
 		return productCombineddto;
 
 	}
 
 	@Override
-	public ProductsByItemNumberdto getByItemnumber(String item_number) {
+	public ProductsByItemNumberdto getByItemnumber(String item_number, String storeName) {
 		Product product = productRepo.findByItemNumber(item_number);
 
-		List<ProductDetails> productDetails = productDetailsRepo.findAllByProduct(product);
+		Stores store1 = storeRepo.findByStoreName(storeName);
+		System.out.println("store1 : " + storeName);
+		List<ProductDetails> productDetails = productDetailsRepo.findByProductAndStore(product, store1);
 
 		List<ProductDetailsdto> productDetailsdto = new ArrayList<>();
 		ProductsByItemNumberdto productsByItemNumberdto = new ProductsByItemNumberdto();
@@ -166,14 +181,46 @@ public class ProductServiceImpl implements ProductService {
 		productsByItemNumberdto.setCategoryName(product.getCategory().getCategory());
 		for (int i = 0; i < productDetails.size(); i++) {
 			productDetailsdto.add(new ProductDetailsdto(productDetails.get(i).getColor(),
-					productDetails.get(i).getPrice(), productDetails.get(i).getSize(), productDetails.get(i).getStock(),
+					productDetails.get(i).getPrice(), productDetails.get(i).getSize(),
+					productDetails.get(i).getSellableStock(), productDetails.get(i).getNonSellableStock(),
 					productDetails.get(i).getImageData(), productDetails.get(i).getStore().getStoreName(),
-					productDetails.get(i).getProduct().getItemNumber()));
+					productDetails.get(i).getProduct().getItemNumber(), productDetails.get(i).getUpc(),
+					productDetails.get(i).getSku()));
 
 		}
 		productsByItemNumberdto.setProductDetailsdto(productDetailsdto);
-//        System.out.println("productsByItemNumberdto : "+productsByItemNumberdto);
-//        System.out.println("productDetailsdto : "+productDetailsdto);
+		System.out.println("productsByItemNumberdto : " + productsByItemNumberdto);
+		System.out.println("productDetailsdto : " + productDetailsdto);
+
+		return productsByItemNumberdto;
+	}
+
+	@Override
+	public ProductsByItemNumberdto getByItemName(String itemname, String storeName) {
+		Product product = productRepo.findByItemName(itemname);
+
+		Stores store1 = storeRepo.findByStoreName(storeName);
+		// System.out.println("item name : ");
+		List<ProductDetails> productDetails = productDetailsRepo.findByProductAndStore(product, store1);
+
+		List<ProductDetailsdto> productDetailsdto = new ArrayList<>();
+		ProductsByItemNumberdto productsByItemNumberdto = new ProductsByItemNumberdto();
+
+		productsByItemNumberdto.setItemName(product.getitemName());
+		productsByItemNumberdto.setItemNumber(product.getItemNumber());
+		productsByItemNumberdto.setCategoryName(product.getCategory().getCategory());
+		for (int i = 0; i < productDetails.size(); i++) {
+			productDetailsdto.add(new ProductDetailsdto(productDetails.get(i).getColor(),
+					productDetails.get(i).getPrice(), productDetails.get(i).getSize(),
+					productDetails.get(i).getSellableStock(), productDetails.get(i).getNonSellableStock(),
+					productDetails.get(i).getImageData(), productDetails.get(i).getStore().getStoreName(),
+					productDetails.get(i).getProduct().getItemNumber(), productDetails.get(i).getUpc(),
+					productDetails.get(i).getSku()));
+
+		}
+		productsByItemNumberdto.setProductDetailsdto(productDetailsdto);
+		System.out.println("productsByItemNumberdto : " + productsByItemNumberdto);
+		System.out.println("productDetailsdto : " + productDetailsdto);
 
 		return productsByItemNumberdto;
 	}
@@ -181,17 +228,20 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<categorydto> getCategoryStock() {
 		List<categorydto> dashboard = new ArrayList<>();
-		for (int i = 1; i < 5; i++) {
+		for (int i = 1; i <= 4; i++) {
 
 			int total_stock = 0;
-			Category category = categoryRepo.findByCategoryId(i);
 
+			Category category = categoryRepo.findByCategoryId(i);
 			List<Product> products = productRepo.findAllProductByCategory_id(category.getCategoryId());
+
 			List<ProductDetails> productDetail = new ArrayList<>();
 			for (int j = 0; j < products.size(); j++) {
+
 				productDetail
 						.addAll(productDetailsRepo.findAllProductDetailsByitemNumber(products.get(j).getItemNumber()));
-				total_stock = total_stock + productDetail.get(j).getStock();
+				total_stock = total_stock + productDetail.get(j).getSellableStock();
+
 			}
 
 			dashboard.add(new categorydto(category.getCategory(), total_stock));
@@ -207,7 +257,7 @@ public class ProductServiceImpl implements ProductService {
 		int inStore = 0;
 		int inTransit = 0;
 		for (int i = 0; i < ProductDetailstockList.size(); i++) {
-			inStore = inStore + ProductDetailstockList.get(i).getStock();
+			inStore = inStore + ProductDetailstockList.get(i).getSellableStock();
 		}
 		// System.out.println("inStore " + " " + inStore);
 
@@ -232,9 +282,29 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Product> getMatchedProductsByItemNumber(String item_number) {
+	public List<ProductDetails> getMatchedProductsByItemNumber(String item_number) {
 		List<Product> Products = productRepo.findByItemNumberContaining(item_number);
-		return Products;
+		List<ProductDetails> itemNumberList = new ArrayList<>();
+//		Stores store = storeRepo.findByStoreName(storename);
+		for (int i = 0; i < Products.size(); i++) {
+
+			itemNumberList.addAll(productDetailsRepo.findAllByProduct(Products.get(i)));
+
+		}
+		System.out.println("itemNumberList : " + itemNumberList);
+		return itemNumberList;
+	}
+
+	@Override
+	public List<ProductDetails> getMatchedProductsByItemName(String name) {
+		List<Product> Products = productRepo.findByItemNameContaining(name);
+		List<ProductDetails> itemNameList = new ArrayList<>();
+		for (int i = 0; i < Products.size(); i++) {
+
+			itemNameList.addAll(productDetailsRepo.findAllByProduct(Products.get(i)));
+		}
+		System.out.println("itemNameList : " + itemNameList);
+		return itemNameList;
 	}
 
 	// api to get all category
@@ -249,4 +319,60 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return Category_list;
 	}
+
+	@Override
+	public ProductCombineddtotoAdjustInventory adjustInventoryquantity(
+			ProductCombineddtotoAdjustInventory productCombineddto) {
+
+		Product product = productRepo.findByItemNumber(productCombineddto.getProductdto().getItemNumber());
+
+		for (int i = 0; i < productCombineddto.getProductDetailsdto().size(); i++) {
+			Stores store = storeRepo.findByStoreName(productCombineddto.getProductDetailsdto().get(i).getStore());
+			ProductDetails productDetails = productDetailsRepo.findByColorAndSizeAndStoreAndProduct(
+					productCombineddto.getProductDetailsdto().get(i).getColor(),
+					productCombineddto.getProductDetailsdto().get(i).getSize(), store, product);
+
+			productDetails.setSellableStock(productCombineddto.getProductDetailsdto().get(i).getqty());
+			productDetailsRepo.save(productDetails);
+		}
+
+		return productCombineddto;
+	}
+
+	@Override
+	public List<ProductDetails> getproductListByCategory(int categoryId, String store) {
+
+		Category category = categoryRepo.findByCategoryId(categoryId);
+		Stores store1 = storeRepo.findByStoreName(store);
+		System.out.println("store " + " " + store1);
+		List<Product> products = productRepo.findAllProductByCategory_id(category.getCategoryId());
+		List<ProductDetails> productDetail = new ArrayList<>();
+		for (int j = 0; j < products.size(); j++) {
+			productDetail.addAll(productDetailsRepo.findByProductAndStore(products.get(j), store1));
+
+		}
+
+//		System.out.println("productDetail " + " " + productDetail);
+		return productDetail;
+
+	}
+
+	@Override
+	public ProductDetails getproducDetailstByUPC(String upc) {
+
+		ProductDetails Product = productDetailsRepo.findByUpc(upc);
+		System.out.println("productDetail " + " " + Product);
+		return Product;
+
+	}
+
+	@Override
+	public ProductDetails getproducDetailstBySKU(String sku, String store) {
+		Stores store1 = storeRepo.findByStoreName(store);
+		ProductDetails Product = productDetailsRepo.findBySkuAndStore(sku, store1);
+		System.out.println("productDetail " + " " + Product);
+		return Product;
+
+	}
+
 }

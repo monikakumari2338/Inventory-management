@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.inventory.purchaseorder.dto.SaveStockCountCombinedDto;
 import com.inventory.purchaseorder.dto.StockCountOnloadDto;
+import com.inventory.purchaseorder.entity.AdhocStockCount;
 import com.inventory.purchaseorder.entity.SaveStockCountInfo;
 import com.inventory.purchaseorder.entity.SaveStockCountProducts;
 
@@ -15,5 +16,17 @@ public interface SaveStockCountService {
 	List<SaveStockCountProducts> getStockCountProductsByCountId(int id);
 
 	SaveStockCountCombinedDto saveProducts(SaveStockCountCombinedDto saveStockCountCombinedDto);
+
+	SaveStockCountCombinedDto saveRecountProducts(SaveStockCountCombinedDto saveStockCountCombinedDto);
+
+	// Adhoc count save
+
+	String saveAdhocStockCount(List<AdhocStockCount> adhocStockCount);
+
+	List<AdhocStockCount> getAllAdhocStockCount();
+
+	List<AdhocStockCount> getStockCountProductsByAdhocId(String id);
+
+	String saveRecountAdhocStockCount(List<AdhocStockCount> adhocStockCount);
 
 }

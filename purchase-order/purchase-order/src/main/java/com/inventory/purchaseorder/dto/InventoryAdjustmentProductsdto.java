@@ -2,29 +2,21 @@ package com.inventory.purchaseorder.dto;
 
 public class InventoryAdjustmentProductsdto {
 
-	private int id;
 	private String itemNumber;
 	private String itemName;
 	private String category;
-	private String color;
-	private String price;
-	private String size;
-	private String imageData;
+	private String sku;
+	private String upc;
 	private String store;
+	private String reason;
+	private String status;
+	private String user;
 	private int adjQty;
-	private int adjId;
+	private String image;
 
 	public InventoryAdjustmentProductsdto() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getItemNumber() {
@@ -51,36 +43,20 @@ public class InventoryAdjustmentProductsdto {
 		this.category = category;
 	}
 
-	public String getColor() {
-		return color;
+	public String getSku() {
+		return sku;
 	}
 
-	public void setColor(String color) {
-		this.color = color;
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
 
-	public String getPrice() {
-		return price;
+	public String getUpc() {
+		return upc;
 	}
 
-	public void setPrice(String price) {
-		this.price = price;
-	}
-
-	public String getSize() {
-		return size;
-	}
-
-	public void setSize(String size) {
-		this.size = size;
-	}
-
-	public String getImageData() {
-		return imageData;
-	}
-
-	public void setImageData(String imageData) {
-		this.imageData = imageData;
+	public void setUpc(String upc) {
+		this.upc = upc;
 	}
 
 	public String getStore() {
@@ -91,6 +67,30 @@ public class InventoryAdjustmentProductsdto {
 		this.store = store;
 	}
 
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
 	public int getAdjQty() {
 		return adjQty;
 	}
@@ -99,34 +99,29 @@ public class InventoryAdjustmentProductsdto {
 		this.adjQty = adjQty;
 	}
 
-	public int getAdjId() {
-		return adjId;
+	public String getImage() {
+		return image;
 	}
 
-	public void setAdjId(int adjId) {
-		this.adjId = adjId;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
-	public InventoryAdjustmentProductsdto(String itemNumber, String itemName, String category, String color,
-			String price, String size, String imageData, String store, int adjQty) {
+	public InventoryAdjustmentProductsdto(String itemNumber, String itemName, String category, String sku, String upc,
+			String store, String reason, String status, String user, int adjQty, String image) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.category = category;
-		this.color = color;
-		this.price = price;
-		this.size = size;
-		this.imageData = imageData;
+		this.sku = sku;
+		this.upc = upc;
 		this.store = store;
+		this.reason = reason;
+		this.status = status;
+		this.user = user;
 		this.adjQty = adjQty;
-	
-	}
+		this.image = image;
 
-	@Override
-	public String toString() {
-		return "InventoryAdjustmentProducts [id=" + id + ", itemNumber=" + itemNumber + ", itemName=" + itemName
-				+ ", category=" + category + ", color=" + color + ", price=" + price + ", size=" + size + ", imageData="
-				+ imageData + ", store=" + store + ", adjQty=" + adjQty + ", adjId=" + adjId + "]";
 	}
 
 }

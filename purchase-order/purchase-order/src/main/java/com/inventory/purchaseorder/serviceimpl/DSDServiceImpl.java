@@ -94,14 +94,12 @@ public class DSDServiceImpl implements DSDService {
 		DsdSuppliers dsdSuppliers = DsdRepo.findBySupplierId(supplier);
 		List<DsdInvoice> DsdInvoice1 = invoiceRepo.findAllBySupplierId(dsdSuppliers);
 		List<DsdInvoice> DsdInvoice2 = new ArrayList<>();
-		for(int i=0;i<DsdInvoice1.size();i++)
-		{
-			if(DsdInvoice1.get(i).getStatus().equals("pending"))
-			{
+		for (int i = 0; i < DsdInvoice1.size(); i++) {
+			if (DsdInvoice1.get(i).getStatus().equals("pending")) {
 				DsdInvoice2.add(DsdInvoice1.get(i));
 			}
 		}
-		
+
 		System.out.println("DsdInvoice : " + DsdInvoice2);
 		return DsdInvoice2;
 	}
@@ -144,8 +142,11 @@ public class DSDServiceImpl implements DSDService {
 							productCombineddto.get(i).getProductDetailsdto().getColor(),
 							productCombineddto.get(i).getProductDetailsdto().getPrice(),
 							productCombineddto.get(i).getProductDetailsdto().getSize(),
-							productCombineddto.get(i).getProductDetailsdto().getStock(),
-							productCombineddto.get(i).getProductDetailsdto().getImageData(), store, product2);
+							productCombineddto.get(i).getProductDetailsdto().getSellableStock(),
+							productCombineddto.get(i).getProductDetailsdto().getNonSellableStock(),
+							productCombineddto.get(i).getProductDetailsdto().getImageData(), store, product2,
+							productCombineddto.get(i).getProductDetailsdto().getUpc(),
+							productCombineddto.get(i).getProductDetailsdto().getSku());
 
 					productDetailsRepo.save(productDetails2);
 					// System.out.println("saved : inside if");
@@ -159,10 +160,10 @@ public class DSDServiceImpl implements DSDService {
 					int total_stock = 0;
 					// System.out.println("productDetails1 : " + productDetails1);
 					if (productDetails1 != null) {
-						Prev_stock = productDetails1.getStock();
-						new_stock = productCombineddto.get(i).getProductDetailsdto().getStock();
+						Prev_stock = productDetails1.getSellableStock();
+						new_stock = productCombineddto.get(i).getProductDetailsdto().getSellableStock();
 						total_stock = Prev_stock + new_stock;
-						productDetails1.setStock(total_stock);
+						productDetails1.setSellableStock(total_stock);
 						productDetailsRepo.save(productDetails1);
 						// System.out.println("saved : inside else if");
 					}
@@ -172,8 +173,11 @@ public class DSDServiceImpl implements DSDService {
 								productCombineddto.get(i).getProductDetailsdto().getColor(),
 								productCombineddto.get(i).getProductDetailsdto().getPrice(),
 								productCombineddto.get(i).getProductDetailsdto().getSize(),
-								productCombineddto.get(i).getProductDetailsdto().getStock(),
-								productCombineddto.get(i).getProductDetailsdto().getImageData(), store, product);
+								productCombineddto.get(i).getProductDetailsdto().getSellableStock(),
+								productCombineddto.get(i).getProductDetailsdto().getNonSellableStock(),
+								productCombineddto.get(i).getProductDetailsdto().getImageData(), store, product,
+								productCombineddto.get(i).getProductDetailsdto().getUpc(),
+								productCombineddto.get(i).getProductDetailsdto().getSku());
 						productDetailsRepo.save(productDetails2);
 
 						// System.out.println("saved : inside else");
@@ -268,7 +272,7 @@ public class DSDServiceImpl implements DSDService {
 	@Override
 	public List<DsdSuppliers> getAllSuppliers() {
 		List<DsdSuppliers> dsdSuppliers = DsdRepo.findAll();
-		//List<String> supplierList = new ArrayList<>();
+		// List<String> supplierList = new ArrayList<>();
 //		for (int i = 0; i < dsdSuppliers.size(); i++) {
 //			supplierList.add(dsdSuppliers.get(i).getSupplierName());
 //		}

@@ -118,8 +118,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		System.out.println("DsdInvoice : " + transferReceiveInfo);
 		List<TransferReceiveInfodto> transferReceiveInfodto = new ArrayList<>();
 		for (int i = 0; i < transferReceiveInfo.size(); i++) {
-			if(transferReceiveInfo.get(i).getStatus().equals("pending"))
-			{
+			if (transferReceiveInfo.get(i).getStatus().equals("pending")) {
 				TransferReceiveInfodto transferReceiveInfodto1 = new TransferReceiveInfodto(
 						transferReceiveInfo.get(i).getTransferId(), transferReceiveInfo.get(i).getStoreFrom(),
 						transferReceiveInfo.get(i).getStoreTo(), transferReceiveInfo.get(i).getExpected_qty(),
@@ -128,7 +127,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 
 				transferReceiveInfodto.add(transferReceiveInfodto1);
 			}
-			
+
 		}
 		return transferReceiveInfodto;
 	}
@@ -140,20 +139,19 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 		List<TransferReceiveProductsdto> transferReceiveProductsdto = new ArrayList<>();
 //		System.out.println("transferReceiveInfo : " + transferReceiveInfo);
 //		System.out.println("transferReceiveProducts : " + transferReceiveProducts);
-		if(transferReceiveInfo.getStatus().equals("pending"))
-		{
+		if (transferReceiveInfo.getStatus().equals("pending")) {
 			List<TransferReceiveProducts> transferReceiveProducts = transferReceiveProdutcsRepo
 					.findBytransferInfo(transferReceiveInfo);
-		
-		for (int i = 0; i < transferReceiveProducts.size(); i++) {
-			transferReceiveProductsdto.add(new TransferReceiveProductsdto(
-					transferReceiveProducts.get(i).getItemNumber(), transferReceiveProducts.get(i).getItemName(),
-					transferReceiveProducts.get(i).getExpectedQty(), transferReceiveProducts.get(i).getCategory(),
-					transferReceiveProducts.get(i).getColor(), transferReceiveProducts.get(i).getPrice(),
-					transferReceiveProducts.get(i).getSize(), transferReceiveProducts.get(i).getImageData(),
-					transferReceiveProducts.get(i).getStore(), transferReceiveProducts.get(i).getStock(),
-					transferReceiveProducts.get(i).getTransferInfo().getTransferId()));
-		}
+
+			for (int i = 0; i < transferReceiveProducts.size(); i++) {
+				transferReceiveProductsdto.add(new TransferReceiveProductsdto(
+						transferReceiveProducts.get(i).getItemNumber(), transferReceiveProducts.get(i).getItemName(),
+						transferReceiveProducts.get(i).getExpectedQty(), transferReceiveProducts.get(i).getCategory(),
+						transferReceiveProducts.get(i).getColor(), transferReceiveProducts.get(i).getPrice(),
+						transferReceiveProducts.get(i).getSize(), transferReceiveProducts.get(i).getImageData(),
+						transferReceiveProducts.get(i).getStore(), transferReceiveProducts.get(i).getStock(),
+						transferReceiveProducts.get(i).getTransferInfo().getTransferId()));
+			}
 		}
 		return transferReceiveProductsdto;
 	}
@@ -192,8 +190,11 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 						productCombineddto.get(i).getProductDetailsdto().getColor(),
 						productCombineddto.get(i).getProductDetailsdto().getPrice(),
 						productCombineddto.get(i).getProductDetailsdto().getSize(),
-						productCombineddto.get(i).getProductDetailsdto().getStock(),
-						productCombineddto.get(i).getProductDetailsdto().getImageData(), store1, product2);
+						productCombineddto.get(i).getProductDetailsdto().getSellableStock(),
+						productCombineddto.get(i).getProductDetailsdto().getNonSellableStock(),
+						productCombineddto.get(i).getProductDetailsdto().getImageData(), store1, product2,
+						productCombineddto.get(i).getProductDetailsdto().getUpc(),
+						productCombineddto.get(i).getProductDetailsdto().getSku());
 
 				productDetailsRepo.save(productDetails2);
 
@@ -219,10 +220,10 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 				int total_stock1 = 0;
 				// System.out.println("productDetails1 : " + productDetails1);
 				if (productDetails1 != null) {
-					Prev_stock = productDetails1.getStock();
-					new_stock = productCombineddto.get(i).getProductDetailsdto().getStock();
+					Prev_stock = productDetails1.getSellableStock();
+					new_stock = productCombineddto.get(i).getProductDetailsdto().getSellableStock();
 					total_stock = Prev_stock + new_stock;
-					productDetails1.setStock(total_stock);
+					productDetails1.setSellableStock(total_stock);
 					// System.out.println("total_stock : " + total_stock);
 					System.out.println("productDetails1 : " + productDetails1);
 
@@ -235,8 +236,11 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 							productCombineddto.get(i).getProductDetailsdto().getColor(),
 							productCombineddto.get(i).getProductDetailsdto().getPrice(),
 							productCombineddto.get(i).getProductDetailsdto().getSize(),
-							productCombineddto.get(i).getProductDetailsdto().getStock(),
-							productCombineddto.get(i).getProductDetailsdto().getImageData(), store1, product);
+							productCombineddto.get(i).getProductDetailsdto().getSellableStock(),
+							productCombineddto.get(i).getProductDetailsdto().getNonSellableStock(),
+							productCombineddto.get(i).getProductDetailsdto().getImageData(), store1, product,
+							productCombineddto.get(i).getProductDetailsdto().getUpc(),
+							productCombineddto.get(i).getProductDetailsdto().getSku());
 					productDetailsRepo.save(productDetails3);
 
 					// System.out.println("saved : inside else");
@@ -262,8 +266,6 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 
 	}
 
-	
-
 	@Override
 	public Set<String> getAllAsnIdFromTransferReceive() {
 
@@ -279,6 +281,7 @@ public class TransferReceiveServiceImpl implements TransferReceiveService {
 
 		return asnNumber_list;
 	}
+
 	@Override
 	public List<TransferReceiveInfo> getAllTransferReceive() {
 

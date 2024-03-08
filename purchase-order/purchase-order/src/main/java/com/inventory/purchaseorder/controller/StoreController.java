@@ -27,12 +27,12 @@ public class StoreController {
 	private StoreService storeService;
 	
 
-	@PostMapping("/addstore")
-	public ResponseEntity<StoresDto> add_store(@RequestBody StoresDto storesdto)
-	{
-		storeService.save_stores(storesdto);
-		return new ResponseEntity<>(storesdto,HttpStatus.OK);	
-	}
+//	@PostMapping("/addstore")
+//	public ResponseEntity<StoresDto> add_store(@RequestBody StoresDto storesdto)
+//	{
+//		storeService.save_stores(storesdto);
+//		return new ResponseEntity<>(storesdto,HttpStatus.OK);	
+//	}
 	
 	@GetMapping("/getallstores")
 	public ResponseEntity<List> getStores()

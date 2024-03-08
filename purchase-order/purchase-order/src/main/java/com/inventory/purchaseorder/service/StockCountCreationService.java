@@ -12,8 +12,10 @@ public interface StockCountCreationService {
 
 	StockCountCreationCombinedDto saveProducts(StockCountCreationCombinedDto StockCountCreationCombinedDto);
 
-	StockCountCreationCombinedDto getProductsByDate(LocalDate date);
+//	StockCountCreationCombinedDto getProductsByDate(LocalDate date);
 
 	List<StockCountCreationProducts> getStockCountProductsByCountId(int id);
+
+	StockCountCreationCombinedDto getProductsByDate(LocalDate date, String storeName);
 
 }

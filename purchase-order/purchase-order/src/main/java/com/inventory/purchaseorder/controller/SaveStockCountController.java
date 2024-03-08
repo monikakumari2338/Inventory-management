@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.purchaseorder.dto.SaveStockCountCombinedDto;
 import com.inventory.purchaseorder.dto.StockCountOnloadDto;
+import com.inventory.purchaseorder.entity.AdhocStockCount;
 import com.inventory.purchaseorder.entity.EmailRequest;
-import com.inventory.purchaseorder.entity.SaveStockCountInfo;
 import com.inventory.purchaseorder.entity.SaveStockCountProducts;
 import com.inventory.purchaseorder.service.EmailService;
 import com.inventory.purchaseorder.service.SaveStockCountService;
@@ -40,6 +39,13 @@ public class SaveStockCountController {
 		return new ResponseEntity<>(stockCount, HttpStatus.OK);
 	}
 
+	@PostMapping("/save/recount")
+	public ResponseEntity<SaveStockCountCombinedDto> saveRecountStockCount(
+			@RequestBody SaveStockCountCombinedDto saveStockCountCombinedDto) {
+		SaveStockCountCombinedDto stockCount = saveStockCountService.saveRecountProducts(saveStockCountCombinedDto);
+		return new ResponseEntity<>(stockCount, HttpStatus.OK);
+	}
+
 	@GetMapping("/getinfolist")
 	public ResponseEntity<StockCountOnloadDto> getStockInfo() {
 		StockCountOnloadDto stockCountList = saveStockCountService.getStockCountInfo();
@@ -58,4 +64,26 @@ public class SaveStockCountController {
 		return new ResponseEntity<>(stockCountList, HttpStatus.OK);
 	}
 
+	@PostMapping("/adhoc/count/creation")
+	public ResponseEntity<String> saveAdocStockCount(@RequestBody List<AdhocStockCount> adhocStockCount) {
+		String status = saveStockCountService.saveAdhocStockCount(adhocStockCount);
+		return new ResponseEntity<>(status, HttpStatus.OK);
+	}
+	
+	@PostMapping("save/adhoc/recount")
+	public ResponseEntity<String> saveRecountAdocStockCount(@RequestBody List<AdhocStockCount> adhocStockCount) {
+		String status = saveStockCountService.saveRecountAdhocStockCount(adhocStockCount);
+		return new ResponseEntity<>(status, HttpStatus.OK);
+	}
+
+	@GetMapping("/getall/adhoc/count")
+	public ResponseEntity<List<AdhocStockCount>> getAllAdocStockCounts() {
+		List<AdhocStockCount> AdocstockCountList = saveStockCountService.getAllAdhocStockCount();
+		return new ResponseEntity<>(AdocstockCountList, HttpStatus.OK);
+	}
+	@GetMapping("/get/adhoc/{id}")
+	public ResponseEntity<List<AdhocStockCount>> getAllAdocStockCountByAdhocId(@PathVariable String id) {
+		List<AdhocStockCount> AdocstockCountList = saveStockCountService.getStockCountProductsByAdhocId(id);
+		return new ResponseEntity<>(AdocstockCountList, HttpStatus.OK);
+	}
 }

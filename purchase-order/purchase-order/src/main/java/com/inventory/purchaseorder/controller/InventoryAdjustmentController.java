@@ -1,11 +1,10 @@
 package com.inventory.purchaseorder.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,51 +14,53 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.purchaseorder.dto.InventoryAdjustmentCombinedDto;
-import com.inventory.purchaseorder.entity.DsdInvoice;
+import com.inventory.purchaseorder.dto.PurchaseOrderCombineddto;
+import com.inventory.purchaseorder.dto.PurchaseOrderCombineddtotoSave;
+import com.inventory.purchaseorder.dto.PurchaseOrderOnLoadDTO;
+import com.inventory.purchaseorder.dto.PurchaseOrderdto;
+import com.inventory.purchaseorder.entity.ASN;
 import com.inventory.purchaseorder.entity.InventoryAdjustment;
 import com.inventory.purchaseorder.entity.InventoryAdjustmentProducts;
+import com.inventory.purchaseorder.entity.PurchaseOrder;
+import com.inventory.purchaseorder.entity.ReasonCodes;
 import com.inventory.purchaseorder.service.InventoryAdjustmentService;
+import com.inventory.purchaseorder.service.PurchaseOrderService;
 
 @RestController
 @RequestMapping("/inventoryadjustment")
 public class InventoryAdjustmentController {
 
 	@Autowired
-	private InventoryAdjustmentService invAdjService;
+	private InventoryAdjustmentService inventoryAdjustmentService;
 
-	// Api to save InventoryAdjustment
-	@PostMapping("/add/invadjlist")
-	public ResponseEntity<String> add_Products(@RequestBody InventoryAdjustmentCombinedDto InvAdjCombinedDto) {
-		String success_msg = invAdjService.saveInventoryAdjustment(InvAdjCombinedDto);
-		return new ResponseEntity<>(success_msg, HttpStatus.OK);
+	// Api to save data in Purchase order table
+	@PostMapping("/creation")
+	public ResponseEntity<String> add_Products(
+			@RequestBody InventoryAdjustmentCombinedDto inventoryAdjustmentCombinedDto) {
+		// System.out.println("inventoryAdjustmentCombinedDto :" +
+		// inventoryAdjustmentCombinedDto);
+		String success = inventoryAdjustmentService.saveInventoryAdjustment(inventoryAdjustmentCombinedDto);
+		return new ResponseEntity<>(success, HttpStatus.OK);
 	}
 
-	// Api to get InventoryAdjustment List
-	@GetMapping("/getinventoryadjustmentlist/{date}")
-	public ResponseEntity<List<InventoryAdjustment>> viewInventoryAdjustment(@PathVariable LocalDate date) {
-		List<InventoryAdjustment> inventory_list = invAdjService.getInventoryAdjustment(date);
-		return new ResponseEntity<>(inventory_list, HttpStatus.OK);
+	@GetMapping("/reasoncodes")
+	public ResponseEntity<List<String>> getReasonCodes() {
+		List<String> codes = inventoryAdjustmentService.getAllReasonCodes();
+		return new ResponseEntity<>(codes, HttpStatus.OK);
 	}
 
-	// Api to get all InventoryAdjustment List
-	@GetMapping("/getall/inventoryadjustmentlist")
-	public ResponseEntity<List<InventoryAdjustment>> getAllInventoryAdjustment() {
-		List<InventoryAdjustment> inventory_list = invAdjService.getAllInventoryAdjustment();
-		return new ResponseEntity<>(inventory_list, HttpStatus.OK);
+	@GetMapping("/all/adjustments")
+	public ResponseEntity<List<InventoryAdjustment>> getAllInventoryadjustments() {
+		List<InventoryAdjustment> inventoryAdjustmentList = inventoryAdjustmentService.getAllInventoryAdjustment();
+		return new ResponseEntity<>(inventoryAdjustmentList, HttpStatus.OK);
 	}
 
-	// Api to get all InventoryAdjustment products List by id
-	@GetMapping("/getinventoryadjustmentlist/id/{id}")
-	public ResponseEntity<List<InventoryAdjustmentProducts>> getInventoryAdjustmentProducts(@PathVariable int id) {
-		List<InventoryAdjustmentProducts> inventory_list = invAdjService.getInventoryAdjustmentProducts(id);
-		return new ResponseEntity<>(inventory_list, HttpStatus.OK);
-	}
-	
-
-	@GetMapping("/getMatched/getinventoryadjustmentlist/id/{id}")
-	public ResponseEntity< List<InventoryAdjustment>> getMatchedDsdById(@PathVariable String id) {
-		 List<InventoryAdjustment> inventory_list = invAdjService.getMatchedInvAdjByid(id);
-		return new ResponseEntity<>(inventory_list, HttpStatus.OK);
+	@GetMapping("/products/id/{adjID}")
+	public ResponseEntity<List<InventoryAdjustmentProducts>> getAllInventoryadjustmentProductsByID(
+			@PathVariable String adjID) {
+		List<InventoryAdjustmentProducts> InventoryAdjustmentProductsList = inventoryAdjustmentService
+				.getInventoryAdjustmentProductsByID(adjID);
+		return new ResponseEntity<>(InventoryAdjustmentProductsList, HttpStatus.OK);
 	}
 
 }

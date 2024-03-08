@@ -1,12 +1,13 @@
 package com.inventory.purchaseorder.entity;
 
 import jakarta.persistence.CascadeType;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -18,12 +19,15 @@ public class InventoryAdjustmentProducts {
 	private String itemNumber;
 	private String itemName;
 	private String category;
-	private String color;
-	private String price;
-	private String size;
-	private String imageData;
+	private String sku;
+	private String upc;
 	private String store;
+	private String reason;
+	private String status;
+	private String user;
 	private int adjQty;
+	@Column(length = 65555)
+	private String imageData;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "adjId", referencedColumnName = "adjId")
@@ -66,36 +70,20 @@ public class InventoryAdjustmentProducts {
 		this.category = category;
 	}
 
-	public String getColor() {
-		return color;
+	public String getSku() {
+		return sku;
 	}
 
-	public void setColor(String color) {
-		this.color = color;
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
 
-	public String getPrice() {
-		return price;
+	public String getUpc() {
+		return upc;
 	}
 
-	public void setPrice(String price) {
-		this.price = price;
-	}
-
-	public String getSize() {
-		return size;
-	}
-
-	public void setSize(String size) {
-		this.size = size;
-	}
-
-	public String getImageData() {
-		return imageData;
-	}
-
-	public void setImageData(String imageData) {
-		this.imageData = imageData;
+	public void setUpc(String upc) {
+		this.upc = upc;
 	}
 
 	public String getStore() {
@@ -106,6 +94,30 @@ public class InventoryAdjustmentProducts {
 		this.store = store;
 	}
 
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
 	public int getAdjQty() {
 		return adjQty;
 	}
@@ -114,34 +126,39 @@ public class InventoryAdjustmentProducts {
 		this.adjQty = adjQty;
 	}
 
+	public String getImageData() {
+		return imageData;
+	}
+
+	public void setImageData(String imageData) {
+		this.imageData = imageData;
+	}
+
 	public InventoryAdjustment getInvAdjustment() {
 		return invAdjustment;
 	}
 
 	public void setInvAdjustment(InventoryAdjustment invAdjustment) {
-		invAdjustment = invAdjustment;
-	}
-
-	public InventoryAdjustmentProducts(String itemNumber, String itemName, String category, String color,
-			String price, String size, String imageData, String store, int adjQty, InventoryAdjustment invAdjustment) {
-		super();
-		this.itemNumber = itemNumber;
-		this.itemName = itemName;
-		this.category = category;
-		this.color = color;
-		this.price = price;
-		this.size = size;
-		this.imageData = imageData;
-		this.store = store;
-		this.adjQty = adjQty;
 		this.invAdjustment = invAdjustment;
 	}
 
-	@Override
-	public String toString() {
-		return "InventoryAdjustmentProducts [id=" + id + ", itemNumber=" + itemNumber + ", itemName=" + itemName
-				+ ", category=" + category + ", color=" + color + ", price=" + price + ", size=" + size + ", imageData="
-				+ imageData + ", store=" + store + ", adjQty=" + adjQty + ", InvAdjustment=" + invAdjustment + "]";
+	public InventoryAdjustmentProducts(String itemNumber, String itemName, String category, String sku, String upc,
+			String store, String reason, String status, String user, int adjQty, String imageData,
+			InventoryAdjustment invAdjustment) {
+		super();
+
+		this.itemNumber = itemNumber;
+		this.itemName = itemName;
+		this.category = category;
+		this.sku = sku;
+		this.upc = upc;
+		this.store = store;
+		this.reason = reason;
+		this.status = status;
+		this.user = user;
+		this.adjQty = adjQty;
+		this.imageData = imageData;
+		this.invAdjustment = invAdjustment;
 	}
 
 }

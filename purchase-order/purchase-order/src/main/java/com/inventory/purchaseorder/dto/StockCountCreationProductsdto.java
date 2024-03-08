@@ -13,6 +13,8 @@ public class StockCountCreationProductsdto {
 	private String store;
 	private int bookQty;
 	private int countId;
+	private String sku;
+	private String categoryLocation;
 
 	public StockCountCreationProductsdto() {
 		super();
@@ -107,8 +109,25 @@ public class StockCountCreationProductsdto {
 		this.countId = countId;
 	}
 
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+
+	public String getCategoryLocation() {
+		return categoryLocation;
+	}
+
+	public void setCategoryLocation(String categoryLocation) {
+		this.categoryLocation = categoryLocation;
+	}
+
 	public StockCountCreationProductsdto(int id, String itemNumber, String itemName, String category, String color,
-			String price, String size, String imageData, String store, int bookQty, int countId) {
+			String price, String size, String imageData, String store, int bookQty, int countId, String sku,
+			String categoryLocation) {
 		super();
 		this.id = id;
 		this.itemNumber = itemNumber;
@@ -121,6 +140,8 @@ public class StockCountCreationProductsdto {
 		this.store = store;
 		this.bookQty = bookQty;
 		this.countId = countId;
+		this.sku = sku;
+		this.categoryLocation = categoryLocation;
 	}
 
 }
