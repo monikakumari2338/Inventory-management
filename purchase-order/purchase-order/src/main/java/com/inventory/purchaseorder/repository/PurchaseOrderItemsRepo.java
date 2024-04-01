@@ -9,8 +9,9 @@ import com.inventory.purchaseorder.entity.PurchaseOrderItems;
 
 public interface PurchaseOrderItemsRepo extends JpaRepository<PurchaseOrderItems, Integer> {
 
-	PurchaseOrderItems save(PurchaseOrderItems itemsDto);
 	PurchaseOrderItems findByitemNumber(String itemNumber);
+
 	List<PurchaseOrderItems> findAllByPurchaseOrder(PurchaseOrder PurchaseOrder);
 
+	PurchaseOrderItems findBySkuAndPurchaseOrder(String sku, PurchaseOrder purchaseOrder);
 }

@@ -1,35 +1,32 @@
 package com.inventory.purchaseorder.dto;
 
-import com.inventory.purchaseorder.entity.PurchaseOrderItems;
-
-import com.inventory.purchaseorder.entity.purchaseOrderItemDetails;
+import java.util.List;
 
 public class PurchaseOrderCombineddtotoSave {
 
-	private PurchaseOrderItemsdto purchaseOrderItemsdto;
-	private purchaseOrderItemDetailsdto purchaseOrderItemDetailsdto;
+	private String attachedImage;
+	private List<PurchaseOrderItemsdto> purchaseOrderItemsdto;
 
-	public PurchaseOrderItemsdto getPurchaseOrderItemsdto() {
+	public String getAttachedImage() {
+		return attachedImage;
+	}
+
+	public void setAttachedImage(String attachedImage) {
+		this.attachedImage = attachedImage;
+	}
+
+	public List<PurchaseOrderItemsdto> getPurchaseOrderItemsdto() {
 		return purchaseOrderItemsdto;
 	}
 
-	public void setPurchaseOrderItemsdto(PurchaseOrderItemsdto purchaseOrderItemsdto) {
+	public void setPurchaseOrderItemsdto(List<PurchaseOrderItemsdto> purchaseOrderItemsdto) {
 		this.purchaseOrderItemsdto = purchaseOrderItemsdto;
 	}
 
-	public purchaseOrderItemDetailsdto getPurchaseOrderItemDetailsdto() {
-		return purchaseOrderItemDetailsdto;
-	}
-
-	public void setPurchaseOrderItemDetailsdto(purchaseOrderItemDetailsdto purchaseOrderItemDetailsdto) {
-		this.purchaseOrderItemDetailsdto = purchaseOrderItemDetailsdto;
-	}
-
-	public PurchaseOrderCombineddtotoSave(PurchaseOrderItemsdto purchaseOrderItemsdto,
-			com.inventory.purchaseorder.dto.purchaseOrderItemDetailsdto purchaseOrderItemDetailsdto) {
+	public PurchaseOrderCombineddtotoSave(String attachedImage, List<PurchaseOrderItemsdto> purchaseOrderItemsdto) {
 		super();
+		this.attachedImage = attachedImage;
 		this.purchaseOrderItemsdto = purchaseOrderItemsdto;
-		this.purchaseOrderItemDetailsdto = purchaseOrderItemDetailsdto;
 	}
 
 	public PurchaseOrderCombineddtotoSave() {

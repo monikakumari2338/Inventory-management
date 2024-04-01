@@ -1,6 +1,9 @@
 package com.inventory.purchaseorder.entity;
 
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -10,7 +13,9 @@ public class SaveStockCountInfo {
 	@Id
 	private int countId;
 	private String countDescription;
+	@JsonFormat(pattern = "MM-dd-yyyy'T'HH:mm:ss")
 	private LocalDateTime startedAt;
+	@JsonFormat(pattern="dd-mm-yyyy HH:mm:ss")
 	private LocalDateTime completedAt;
 	private String status;
 	private int totalBookQty;

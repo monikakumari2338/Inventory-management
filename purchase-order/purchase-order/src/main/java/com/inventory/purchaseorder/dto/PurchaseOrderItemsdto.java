@@ -1,25 +1,26 @@
 package com.inventory.purchaseorder.dto;
 
 public class PurchaseOrderItemsdto {
-
 	private String itemNumber;
 	private String itemName;
 	private int expectedQty;
+	private int receivedQty;
+	private int remainingQty;
 	private String category;
-	private String poNumber;
-	private int received_qty;
+	private String color;
+	private String price;
+	private String size;
+	private String imageData;
+	private String upc;
+	private String sku;
+	private String taxPercentage;
+	private String taxCode;
+	private int poNumber;
+	private int asnNumber;
 
 	public PurchaseOrderItemsdto() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-	public String getItemNumber() {
-		return itemNumber;
-	}
-
-	public void setItemNumber(String itemNumber) {
-		this.itemNumber = itemNumber;
 	}
 
 	public String getItemName() {
@@ -46,38 +47,130 @@ public class PurchaseOrderItemsdto {
 		this.category = category;
 	}
 
-	public String getPoNumber() {
+	public int getReceivedQty() {
+		return receivedQty;
+	}
+
+	public void setReceivedQty(int receivedQty) {
+		this.receivedQty = receivedQty;
+	}
+
+	public int getRemainingQty() {
+		return remainingQty;
+	}
+
+	public void setRemainingQty(int remainingQty) {
+		this.remainingQty = remainingQty;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public String getImageData() {
+		return imageData;
+	}
+
+	public void setImageData(String imageData) {
+		this.imageData = imageData;
+	}
+
+	public String getUpc() {
+		return upc;
+	}
+
+	public void setUpc(String upc) {
+		this.upc = upc;
+	}
+
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+
+	public String getTaxPercentage() {
+		return taxPercentage;
+	}
+
+	public void setTaxPercentage(String taxPercentage) {
+		this.taxPercentage = taxPercentage;
+	}
+
+	public String getTaxCode() {
+		return taxCode;
+	}
+
+	public void setTaxCode(String taxCode) {
+		this.taxCode = taxCode;
+	}
+
+	public String getItemNumber() {
+		return itemNumber;
+	}
+
+	public void setItemNumber(String itemNumber) {
+		this.itemNumber = itemNumber;
+	}
+
+	public int getPoNumber() {
 		return poNumber;
 	}
 
-	public void setPoNumber(String poNumber) {
+	public void setPoNumber(int poNumber) {
 		this.poNumber = poNumber;
 	}
 
-	public int getReceived_qty() {
-		return received_qty;
+	public int getAsnNumber() {
+		return asnNumber;
 	}
 
-	public void setReceived_qty(int received_qty) {
-		this.received_qty = received_qty;
+	public void setAsnNumber(int asnNumber) {
+		this.asnNumber = asnNumber;
 	}
 
-	public PurchaseOrderItemsdto(String itemNumber, String itemName, int expectedQty, String category, String poNumber,
-			int received_qty) {
+	public PurchaseOrderItemsdto(String itemNumber, String itemName, int expectedQty, int receivedQty, int remainingQty,
+			String category, String color, String price, String size, String imageData, String upc, String sku,
+			String taxPercentage, String taxCode, int poNumber, int asnNumber) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.expectedQty = expectedQty;
+		this.receivedQty = receivedQty;
+		this.remainingQty = remainingQty;
 		this.category = category;
+		this.color = color;
+		this.price = price;
+		this.size = size;
+		this.imageData = imageData;
+		this.upc = upc;
+		this.sku = sku;
+		this.taxPercentage = taxPercentage;
+		this.taxCode = taxCode;
 		this.poNumber = poNumber;
-		this.received_qty = received_qty;
-	}
-
-	@Override
-	public String toString() {
-		return "PurchaseOrderItemsdto [itemNumber=" + itemNumber + ", itemName=" + itemName + ", expectedQty="
-				+ expectedQty + ", category=" + category + ", poNumber=" + poNumber + ", received_qty=" + received_qty
-				+ "]";
+		this.asnNumber = asnNumber;
 	}
 
 }

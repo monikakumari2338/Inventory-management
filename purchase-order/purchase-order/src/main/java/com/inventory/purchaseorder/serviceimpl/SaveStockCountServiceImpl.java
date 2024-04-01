@@ -152,7 +152,42 @@ public class SaveStockCountServiceImpl implements SaveStockCountService {
 
 	@Override
 	public String saveAdhocStockCount(List<AdhocStockCount> adhocStockCount) {
-		adhocStockCountRepo.saveAll(adhocStockCount);
+
+		int Adhoc_id = 5000;
+		AdhocStockCount AdhocCount = adhocStockCountRepo.findFirstByOrderByAdhocIdDesc();
+		if (AdhocCount == null) {
+
+			for (int i = 0; i < adhocStockCount.size(); i++) {
+				AdhocStockCount adhocStock = new AdhocStockCount(Adhoc_id, adhocStockCount.get(i).getBookQty(),
+						adhocStockCount.get(i).getFirstcountedQty(), adhocStockCount.get(i).getFirstvarianceQty(),
+						adhocStockCount.get(i).getReCountQty(), adhocStockCount.get(i).getRecountVarianceQty(),
+						adhocStockCount.get(i).getReCountStatus(), adhocStockCount.get(i).getItemNumber(),
+						adhocStockCount.get(i).getItemName(), adhocStockCount.get(i).getCategory(),
+						adhocStockCount.get(i).getColor(), adhocStockCount.get(i).getPrice(),
+						adhocStockCount.get(i).getSize(), adhocStockCount.get(i).getImageData(),
+						adhocStockCount.get(i).getStore(), adhocStockCount.get(i).getReason(),
+						adhocStockCount.get(i).getSku());
+				adhocStockCountRepo.save(adhocStock);
+			}
+		} else {
+			Adhoc_id = AdhocCount.getAdhocId() + 1;
+			System.out.println("AdhocCount :" + AdhocCount.getAdhocId());
+			for (int i = 0; i < adhocStockCount.size(); i++) {
+				AdhocStockCount adhocStock = new AdhocStockCount(Adhoc_id, adhocStockCount.get(i).getBookQty(),
+						adhocStockCount.get(i).getFirstcountedQty(), adhocStockCount.get(i).getFirstvarianceQty(),
+						adhocStockCount.get(i).getReCountQty(), adhocStockCount.get(i).getRecountVarianceQty(),
+						adhocStockCount.get(i).getReCountStatus(), adhocStockCount.get(i).getItemNumber(),
+						adhocStockCount.get(i).getItemName(), adhocStockCount.get(i).getCategory(),
+						adhocStockCount.get(i).getColor(), adhocStockCount.get(i).getPrice(),
+						adhocStockCount.get(i).getSize(), adhocStockCount.get(i).getImageData(),
+						adhocStockCount.get(i).getStore(), adhocStockCount.get(i).getReason(),
+						adhocStockCount.get(i).getSku());
+				adhocStockCountRepo.save(adhocStock);
+			}
+		}
+
+		// adhocStockCountRepo.saveAll(adhocStockCount);
+
 		return "Saved";
 	}
 
@@ -182,7 +217,7 @@ public class SaveStockCountServiceImpl implements SaveStockCountService {
 	}
 
 	@Override
-	public List<AdhocStockCount> getStockCountProductsByAdhocId(String id) {
+	public List<AdhocStockCount> getStockCountProductsByAdhocId(int id) {
 		List<AdhocStockCount> countObject = adhocStockCountRepo.findByAdhocId(id);
 		// System.out.print("countObject "+countObject);
 

@@ -25,8 +25,8 @@ public interface SaveStockCountService {
 
 	List<AdhocStockCount> getAllAdhocStockCount();
 
-	List<AdhocStockCount> getStockCountProductsByAdhocId(String id);
-
 	String saveRecountAdhocStockCount(List<AdhocStockCount> adhocStockCount);
+
+	List<AdhocStockCount> getStockCountProductsByAdhocId(int id);
 
 }

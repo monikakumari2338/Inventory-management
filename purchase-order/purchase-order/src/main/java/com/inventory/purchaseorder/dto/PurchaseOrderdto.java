@@ -1,20 +1,22 @@
 package com.inventory.purchaseorder.dto;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import com.inventory.purchaseorder.entity.ASN;
+
 public class PurchaseOrderdto {
 
-	private String poNumber;
+	private int poNumber;
 	private String status;
-	private String asnNumber;
-	private int expected_qty;
-	private int received_qty;
-
-	public String getPoNumber() {
-		return poNumber;
-	}
-
-	public void setPoNumber(String poNumber) {
-		this.poNumber = poNumber;
-	}
+	private int supplierId;
+	private int cost;
+	private int totalSKU;
+	private String storeLocation;
+	private LocalDate creationDate;
+	private LocalDate ReceiveAfter;
+	private LocalDate ReceiveBefore;
+	private LocalDate expectedDeliveryDate;
 
 	public String getStatus() {
 		return status;
@@ -24,43 +26,106 @@ public class PurchaseOrderdto {
 		this.status = status;
 	}
 
-	public String getAsnNumber() {
-		return asnNumber;
+	public int getSupplierId() {
+		return supplierId;
 	}
 
-	public void setAsnNumber(String asnNumber) {
-		this.asnNumber = asnNumber;
+	public void setSupplierId(int supplierId) {
+		this.supplierId = supplierId;
 	}
 
-	public int getExpected_qty() {
-		return expected_qty;
+	public int getCost() {
+		return cost;
 	}
 
-	public void setExpected_qty(int expected_qty) {
-		this.expected_qty = expected_qty;
+	public void setCost(int cost) {
+		this.cost = cost;
 	}
 
-	public int getReceived_qty() {
-		return received_qty;
+	public int getTotalSKU() {
+		return totalSKU;
 	}
 
-	public void setReceived_qty(int received_qty) {
-		this.received_qty = received_qty;
+	public void setTotalSKU(int totalSKU) {
+		this.totalSKU = totalSKU;
 	}
 
-	@Override
-	public String toString() {
-		return "PurchaseOrderdto [poNumber=" + poNumber + ", status=" + status + ", asnNumber=" + asnNumber
-				+ ", expected_qty=" + expected_qty + ", received_qty=" + received_qty + "]";
+	public String getStoreLocation() {
+		return storeLocation;
 	}
 
-	public PurchaseOrderdto(String poNumber, String status, String asnNumber, int expected_qty, int received_qty) {
+	public void setStoreLocation(String storeLocation) {
+		this.storeLocation = storeLocation;
+	}
+
+	public LocalDate getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(LocalDate creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public LocalDate getReceiveAfter() {
+		return ReceiveAfter;
+	}
+
+	public void setReceiveAfter(LocalDate receiveAfter) {
+		ReceiveAfter = receiveAfter;
+	}
+
+	public LocalDate getReceiveBefore() {
+		return ReceiveBefore;
+	}
+
+	public void setReceiveBefore(LocalDate receiveBefore) {
+		ReceiveBefore = receiveBefore;
+	}
+
+	public LocalDate getExpectedDeliveryDate() {
+		return expectedDeliveryDate;
+	}
+
+	public void setExpectedDeliveryDate(LocalDate expectedDeliveryDate) {
+		this.expectedDeliveryDate = expectedDeliveryDate;
+	}
+
+	public int getPoNumber() {
+		return poNumber;
+	}
+
+	public void setPoNumber(int poNumber) {
+		this.poNumber = poNumber;
+	}
+
+	public PurchaseOrderdto(int poNumber, String status, int supplierId, int cost, int totalSKU, String storeLocation,
+			LocalDate creationDate, LocalDate receiveAfter, LocalDate receiveBefore, LocalDate expectedDeliveryDate) {
 		super();
 		this.poNumber = poNumber;
 		this.status = status;
-		this.asnNumber = asnNumber;
-		this.expected_qty = expected_qty;
-		this.received_qty = received_qty;
+		this.supplierId = supplierId;
+		this.cost = cost;
+		this.totalSKU = totalSKU;
+		this.storeLocation = storeLocation;
+		this.creationDate = creationDate;
+		ReceiveAfter = receiveAfter;
+		ReceiveBefore = receiveBefore;
+		this.expectedDeliveryDate = expectedDeliveryDate;
+	}
+
+	public PurchaseOrderdto(String status, int supplierId, int cost, int totalSKU, String storeLocation,
+			LocalDate creationDate, LocalDate receiveAfter, LocalDate receiveBefore, LocalDate expectedDeliveryDate) {
+		super();
+		this.status = status;
+		this.supplierId = supplierId;
+		this.cost = cost;
+		this.totalSKU = totalSKU;
+		this.storeLocation = storeLocation;
+		this.creationDate = creationDate;
+		ReceiveAfter = receiveAfter;
+		ReceiveBefore = receiveBefore;
+		this.expectedDeliveryDate = expectedDeliveryDate;
+
 	}
 
 	public PurchaseOrderdto() {

@@ -14,17 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.inventory.purchaseorder.dto.InventoryAdjustmentCombinedDto;
-import com.inventory.purchaseorder.dto.PurchaseOrderCombineddto;
-import com.inventory.purchaseorder.dto.PurchaseOrderCombineddtotoSave;
-import com.inventory.purchaseorder.dto.PurchaseOrderOnLoadDTO;
-import com.inventory.purchaseorder.dto.PurchaseOrderdto;
-import com.inventory.purchaseorder.entity.ASN;
+
 import com.inventory.purchaseorder.entity.InventoryAdjustment;
 import com.inventory.purchaseorder.entity.InventoryAdjustmentProducts;
-import com.inventory.purchaseorder.entity.PurchaseOrder;
-import com.inventory.purchaseorder.entity.ReasonCodes;
 import com.inventory.purchaseorder.service.InventoryAdjustmentService;
-import com.inventory.purchaseorder.service.PurchaseOrderService;
 
 @RestController
 @RequestMapping("/inventoryadjustment")

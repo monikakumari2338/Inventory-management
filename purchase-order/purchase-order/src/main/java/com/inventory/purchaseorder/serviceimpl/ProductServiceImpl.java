@@ -1,6 +1,7 @@
 package com.inventory.purchaseorder.serviceimpl;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.inventory.purchaseorder.entity.Stores;
-import com.inventory.purchaseorder.entity.TransferReceiveInfo;
 import com.inventory.purchaseorder.dto.ProductCombineddto;
 import com.inventory.purchaseorder.dto.ProductCombineddtotoAdjustInventory;
 import com.inventory.purchaseorder.dto.ProductDetailsdto;
@@ -32,7 +32,7 @@ import com.inventory.purchaseorder.repository.ProductDetailsRepo;
 import com.inventory.purchaseorder.repository.ProductRepo;
 import com.inventory.purchaseorder.repository.PurchaseOrderItemsRepo;
 import com.inventory.purchaseorder.repository.StoreRepo;
-import com.inventory.purchaseorder.repository.TransferRecieveInfoRepo;
+
 import com.inventory.purchaseorder.service.ProductService;
 import com.inventory.purchaseorder.repository.PurchaseOrderRepo;
 import com.inventory.purchaseorder.dto.categorydto;
@@ -60,8 +60,7 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private DsdInvoiceRepo dsdInvoiceRepo;
 
-	@Autowired
-	private TransferRecieveInfoRepo transferRecieveInfoRepo;
+	
 
 	@Override
 	public List<ProductCombineddto> saveProducts(List<ProductCombineddto> productCombineddto) {
@@ -121,6 +120,7 @@ public class ProductServiceImpl implements ProductService {
 					productDetails1.setTotalStock(total_stock);
 					productDetails1.setSellableStock(totalSellable);
 					productDetailsRepo.save(productDetails1);
+					//System.out.println("inside iff");
 				}
 
 				else {
@@ -133,7 +133,10 @@ public class ProductServiceImpl implements ProductService {
 							productCombineddto.get(i).getProductDetailsdto().getImageData(), store, product,
 							productCombineddto.get(i).getProductDetailsdto().getUpc(),
 							productCombineddto.get(i).getProductDetailsdto().getSku());
+					int total_stock = productCombineddto.get(i).getProductDetailsdto().getSellableStock();
+					productDetails2.setTotalStock(total_stock);
 					productDetailsRepo.save(productDetails2);
+					//System.out.println("inside else");
 				}
 
 			}
@@ -261,20 +264,20 @@ public class ProductServiceImpl implements ProductService {
 		}
 		// System.out.println("inStore " + " " + inStore);
 
-		List<PurchaseOrder> poList = PurchaseOrderRepo.findAllByStatus("pending");
-		for (int i = 0; i < poList.size(); i++) {
-			inTransit = inTransit + poList.get(i).getExpected_qty();
-		}
+//		List<PurchaseOrder> poList = PurchaseOrderRepo.findAllByStatus("pending");
+//		for (int i = 0; i < poList.size(); i++) {
+//			inTransit = inTransit + poList.get(i).getExpected_qty();
+//		}
 		// System.out.println("inTransit after po " + " " + inTransit);
 		List<DsdInvoice> dsdInvoiceList = dsdInvoiceRepo.findAllByStatus("pending");
 		for (int i = 0; i < dsdInvoiceList.size(); i++) {
 			inTransit = inTransit + dsdInvoiceList.get(i).getExpected_qty();
 		}
 		// System.out.println("inTransit after dsd " + " " + inTransit);
-		List<TransferReceiveInfo> transferReceiveList = transferRecieveInfoRepo.findAllByStatus("pending");
-		for (int i = 0; i < transferReceiveList.size(); i++) {
-			inTransit = inTransit + transferReceiveList.get(i).getExpected_qty();
-		}
+//		List<TransferReceiveInfo> transferReceiveList = transferRecieveInfoRepo.findAllByStatus("pending");
+//		for (int i = 0; i < transferReceiveList.size(); i++) {
+//			inTransit = inTransit + transferReceiveList.get(i).getExpected_qty();
+//		}
 		// System.out.println("inTransit " + " " + inTransit);
 
 		StoreAndInTransitInventorydto inventorydto = new StoreAndInTransitInventorydto(inStore, inTransit);

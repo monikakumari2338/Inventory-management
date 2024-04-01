@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class AdhocStockCount {
@@ -11,7 +12,7 @@ public class AdhocStockCount {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int generatedId;
-	private String adhocId;
+	private int adhocId;
 	private int bookQty;
 	private int firstcountedQty;
 	private int firstvarianceQty;
@@ -49,7 +50,7 @@ public class AdhocStockCount {
 		return recountVarianceQty;
 	}
 
-	public String getAdhocId() {
+	public int getAdhocId() {
 		return adhocId;
 	}
 
@@ -61,7 +62,7 @@ public class AdhocStockCount {
 		this.reason = reason;
 	}
 
-	public void setAdhocId(String adhocId) {
+	public void setAdhocId(int adhocId) {
 		this.adhocId = adhocId;
 	}
 
@@ -165,7 +166,7 @@ public class AdhocStockCount {
 		this.recountVarianceQty = recountVarianceQty;
 	}
 
-	public AdhocStockCount(String adhocId, int bookQty, int firstcountedQty, int firstvarianceQty, int reCountQty,
+	public AdhocStockCount(int adhocId, int bookQty, int firstcountedQty, int firstvarianceQty, int reCountQty,
 			int recountVarianceQty, String reCountStatus, String itemNumber, String itemName, String category,
 			String color, String price, String size, String imageData, String store, String reason, String sku) {
 		super();

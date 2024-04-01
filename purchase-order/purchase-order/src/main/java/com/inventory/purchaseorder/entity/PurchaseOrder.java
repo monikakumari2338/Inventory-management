@@ -1,39 +1,55 @@
 package com.inventory.purchaseorder.entity;
 
-import jakarta.persistence.CascadeType;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class PurchaseOrder {
 
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
-	private String poNumber;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_sequence")
+	@SequenceGenerator(name = "my_sequence", sequenceName = "my_sequence", initialValue = 4000)
+	private int poNumber;
 	private String status;
+	private int supplierId;
+	private int cost;
+	private int totalSKU;
+	private String storeLocation;
+	private LocalDate creationDate;
+	private LocalDate ReceiveAfter;
+	private LocalDate ReceiveBefore;
+	private LocalDate expectedDeliveryDate;
+	private String attachedImage;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "asnId", referencedColumnName = "asnId")
-	private ASN asn;
-
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "supplier_id", referencedColumnName = "supplierId")
-	private DsdSuppliers supplierId;
-	private int expected_qty;
-	private int received_qty;
+	@ManyToMany(mappedBy = "purchaseOrder", fetch = FetchType.LAZY)
+	private List<ASN> asn = new ArrayList<>();
 
 	public PurchaseOrder() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getPoNumber() {
+	public int getPoNumber() {
 		return poNumber;
 	}
 
-	public void setPoNumber(String poNumber) {
+	public void setPoNumber(int poNumber) {
 		this.poNumber = poNumber;
 	}
 
@@ -45,53 +61,109 @@ public class PurchaseOrder {
 		this.status = status;
 	}
 
-	public ASN getAsn() {
-		return asn;
-	}
-
-	public void setAsn(ASN asn) {
-		this.asn = asn;
-	}
-
-	public DsdSuppliers getSupplierId() {
+	public int getSupplierId() {
 		return supplierId;
 	}
 
-	public void setSupplierId(DsdSuppliers supplierId) {
+	public void setSupplierId(int supplierId) {
 		this.supplierId = supplierId;
 	}
 
-	public int getExpected_qty() {
-		return expected_qty;
+	public int getCost() {
+		return cost;
 	}
 
-	public void setExpected_qty(int expected_qty) {
-		this.expected_qty = expected_qty;
+	public void setCost(int cost) {
+		this.cost = cost;
 	}
 
-	public int getReceived_qty() {
-		return received_qty;
+	public int getTotalSKU() {
+		return totalSKU;
 	}
 
-	public void setReceived_qty(int received_qty) {
-		this.received_qty = received_qty;
+	public void setTotalSKU(int totalSKU) {
+		this.totalSKU = totalSKU;
 	}
 
-	public PurchaseOrder(String poNumber, String status, ASN asn, DsdSuppliers supplierId, int expected_qty,
-			int received_qty) {
-		super();
-		this.poNumber = poNumber;
-		this.status = status;
+	public String getStoreLocation() {
+		return storeLocation;
+	}
+
+	public void setStoreLocation(String storeLocation) {
+		this.storeLocation = storeLocation;
+	}
+
+	public LocalDate getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(LocalDate creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public LocalDate getReceiveAfter() {
+		return ReceiveAfter;
+	}
+
+	public void setReceiveAfter(LocalDate receiveAfter) {
+		ReceiveAfter = receiveAfter;
+	}
+
+	public LocalDate getReceiveBefore() {
+		return ReceiveBefore;
+	}
+
+	public void setReceiveBefore(LocalDate receiveBefore) {
+		ReceiveBefore = receiveBefore;
+	}
+
+	public LocalDate getExpectedDeliveryDate() {
+		return expectedDeliveryDate;
+	}
+
+	public void setExpectedDeliveryDate(LocalDate expectedDeliveryDate) {
+		this.expectedDeliveryDate = expectedDeliveryDate;
+	}
+
+	public List<ASN> getAsn() {
+		return asn;
+	}
+
+	public void setAsn(List<ASN> asn) {
 		this.asn = asn;
+	}
+
+	public String getAttachedImage() {
+		return attachedImage;
+	}
+
+	public void setAttachedImage(String attachedImage) {
+		this.attachedImage = attachedImage;
+	}
+
+	public PurchaseOrder(String status, int supplierId, int cost, int totalSKU, String storeLocation,
+			LocalDate creationDate, LocalDate receiveAfter, LocalDate receiveBefore, LocalDate expectedDeliveryDate,
+			String attachedImage, List<ASN> asn) {
+		super();
+		this.status = status;
 		this.supplierId = supplierId;
-		this.expected_qty = expected_qty;
-		this.received_qty = received_qty;
+		this.cost = cost;
+		this.totalSKU = totalSKU;
+		this.storeLocation = storeLocation;
+		this.creationDate = creationDate;
+		ReceiveAfter = receiveAfter;
+		ReceiveBefore = receiveBefore;
+		this.expectedDeliveryDate = expectedDeliveryDate;
+		this.attachedImage = attachedImage;
+		this.asn = asn;
 	}
 
 	@Override
 	public String toString() {
-		return "PurchaseOrder [poNumber=" + poNumber + ", status=" + status + ", asn=" + asn + ", supplierId="
-				+ supplierId + ", expected_qty=" + expected_qty + ", received_qty=" + received_qty + "]";
+		return "PurchaseOrder [poNumber=" + poNumber + ", status=" + status + ", supplierId=" + supplierId + ", cost="
+				+ cost + ", totalSKU=" + totalSKU + ", storeLocation=" + storeLocation + ", creationDate="
+				+ creationDate + ", ReceiveAfter=" + ReceiveAfter + ", ReceiveBefore=" + ReceiveBefore
+				+ ", expectedDeliveryDate=" + expectedDeliveryDate;
 	}
 
 }

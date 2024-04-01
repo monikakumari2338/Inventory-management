@@ -44,4 +44,31 @@ public class EmailServiceImpl implements EmailService {
 		}
 
 	}
+
+	@Override
+	public void sendDiscrepancyEmail(EmailRequest emailRequest) {
+
+		MimeMessage message = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper1;
+		try {
+			helper1 = new MimeMessageHelper(message, true);
+
+			helper1.setFrom("monika@gmail.com");
+			helper1.setTo(emailRequest.getRecipient());
+			helper1.setText(emailRequest.getMsgBody());
+			helper1.setSubject(emailRequest.getSubject());
+
+			InputStreamSource source = new ByteArrayResource(emailRequest.getAttachment().getBytes());
+
+			helper1.addAttachment("PO Discrepancy Report.pdf", source);
+			javaMailSender.send(message);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+		}
+
+	}
 }

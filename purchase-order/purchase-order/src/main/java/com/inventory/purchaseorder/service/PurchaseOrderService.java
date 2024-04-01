@@ -3,28 +3,38 @@ package com.inventory.purchaseorder.service;
 
 import java.util.List;
 
-import com.inventory.purchaseorder.dto.PurchaseOrderCombineddto;
+import com.inventory.purchaseorder.dto.ASNCombinedDto;
+import com.inventory.purchaseorder.dto.ASNDto;
+import com.inventory.purchaseorder.dto.ASNOnLoadDto;
+import com.inventory.purchaseorder.dto.ASNPOItemDetailsDto;
+import com.inventory.purchaseorder.dto.AsnAndPOCombinedDto;
+import com.inventory.purchaseorder.dto.PurchaseOrderCombinedDto;
 import com.inventory.purchaseorder.dto.PurchaseOrderCombineddtotoSave;
+import com.inventory.purchaseorder.dto.PurchaseOrderItemsdto;
 import com.inventory.purchaseorder.dto.PurchaseOrderOnLoadDTO;
 import com.inventory.purchaseorder.dto.PurchaseOrderdto;
 import com.inventory.purchaseorder.entity.ASN;
+import com.inventory.purchaseorder.entity.ASNPOItemDetails;
+import com.inventory.purchaseorder.entity.PoDamagedItemsList;
 import com.inventory.purchaseorder.entity.PurchaseOrder;
+import com.inventory.purchaseorder.entity.PurchaseOrderItems;
 
 public interface PurchaseOrderService {
 
-	List<PurchaseOrderCombineddtotoSave> saveProducts(List<PurchaseOrderCombineddtotoSave> PurchaseOrderCombineddto);
+	PurchaseOrderCombinedDto savePurchaseOrder(PurchaseOrderCombinedDto combinedDto);
 
-	PurchaseOrderCombineddto displayPO(String po);
+	ASNCombinedDto saveASN(ASNCombinedDto asnCombinedDto);
 
-	// Functions for finding asn and po list by status
+	AsnAndPOCombinedDto getAllPOAndASN();
 
-	List<ASN> findByStatus(String Status);
+	List<PurchaseOrderItemsdto> getPoItemsByPoNumber(int poNumber);
 
-	List<PurchaseOrderdto> findpoByStatus(String Status);
+	List<ASNPOItemDetailsDto> getPoItemsByAsnNumber(int asnNumber);
 
-	List<PurchaseOrder> findMatchedPoByStatus(String status);
+	String saveDamagedPoItems(List<PoDamagedItemsList> poDamagedItemsList);
 
-	List<PurchaseOrder> findMatchedPoNumber(String po);
+	List<PoDamagedItemsList> getDamagedPoItemsByAsnOrPo(int number);
 
-	List<PurchaseOrderOnLoadDTO> getAllPO();
+	String savePoToMaster(PurchaseOrderCombineddtotoSave combinedDto, String storeName);
+
 }

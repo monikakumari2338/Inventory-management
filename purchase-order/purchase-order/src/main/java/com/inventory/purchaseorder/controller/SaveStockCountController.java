@@ -82,7 +82,7 @@ public class SaveStockCountController {
 		return new ResponseEntity<>(AdocstockCountList, HttpStatus.OK);
 	}
 	@GetMapping("/get/adhoc/{id}")
-	public ResponseEntity<List<AdhocStockCount>> getAllAdocStockCountByAdhocId(@PathVariable String id) {
+	public ResponseEntity<List<AdhocStockCount>> getAllAdocStockCountByAdhocId(@PathVariable int id) {
 		List<AdhocStockCount> AdocstockCountList = saveStockCountService.getStockCountProductsByAdhocId(id);
 		return new ResponseEntity<>(AdocstockCountList, HttpStatus.OK);
 	}
