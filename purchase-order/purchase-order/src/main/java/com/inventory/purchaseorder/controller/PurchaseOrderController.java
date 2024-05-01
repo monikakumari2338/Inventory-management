@@ -19,10 +19,10 @@ import com.inventory.purchaseorder.dto.ASNPOItemDetailsDto;
 import com.inventory.purchaseorder.dto.AsnAndPOCombinedDto;
 import com.inventory.purchaseorder.dto.PurchaseOrderCombinedDto;
 import com.inventory.purchaseorder.dto.PurchaseOrderCombineddtotoSave;
+import com.inventory.purchaseorder.dto.PurchaseOrderItemsGetDto3;
 import com.inventory.purchaseorder.dto.PurchaseOrderItemsdto;
+import com.inventory.purchaseorder.entity.DraftPurchaseOrderItems;
 import com.inventory.purchaseorder.entity.EmailRequest;
-import com.inventory.purchaseorder.entity.PoDamagedItemsList;
-import com.inventory.purchaseorder.entity.PurchaseOrderItems;
 import com.inventory.purchaseorder.service.EmailService;
 import com.inventory.purchaseorder.service.PurchaseOrderService;
 
@@ -36,13 +36,13 @@ public class PurchaseOrderController {
 	@Autowired
 	private EmailService emailService;
 
-	// Api to save data in Purchase order table
 	@PostMapping("/save/asn")
 	public ResponseEntity<ASNCombinedDto> add_ASN(@RequestBody ASNCombinedDto aSNDto) {
 		ASNCombinedDto asn = POService.saveASN(aSNDto);
 		return new ResponseEntity<>(asn, HttpStatus.OK);
 	}
 
+	// Api to save data in Purchase order table
 	@PostMapping("/save/po")
 	public ResponseEntity<PurchaseOrderCombinedDto> add_PO(
 			@RequestBody PurchaseOrderCombinedDto purchaseOrderCombinedDto) {
@@ -55,6 +55,13 @@ public class PurchaseOrderController {
 		List<PurchaseOrderItemsdto> purchaseOrderItems = POService.getPoItemsByPoNumber(po);
 		return new ResponseEntity<>(purchaseOrderItems, HttpStatus.OK);
 	}
+	
+	@GetMapping("/getPoSummary/{po}")
+	public ResponseEntity<List<PurchaseOrderItemsdto>> getPoSummary(@PathVariable int po) {
+		List<PurchaseOrderItemsdto> purchaseOrderItems = POService.getPoItemsSummaryByPoNumber(po);
+		return new ResponseEntity<>(purchaseOrderItems, HttpStatus.OK);
+	}
+
 
 	@GetMapping("/getitemsby/asnnumber/{asn}")
 	public ResponseEntity<List<ASNPOItemDetailsDto>> getItemsByAsnNumber(@PathVariable int asn) {
@@ -75,15 +82,9 @@ public class PurchaseOrderController {
 		return new ResponseEntity<>(success_msg, HttpStatus.OK);
 	}
 
-	@PostMapping("/save/damage/po_receive/")
-	public ResponseEntity<String> saveDamagedPoReceive(@RequestBody List<PoDamagedItemsList> poDamagedItemsList) {
-		String success_msg = POService.saveDamagedPoItems(poDamagedItemsList);
-		return new ResponseEntity<>(success_msg, HttpStatus.OK);
-	}
-
-	@GetMapping("get/damaged_list/{number}")
-	public ResponseEntity<List<PoDamagedItemsList>> getDamagedPoList(@PathVariable int number) {
-		List<PoDamagedItemsList> items = POService.getDamagedPoItemsByAsnOrPo(number);
+	@GetMapping("/completed/asnList/{asnNumber}")
+	public ResponseEntity<List<PurchaseOrderItemsGetDto3>> getAsnItemListByAsnnumber(@PathVariable int asnNumber) {
+		List<PurchaseOrderItemsGetDto3> items = POService.getPoItemDetailsByAsnNumber(asnNumber);
 		return new ResponseEntity<>(items, HttpStatus.OK);
 	}
 
@@ -91,6 +92,18 @@ public class PurchaseOrderController {
 	public void sendPoDiscrepancyEmail(@ModelAttribute EmailRequest emailRequest) {
 		System.out.println("Going to Send email: " + emailRequest.toString());
 		emailService.sendDiscrepancyEmail(emailRequest);
+	}
+
+	@PostMapping("/save/draft/po")
+	public ResponseEntity<String> saveDraftPoReceive(@RequestBody List<DraftPurchaseOrderItems> draftPOItems) {
+		String success_msg = POService.saveDraftPoItems(draftPOItems);
+		return new ResponseEntity<>(success_msg, HttpStatus.OK);
+	}
+	
+	@GetMapping("/get/draft/items/{Id}")
+	public ResponseEntity<List<DraftPurchaseOrderItems>> getDraftItems(@PathVariable int Id) {
+		List<DraftPurchaseOrderItems> items = POService.getDraftPoItemsByAsnOrPo(Id);
+		return new ResponseEntity<>(items, HttpStatus.OK);
 	}
 
 }

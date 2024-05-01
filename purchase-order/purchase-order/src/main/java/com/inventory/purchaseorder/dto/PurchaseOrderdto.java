@@ -7,7 +7,7 @@ import com.inventory.purchaseorder.entity.ASN;
 
 public class PurchaseOrderdto {
 
-	private int poNumber;
+//	private int poNumber;
 	private String status;
 	private int supplierId;
 	private int cost;
@@ -87,29 +87,6 @@ public class PurchaseOrderdto {
 	}
 
 	public void setExpectedDeliveryDate(LocalDate expectedDeliveryDate) {
-		this.expectedDeliveryDate = expectedDeliveryDate;
-	}
-
-	public int getPoNumber() {
-		return poNumber;
-	}
-
-	public void setPoNumber(int poNumber) {
-		this.poNumber = poNumber;
-	}
-
-	public PurchaseOrderdto(int poNumber, String status, int supplierId, int cost, int totalSKU, String storeLocation,
-			LocalDate creationDate, LocalDate receiveAfter, LocalDate receiveBefore, LocalDate expectedDeliveryDate) {
-		super();
-		this.poNumber = poNumber;
-		this.status = status;
-		this.supplierId = supplierId;
-		this.cost = cost;
-		this.totalSKU = totalSKU;
-		this.storeLocation = storeLocation;
-		this.creationDate = creationDate;
-		ReceiveAfter = receiveAfter;
-		ReceiveBefore = receiveBefore;
 		this.expectedDeliveryDate = expectedDeliveryDate;
 	}
 

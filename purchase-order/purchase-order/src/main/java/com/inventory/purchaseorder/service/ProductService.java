@@ -30,8 +30,6 @@ public interface ProductService {
 
 	List<ProductDetails> getMatchedProductsByItemNumber(String item_number);
 
-	ProductDetails getproducDetailstByUPC(String upc);
-
 	ProductsByItemNumberdto getByItemName(String item_number, String storeName);
 
 	List<ProductDetails> getMatchedProductsByItemName(String name);
@@ -39,4 +37,8 @@ public interface ProductService {
 	List<ProductDetails> getproductListByCategory(int categoryId, String store);
 
 	ProductDetails getproducDetailstBySKU(String sku, String store);
+
+	//ProductDetails getproducDetailstByUPC(String upc, String store);
+
+	ProductDetails getproducDetailstByUpc(String upc, String store);
 }

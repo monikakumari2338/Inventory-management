@@ -5,7 +5,7 @@ import java.util.List;
 public class AsnAndPOCombinedDto {
 
 	private List<ASNOnLoadDto> ASN;
-	private List<PurchaseOrderdto> PurchaseOrder;
+	private List<PurchaseOrderGetdto> PurchaseOrder;
 
 	public List<ASNOnLoadDto> getASN() {
 		return ASN;
@@ -15,15 +15,15 @@ public class AsnAndPOCombinedDto {
 		ASN = aSN;
 	}
 
-	public List<PurchaseOrderdto> getPurchaseOrder() {
+	public List<PurchaseOrderGetdto> getPurchaseOrder() {
 		return PurchaseOrder;
 	}
 
-	public void setPurchaseOrder(List<PurchaseOrderdto> purchaseOrder) {
+	public void setPurchaseOrder(List<PurchaseOrderGetdto> purchaseOrder) {
 		PurchaseOrder = purchaseOrder;
 	}
 
-	public AsnAndPOCombinedDto(List<ASNOnLoadDto> aSN, List<PurchaseOrderdto> purchaseOrder) {
+	public AsnAndPOCombinedDto(List<ASNOnLoadDto> aSN, List<PurchaseOrderGetdto> purchaseOrder) {
 		super();
 		ASN = aSN;
 		PurchaseOrder = purchaseOrder;

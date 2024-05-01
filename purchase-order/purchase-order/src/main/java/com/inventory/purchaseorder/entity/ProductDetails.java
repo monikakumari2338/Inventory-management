@@ -153,4 +153,12 @@ public class ProductDetails {
 		this.sku = sku;
 	}
 
+	@Override
+	public String toString() {
+		return "ProductDetails [id=" + id + ", color=" + color + ", price=" + price + ", size=" + size
+				+ ", sellableStock=" + sellableStock + ", nonSellableStock=" + nonSellableStock + ", totalStock="
+				+ totalStock + ", imageData=" + imageData + ", store=" + store + ", product=" + product + ", upc=" + upc
+				+ ", sku=" + sku + "]";
+	}
+
 }

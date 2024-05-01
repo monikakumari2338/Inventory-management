@@ -1,50 +1,34 @@
 
 package com.inventory.purchaseorder.serviceimpl;
 
-import java.time.LocalDate;
-
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.inventory.purchaseorder.dto.DsdReceiveItemsdto;
-import com.inventory.purchaseorder.dto.ProductCombineddto;
-import com.inventory.purchaseorder.dto.Productdto;
+import com.inventory.purchaseorder.dto.DsdCombinedDto;
+import com.inventory.purchaseorder.dto.DsdItemsGetdto;
 import com.inventory.purchaseorder.entity.Category;
-import com.inventory.purchaseorder.entity.DsdInvoice;
-import com.inventory.purchaseorder.entity.DsdReceiveItems;
-import com.inventory.purchaseorder.entity.DsdSuppliers;
+import com.inventory.purchaseorder.entity.DSD;
+import com.inventory.purchaseorder.entity.DsdItems;
 import com.inventory.purchaseorder.entity.Product;
 import com.inventory.purchaseorder.entity.ProductDetails;
 import com.inventory.purchaseorder.entity.Stores;
-
-import com.inventory.purchaseorder.exception.ExceptionHandling;
 import com.inventory.purchaseorder.repository.CategoryRepo;
-import com.inventory.purchaseorder.repository.DsdInvoiceRepo;
+import com.inventory.purchaseorder.repository.DsdItemsRepo;
 import com.inventory.purchaseorder.repository.DsdSuppliersRepo;
 import com.inventory.purchaseorder.repository.ProductDetailsRepo;
 import com.inventory.purchaseorder.repository.ProductRepo;
-import com.inventory.purchaseorder.repository.PurchaseOrderRepo;
 import com.inventory.purchaseorder.repository.StoreRepo;
 import com.inventory.purchaseorder.service.DSDService;
+import com.inventory.purchaseorder.repository.DsdRepo;
 
 @Service
 public class DSDServiceImpl implements DSDService {
 
 	@Autowired
-	private DsdSuppliersRepo DsdRepo;
-
-	@Autowired
-	private com.inventory.purchaseorder.repository.DsdReceiveItemsRepo DsdItemsRepo;
-
-	@Autowired
-	private DsdInvoiceRepo invoiceRepo;
+	private DsdSuppliersRepo DsdSuppliersRepo;
 
 	@Autowired
 	private ProductRepo productRepo;
@@ -58,227 +42,156 @@ public class DSDServiceImpl implements DSDService {
 	@Autowired
 	private StoreRepo storeRepo;
 
-	// Function to save Dsd receive products
-	@Override
-	public DsdReceiveItemsdto saveDsd(DsdReceiveItemsdto DsdReceiveItemsdto) {
-		DsdInvoice dsdInvoice = invoiceRepo.findByInvoiceId(DsdReceiveItemsdto.getInvoiceId());
-		DsdReceiveItems DsdReceiveItems1 = DsdItemsRepo.findByItemNumberAndColorAndSizeAndStoreAndDsdinvoice(
-				DsdReceiveItemsdto.getItemNumber(), DsdReceiveItemsdto.getColor(), DsdReceiveItemsdto.getSize(),
-				DsdReceiveItemsdto.getStore(), dsdInvoice);
+	@Autowired
+	private DsdRepo dsdRepo;
 
-		System.out.println("DsdReceiveItems1 : " + DsdReceiveItems1);
-		if (DsdReceiveItems1 == null) {
-
-			DsdReceiveItems dsdReceiveItems = new DsdReceiveItems(DsdReceiveItemsdto.getItemNumber(),
-					DsdReceiveItemsdto.getItemName(), DsdReceiveItemsdto.getExpectedQty(),
-					DsdReceiveItemsdto.getCategory(), DsdReceiveItemsdto.getColor(), DsdReceiveItemsdto.getPrice(),
-					DsdReceiveItemsdto.getSize(), DsdReceiveItemsdto.getImageData(), DsdReceiveItemsdto.getStore(),
-					DsdReceiveItemsdto.getStock(), dsdInvoice);
-
-//			System.out.println("invoice : " + dsdInvoice);
-			DsdItemsRepo.save(dsdReceiveItems);
-		}
-
-		else {
-			int stock = DsdReceiveItems1.getStock();
-			DsdReceiveItems1.setStock(stock + DsdReceiveItemsdto.getStock());
-			DsdItemsRepo.save(DsdReceiveItems1);
-		}
-
-		return DsdReceiveItemsdto;
-	}
-
-	// Function to get invoices associated with the supplier
+	@Autowired
+	private DsdItemsRepo dsdItemsRepo;
 
 	@Override
-	public List<DsdInvoice> getDsdSupplierInvoices(int supplier) {
-		DsdSuppliers dsdSuppliers = DsdRepo.findBySupplierId(supplier);
-		List<DsdInvoice> DsdInvoice1 = invoiceRepo.findAllBySupplierId(dsdSuppliers);
-		List<DsdInvoice> DsdInvoice2 = new ArrayList<>();
-		for (int i = 0; i < DsdInvoice1.size(); i++) {
-			if (DsdInvoice1.get(i).getStatus().equals("pending")) {
-				DsdInvoice2.add(DsdInvoice1.get(i));
+	public String saveDsd(DsdCombinedDto dsdCombinedDto) {
+
+		Stores store = storeRepo.findByStoreName(dsdCombinedDto.getDsd().getStoreLocation());
+		for (int i = 0; i < dsdCombinedDto.getDsdItems().size(); i++) {
+			Category category = categoryRepo.findByCategory(dsdCombinedDto.getDsdItems().get(i).getCategory());
+			Product product = productRepo.findByItemNumber(dsdCombinedDto.getDsdItems().get(i).getItemNumber());
+
+			if (product == null) {
+
+				Product product1 = new Product(dsdCombinedDto.getDsdItems().get(i).getItemNumber(),
+						dsdCombinedDto.getDsdItems().get(i).getItemName(), category);
+				productRepo.save(product1);
+
+				Product product2 = productRepo.findByItemNumber(dsdCombinedDto.getDsdItems().get(i).getItemNumber());
+				ProductDetails productDetails2 = new ProductDetails(dsdCombinedDto.getDsdItems().get(i).getColor(),
+						dsdCombinedDto.getDsdItems().get(i).getPrice(), dsdCombinedDto.getDsdItems().get(i).getSize(),
+						dsdCombinedDto.getDsdItems().get(i).getReceivedQty(), 0,
+						dsdCombinedDto.getDsdItems().get(i).getImageData(), store, product2,
+						dsdCombinedDto.getDsdItems().get(i).getUpc(), dsdCombinedDto.getDsdItems().get(i).getSku());
+
+				int total_stock = dsdCombinedDto.getDsdItems().get(i).getReceivedQty()
+						+ dsdCombinedDto.getDsdItems().get(i).getDamageQty();
+				productDetails2.setTotalStock(total_stock);
+
+				int damageQty = dsdCombinedDto.getDsdItems().get(i).getDamageQty();
+				productDetails2.setNonSellableStock(damageQty);
+				productDetails2.setSellableStock(dsdCombinedDto.getDsdItems().get(i).getReceivedQty());
+				productDetailsRepo.save(productDetails2);
+
 			}
-		}
 
-		System.out.println("DsdInvoice : " + DsdInvoice2);
-		return DsdInvoice2;
-	}
+			else {
+				ProductDetails productDetails1 = productDetailsRepo
+						.findBySkuAndStore(dsdCombinedDto.getDsdItems().get(i).getSku(), store);
+				int Prev_sellableStock;
+				int new_sellableStock;
+				int totalSellable = 0;
+				int new_nonSellableStock;
+				int totalNonSellable = 0;
 
-	// Function to save Dsd products in Master product table
-	@Override
-	public List<ProductCombineddto> saveDSdProducts(List<ProductCombineddto> productCombineddto, int invoiceNumber) {
+				if (productDetails1 != null) {
+					Prev_sellableStock = productDetails1.getSellableStock();
+					new_sellableStock = dsdCombinedDto.getDsdItems().get(i).getReceivedQty();
+					totalSellable = Prev_sellableStock + new_sellableStock;
 
-		DsdInvoice dsdInvoice = invoiceRepo.findByInvoiceNumber(invoiceNumber);
-		String invoiceStatus = dsdInvoice.getStatus();
+					int nonSellable_stock = productDetails1.getNonSellableStock();
+					new_nonSellableStock = dsdCombinedDto.getDsdItems().get(i).getDamageQty();
+					totalNonSellable = nonSellable_stock + new_nonSellableStock;
 
-//		System.out.println("dsdInvoice :  " + dsdInvoice.getStatus());
+					int total_stock = totalSellable + totalNonSellable;
+					productDetails1.setTotalStock(total_stock);
+					productDetails1.setSellableStock(totalSellable);
+					productDetails1.setNonSellableStock(totalNonSellable);
+					productDetailsRepo.save(productDetails1);
+					// System.out.println("inside iff");
+				}
 
-		if (!invoiceStatus.equals("complete")) {
-			for (int i = 0; i < productCombineddto.size(); i++) {
+				else {
+					ProductDetails productDetails2 = new ProductDetails(dsdCombinedDto.getDsdItems().get(i).getColor(),
+							dsdCombinedDto.getDsdItems().get(i).getPrice(),
+							dsdCombinedDto.getDsdItems().get(i).getSize(),
+							dsdCombinedDto.getDsdItems().get(i).getReceivedQty(), 0,
+							dsdCombinedDto.getDsdItems().get(i).getImageData(), store, product,
+							dsdCombinedDto.getDsdItems().get(i).getUpc(), dsdCombinedDto.getDsdItems().get(i).getSku());
 
-				Stores store = storeRepo.findByStoreName(productCombineddto.get(i).getProductDetailsdto().getStore());
-				Category category = categoryRepo
-						.findByCategory(productCombineddto.get(i).getProductdto().getCategoryName());
+					int total_stock = dsdCombinedDto.getDsdItems().get(i).getReceivedQty()
+							+ dsdCombinedDto.getDsdItems().get(i).getDamageQty();
+					productDetails2.setTotalStock(total_stock);
 
-				Product product = productRepo
-						.findByItemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
-
-//			System.out.println("store :  "+store);
-//			System.out.println("category :  "+category);
-//			System.out.println("product :  "+product);
-				if (product == null) {
-
-					Product product1 = new Product(productCombineddto.get(i).getProductdto().getItemNumber(),
-							productCombineddto.get(i).getProductdto().getItemName(), category);
-
-					Productdto Productdto = new Productdto(product1.getItemNumber(), product1.getitemName(),
-							productCombineddto.get(i).getProductdto().getCategoryName());
-					productRepo.save(product1);
-					// productCombineddto1.get(i).setProductdto(Productdto);
-
-					Product product2 = productRepo
-							.findByItemNumber(productCombineddto.get(i).getProductdto().getItemNumber());
-					ProductDetails productDetails2 = new ProductDetails(
-							productCombineddto.get(i).getProductDetailsdto().getColor(),
-							productCombineddto.get(i).getProductDetailsdto().getPrice(),
-							productCombineddto.get(i).getProductDetailsdto().getSize(),
-							productCombineddto.get(i).getProductDetailsdto().getSellableStock(),
-							productCombineddto.get(i).getProductDetailsdto().getNonSellableStock(),
-							productCombineddto.get(i).getProductDetailsdto().getImageData(), store, product2,
-							productCombineddto.get(i).getProductDetailsdto().getUpc(),
-							productCombineddto.get(i).getProductDetailsdto().getSku());
-
-					productDetailsRepo.save(productDetails2);
-					// System.out.println("saved : inside if");
-
-				} else {
-					ProductDetails productDetails1 = productDetailsRepo.findByColorAndSizeAndStoreAndProduct(
-							productCombineddto.get(i).getProductDetailsdto().getColor(),
-							productCombineddto.get(i).getProductDetailsdto().getSize(), store, product);
-					int Prev_stock;
-					int new_stock;
-					int total_stock = 0;
-					// System.out.println("productDetails1 : " + productDetails1);
-					if (productDetails1 != null) {
-						Prev_stock = productDetails1.getSellableStock();
-						new_stock = productCombineddto.get(i).getProductDetailsdto().getSellableStock();
-						total_stock = Prev_stock + new_stock;
-						productDetails1.setSellableStock(total_stock);
-						productDetailsRepo.save(productDetails1);
-						// System.out.println("saved : inside else if");
-					}
-
-					else {
-						ProductDetails productDetails2 = new ProductDetails(
-								productCombineddto.get(i).getProductDetailsdto().getColor(),
-								productCombineddto.get(i).getProductDetailsdto().getPrice(),
-								productCombineddto.get(i).getProductDetailsdto().getSize(),
-								productCombineddto.get(i).getProductDetailsdto().getSellableStock(),
-								productCombineddto.get(i).getProductDetailsdto().getNonSellableStock(),
-								productCombineddto.get(i).getProductDetailsdto().getImageData(), store, product,
-								productCombineddto.get(i).getProductDetailsdto().getUpc(),
-								productCombineddto.get(i).getProductDetailsdto().getSku());
-						productDetailsRepo.save(productDetails2);
-
-						// System.out.println("saved : inside else");
-					}
-
+					int damageQty = dsdCombinedDto.getDsdItems().get(i).getDamageQty();
+					productDetails2.setNonSellableStock(damageQty);
+					productDetails2.setSellableStock(dsdCombinedDto.getDsdItems().get(i).getReceivedQty());
+					// System.out.println("inside else");
 				}
 
 			}
+
 		}
 
-		dsdInvoice.setStatus("complete");
-		invoiceRepo.save(dsdInvoice);
-		return productCombineddto;
+		DSD dsd = new DSD(dsdCombinedDto.getDsd().getStatus(), dsdCombinedDto.getDsd().getSupplierId(),
+				dsdCombinedDto.getDsd().getCost(), dsdCombinedDto.getDsd().getTotalSKU(),
+				dsdCombinedDto.getDsd().getStoreLocation(), dsdCombinedDto.getDsd().getCreationDate(),
+				dsdCombinedDto.getDsd().getAttachedImage(), dsdCombinedDto.getDsd().getInvoiceNumber());
 
-	}
+		dsdRepo.save(dsd);
+		DSD dsd1 = dsdRepo.findFirstByOrderByDsdNumberDesc();
+		for (int i = 0; i < dsdCombinedDto.getDsdItems().size(); i++) {
+			DsdItems dsdItem = new DsdItems(dsdCombinedDto.getDsdItems().get(i).getItemNumber(),
+					dsdCombinedDto.getDsdItems().get(i).getItemName(),
+					dsdCombinedDto.getDsdItems().get(i).getExpectedQty(),
+					dsdCombinedDto.getDsdItems().get(i).getReceivedQty(),
+					dsdCombinedDto.getDsdItems().get(i).getCategory(), dsdCombinedDto.getDsdItems().get(i).getColor(),
+					dsdCombinedDto.getDsdItems().get(i).getPrice(), dsdCombinedDto.getDsdItems().get(i).getSize(),
+					dsdCombinedDto.getDsdItems().get(i).getImageData(), dsdCombinedDto.getDsdItems().get(i).getUpc(),
+					dsdCombinedDto.getDsdItems().get(i).getSku(),
+					dsdCombinedDto.getDsdItems().get(i).getTaxPercentage(),
+					dsdCombinedDto.getDsdItems().get(i).getTaxCode(),
+					dsdCombinedDto.getDsdItems().get(i).getDamageQty(),
+					dsdCombinedDto.getDsdItems().get(i).getDamageImage(), dsd1);
 
-	// Function to get dsd products on the basis of invoice number
-	@Override
-	public List<DsdReceiveItemsdto> getInvoiceProducts(int invoiceNumber) {
-		DsdInvoice dsdInvoice = invoiceRepo.findByInvoiceNumber(invoiceNumber);
-		// int invoiceID = dsdInvoice.getInvoiceId();
-		List<DsdReceiveItems> dsdReceiveItems = DsdItemsRepo.findAllByDsdinvoice(dsdInvoice);
-		System.out.println("dsdInvoice : " + dsdInvoice);
-		System.out.println("dsdReceiveItems : " + dsdReceiveItems);
-
-		List<DsdReceiveItemsdto> dsdReceiveItemsdto = new ArrayList<>();
-		for (int i = 0; i < dsdReceiveItems.size(); i++) {
-			dsdReceiveItemsdto.add(new DsdReceiveItemsdto(dsdReceiveItems.get(i).getItemNumber(),
-					dsdReceiveItems.get(i).getItemName(), dsdReceiveItems.get(i).getExpectedQty(),
-					dsdReceiveItems.get(i).getCategory(), dsdReceiveItems.get(i).getColor(),
-					dsdReceiveItems.get(i).getPrice(), dsdReceiveItems.get(i).getSize(),
-					dsdReceiveItems.get(i).getImageData(), dsdReceiveItems.get(i).getStore(),
-					dsdReceiveItems.get(i).getStock(), dsdReceiveItems.get(i).getDsdinvoice().getInvoiceId()));
-		}
-		return dsdReceiveItemsdto;
-	}
-
-	// Function to get all DSD
-	@Override
-	public List<DsdInvoice> getViewDsd() {
-		List<DsdSuppliers> dsdSuppliers = DsdRepo.findAll();
-		List<DsdInvoice> DsdInvoice1 = new ArrayList<>();
-		for (int i = 0; i < dsdSuppliers.size(); i++) {
-			DsdSuppliers dsdSuppliers1 = DsdRepo.findBySupplierId(dsdSuppliers.get(i).getSupplierId());
-			DsdInvoice1.addAll(invoiceRepo.findAllBySupplierId(dsdSuppliers1));
+			dsdItemsRepo.save(dsdItem);
 		}
 
-		System.out.println("DsdInvoice1 : " + DsdInvoice1);
-		return DsdInvoice1;
-	}
-
-	// Function to get all DSD by supplier
-	@Override
-	public List<DsdInvoice> getViewDsdBySupplier(String supplierName) {
-		DsdSuppliers supplier = DsdRepo.findBysupplierName(supplierName);
-		if (supplier == null) {
-			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data found with the supplier " + supplierName);
-		}
-		System.out.println("supplier : " + supplier);
-		List<DsdInvoice> DsdInvoice1 = invoiceRepo.findAllBySupplierId(supplier);
-		System.out.println("DsdInvoice1 : " + DsdInvoice1);
-		return DsdInvoice1;
-	}
-
-	// Function to get all DSD by date
-	@Override
-	public List<DsdInvoice> getViewDsdByDate(LocalDate date) {
-		List<DsdInvoice> DsdInvoice1 = invoiceRepo.findAllByexpDate(date);
-		if (DsdInvoice1.size() == 0) {
-			throw new ExceptionHandling(HttpStatus.BAD_REQUEST, "No data found with the date " + date);
-		}
-		System.out.println("DsdInvoice1 : " + DsdInvoice1);
-		return DsdInvoice1;
+		return "Saved Successfully";
 	}
 
 	@Override
-	public Set<String> getAllDSDSuppliers() {
+	public List<DSD> getAllDSd() {
+		List<DSD> dsd = dsdRepo.findAll();
+		return dsd;
 
-		Set<String> supplier_list = new HashSet<String>();
-		List<DsdInvoice> DSD_list = invoiceRepo.findAll();
+	}
 
-		for (int i = 0; i < DSD_list.size(); i++) {
-			if (DSD_list.get(i).getStatus().equals("pending")) {
-				supplier_list.add(DSD_list.get(i).getSupplierId().getSupplierName());
+	@Override
+	public List<DsdItemsGetdto> getAllDSdItems(int dsdNumber) {
+		DSD dsd = dsdRepo.findByDsdNumber(dsdNumber);
+		List<DsdItems> dsdItems = dsdItemsRepo.findByDsd(dsd);
+
+		List<DsdItemsGetdto> items = new ArrayList<>();
+
+		for (int i = 0; i < dsdItems.size(); i++) {
+			items.add(new DsdItemsGetdto(dsdItems.get(i).getItemNumber(), dsdItems.get(i).getItemName(),
+					dsdItems.get(i).getExpectedQty(), dsdItems.get(i).getReceivedQty(), dsdItems.get(i).getSku(),
+					dsdItems.get(i).getDamageQty(), dsdItems.get(i).getDamageImage()));
+		}
+		return items;
+	}
+
+	@Override
+	public List<DsdItemsGetdto> getDamageDSdItems(int dsdNumber) {
+		DSD dsd = dsdRepo.findByDsdNumber(dsdNumber);
+		List<DsdItems> dsdItems = dsdItemsRepo.findByDsd(dsd);
+
+		List<DsdItemsGetdto> items = new ArrayList<>();
+
+		for (int i = 0; i < dsdItems.size(); i++) {
+			if (dsdItems.get(i).getDamageQty() > 0) {
+				items.add(new DsdItemsGetdto(dsdItems.get(i).getItemNumber(), dsdItems.get(i).getItemName(),
+						dsdItems.get(i).getExpectedQty(), dsdItems.get(i).getReceivedQty(), dsdItems.get(i).getSku(),
+						dsdItems.get(i).getDamageQty(), dsdItems.get(i).getDamageImage()));
 			}
-
 		}
-
-		return supplier_list;
-	}
-
-	@Override
-	public List<DsdSuppliers> getAllSuppliers() {
-		List<DsdSuppliers> dsdSuppliers = DsdRepo.findAll();
-		// List<String> supplierList = new ArrayList<>();
-//		for (int i = 0; i < dsdSuppliers.size(); i++) {
-//			supplierList.add(dsdSuppliers.get(i).getSupplierName());
-//		}
-		return dsdSuppliers;
-
+		return items;
 	}
 
 }

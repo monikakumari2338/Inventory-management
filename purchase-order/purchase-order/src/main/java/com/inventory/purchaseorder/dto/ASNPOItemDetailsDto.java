@@ -1,5 +1,7 @@
 package com.inventory.purchaseorder.dto;
 
+import java.time.LocalDate;
+
 public class ASNPOItemDetailsDto {
 
 	private String itemNumber;
@@ -16,8 +18,10 @@ public class ASNPOItemDetailsDto {
 	private String sku;
 	private String taxPercentage;
 	private String taxCode;
+	private LocalDate ReceivedDate;
 	private int poNumber;
-	private int asnNumber;
+
+	// private int asnNumber;
 
 	public ASNPOItemDetailsDto() {
 		super();
@@ -144,17 +148,17 @@ public class ASNPOItemDetailsDto {
 		this.taxCode = taxCode;
 	}
 
-	public int getAsnNumber() {
-		return asnNumber;
+	public LocalDate getReceivedDate() {
+		return ReceivedDate;
 	}
 
-	public void setAsnNumber(int asnNumber) {
-		this.asnNumber = asnNumber;
+	public void setReceivedDate(LocalDate receivedDate) {
+		ReceivedDate = receivedDate;
 	}
 
 	public ASNPOItemDetailsDto(String itemNumber, String itemName, int expectedQty, int shippedQty, int remainingQty,
 			String category, String color, String price, String size, String imageData, String upc, String sku,
-			String taxPercentage, String taxCode, int poNumber, int asnNumber) {
+			String taxPercentage, String taxCode, LocalDate receivedDate, int poNumber) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -170,8 +174,8 @@ public class ASNPOItemDetailsDto {
 		this.sku = sku;
 		this.taxPercentage = taxPercentage;
 		this.taxCode = taxCode;
+		this.ReceivedDate = receivedDate;
 		this.poNumber = poNumber;
-		this.asnNumber = asnNumber;
 	}
 
 }

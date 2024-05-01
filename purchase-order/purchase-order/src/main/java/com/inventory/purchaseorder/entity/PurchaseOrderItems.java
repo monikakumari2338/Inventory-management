@@ -1,7 +1,7 @@
 package com.inventory.purchaseorder.entity;
 
 import jakarta.persistence.CascadeType;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +20,9 @@ public class PurchaseOrderItems {
 	private int expectedQty;
 	private int receivedQty;
 	private int remainingQty;
+	private int damageQty;
+	@Column(length = 65555)
+	private String damageImage;
 	private String category;
 	private String color;
 	private String price;
@@ -167,15 +170,34 @@ public class PurchaseOrderItems {
 		this.purchaseOrder = purchaseOrder;
 	}
 
+	public int getDamageQty() {
+		return damageQty;
+	}
+
+	public void setDamageQty(int damageQty) {
+		this.damageQty = damageQty;
+	}
+
+	public String getDamageImage() {
+		return damageImage;
+	}
+
+	public void setDamageImage(String damageImage) {
+		this.damageImage = damageImage;
+	}
+
 	public PurchaseOrderItems(String itemNumber, String itemName, int expectedQty, int receivedQty, int remainingQty,
-			String category, String color, String price, String size, String imageData, String upc, String sku,
-			String taxPercentage, String taxCode, PurchaseOrder purchaseOrder) {
+			int damageQty, String damageImage, String category, String color, String price, String size,
+			String imageData, String upc, String sku, String taxPercentage, String taxCode,
+			PurchaseOrder purchaseOrder) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
 		this.expectedQty = expectedQty;
 		this.receivedQty = receivedQty;
 		this.remainingQty = remainingQty;
+		this.damageQty = damageQty;
+		this.damageImage = damageImage;
 		this.category = category;
 		this.color = color;
 		this.price = price;
@@ -192,9 +214,10 @@ public class PurchaseOrderItems {
 	public String toString() {
 		return "PurchaseOrderItems [generatedId=" + generatedId + ", itemNumber=" + itemNumber + ", itemName="
 				+ itemName + ", expectedQty=" + expectedQty + ", receivedQty=" + receivedQty + ", remainingQty="
-				+ remainingQty + ", category=" + category + ", color=" + color + ", price=" + price + ", size=" + size
-				+ ", imageData=" + imageData + ", upc=" + upc + ", sku=" + sku + ", taxPercentage=" + taxPercentage
-				+ ", taxCode=" + taxCode + ", purchaseOrder=" + purchaseOrder + "]";
+				+ remainingQty + ", damageQty=" + damageQty + ", damageImage=" + damageImage + ", category=" + category
+				+ ", color=" + color + ", price=" + price + ", size=" + size + ", imageData=" + imageData + ", upc="
+				+ upc + ", sku=" + sku + ", taxPercentage=" + taxPercentage + ", taxCode=" + taxCode
+				+ ", purchaseOrder=" + purchaseOrder + "]";
 	}
 
 }

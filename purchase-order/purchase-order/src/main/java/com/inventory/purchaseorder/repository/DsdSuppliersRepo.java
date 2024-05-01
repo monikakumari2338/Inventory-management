@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.inventory.purchaseorder.entity.DsdSuppliers;
+import com.inventory.purchaseorder.entity.Suppliers;
 
-public interface DsdSuppliersRepo extends JpaRepository<DsdSuppliers, Integer> {
+public interface DsdSuppliersRepo extends JpaRepository<Suppliers, Integer> {
 
-	DsdSuppliers findBySupplierId(int supplier);
+	Suppliers findBySupplierId(int supplier);
 
-	List<DsdSuppliers> findAll();
-	DsdSuppliers findBysupplierName(String supplier);
+	List<Suppliers> findAll();
+	Suppliers findBysupplierName(String supplier);
 }

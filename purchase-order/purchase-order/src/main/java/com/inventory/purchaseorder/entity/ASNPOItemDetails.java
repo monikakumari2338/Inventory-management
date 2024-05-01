@@ -1,5 +1,7 @@
 package com.inventory.purchaseorder.entity;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.CascadeType;
 
 import jakarta.persistence.Entity;
@@ -30,6 +32,8 @@ public class ASNPOItemDetails {
 	private String sku;
 	private String taxPercentage;
 	private String taxCode;
+	private LocalDate expectedDeliveryDate;
+	private LocalDate ReceivedDate;
 	private int poNumber;
 
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -177,9 +181,26 @@ public class ASNPOItemDetails {
 		this.taxCode = taxCode;
 	}
 
+	public LocalDate getExpectedDeliveryDate() {
+		return expectedDeliveryDate;
+	}
+
+	public void setExpectedDeliveryDate(LocalDate expectedDeliveryDate) {
+		this.expectedDeliveryDate = expectedDeliveryDate;
+	}
+
+	public LocalDate getReceivedDate() {
+		return ReceivedDate;
+	}
+
+	public void setReceivedDate(LocalDate receivedDate) {
+		ReceivedDate = receivedDate;
+	}
+
 	public ASNPOItemDetails(String itemNumber, String itemName, int expectedQty, int shippedQty, int remainingQty,
 			String category, String color, String price, String size, String imageData, String upc, String sku,
-			String taxPercentage, String taxCode, int poNumber, ASN asn) {
+			String taxPercentage, String taxCode, LocalDate expectedDeliveryDate, LocalDate receivedDate, int poNumber,
+			ASN asn) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -195,8 +216,19 @@ public class ASNPOItemDetails {
 		this.sku = sku;
 		this.taxPercentage = taxPercentage;
 		this.taxCode = taxCode;
+		this.expectedDeliveryDate = expectedDeliveryDate;
+		ReceivedDate = receivedDate;
 		this.poNumber = poNumber;
 		this.asn = asn;
+	}
+
+	@Override
+	public String toString() {
+		return "ASNPOItemDetails [generatedId=" + generatedId + ", itemNumber=" + itemNumber + ", itemName=" + itemName
+				+ ", expectedQty=" + expectedQty + ", shippedQty=" + shippedQty + ", remainingQty=" + remainingQty
+				+ ", category=" + category + ", color=" + color + ", price=" + price + ", size=" + size + ", imageData="
+				+ imageData + ", upc=" + upc + ", sku=" + sku + ", taxPercentage=" + taxPercentage + ", taxCode="
+				+ taxCode + ", poNumber=" + poNumber + ", asn=" + asn + "]";
 	}
 
 }

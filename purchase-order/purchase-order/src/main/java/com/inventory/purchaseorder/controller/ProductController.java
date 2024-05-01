@@ -100,15 +100,21 @@ public class ProductController {
 		return new ResponseEntity<>(productCombineddto1, HttpStatus.OK);
 	}
 
-	@GetMapping("/upc/{upc}")
-	public ResponseEntity<ProductDetails> getProductByUPC(@PathVariable String upc) {
-		ProductDetails Product = productService.getproducDetailstByUPC(upc);
-		return new ResponseEntity<>(Product, HttpStatus.OK);
+//	@GetMapping("/upc/{upc}/{store}")
+//	public ResponseEntity<ProductDetails> getProductByUPC(@PathVariable String upc, @PathVariable String store) {
+//		ProductDetails Product = productService.getproducDetailstByUpc(upc, store);
+//		return new ResponseEntity<>(Product, HttpStatus.OK);
+//	}
+	
+	@GetMapping("/upcs/{upc}/{store}")
+	public ResponseEntity<ProductDetails> getProduct(@PathVariable String upc, @PathVariable String store){
+		ProductDetails product = productService.getproducDetailstByUpc(upc, store);
+		return new ResponseEntity<>(product,HttpStatus.OK);
 	}
 
 	@GetMapping("/findbysku/{sku}/{store}")
-	public ResponseEntity<ProductDetails> getProductBySku(@PathVariable String sku,@PathVariable String store) {
-		ProductDetails Product = productService.getproducDetailstBySKU(sku,store);
+	public ResponseEntity<ProductDetails> getProductBySku(@PathVariable String sku, @PathVariable String store) {
+		ProductDetails Product = productService.getproducDetailstBySKU(sku, store);
 		return new ResponseEntity<>(Product, HttpStatus.OK);
 	}
 

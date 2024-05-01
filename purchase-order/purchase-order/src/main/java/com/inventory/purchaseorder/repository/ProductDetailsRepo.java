@@ -21,10 +21,12 @@ public interface ProductDetailsRepo extends JpaRepository<ProductDetails, Intege
 	List<ProductDetails> findByProductAndStore(Product Product, Stores store);
 
 	ProductDetails findByUpc(String upc);
-	
+
 	ProductDetails findBySku(String sku);
 
-	ProductDetails findBySkuAndStore(String sku,Stores store);
+	ProductDetails findByUpcAndStore(String upc, Stores store);
+
+	ProductDetails findBySkuAndStore(String sku, Stores store);
 
 	// List<ProductDetails> findAllByStock();
 

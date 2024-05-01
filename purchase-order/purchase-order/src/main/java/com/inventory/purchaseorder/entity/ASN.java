@@ -24,10 +24,12 @@ public class ASN {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "my_sequence")
 	@SequenceGenerator(name = "my_sequence", sequenceName = "my_sequence", initialValue = 300000)
 	private int asnNumber;
-	private int quantity;
+//	private int quantity;
+	private int totalSKU;
 	private LocalDate creationDate;
 	private String status;
 	private String attachedImage;
+	private String supplier;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(name = "asn_po", joinColumns = {
@@ -43,13 +45,7 @@ public class ASN {
 		this.asnNumber = asnNumber;
 	}
 
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
+	
 
 	public LocalDate getCreationDate() {
 		return creationDate;
@@ -83,13 +79,30 @@ public class ASN {
 		this.attachedImage = attachedImage;
 	}
 
-	public ASN(int quantity, LocalDate creationDate, String status, String attachedImage,
+	public String getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(String supplier) {
+		this.supplier = supplier;
+	}
+
+	public int getTotalSKU() {
+		return totalSKU;
+	}
+
+	public void setTotalSKU(int totalSKU) {
+		this.totalSKU = totalSKU;
+	}
+
+	public ASN( int totalSKU, LocalDate creationDate, String status, String attachedImage, String supplier,
 			List<PurchaseOrder> purchaseOrder) {
 		super();
-		this.quantity = quantity;
+		this.totalSKU = totalSKU;
 		this.creationDate = creationDate;
 		this.status = status;
 		this.attachedImage = attachedImage;
+		this.supplier = supplier;
 		this.purchaseOrder = purchaseOrder;
 	}
 
@@ -100,7 +113,7 @@ public class ASN {
 
 	@Override
 	public String toString() {
-		return "ASN [asnNumber=" + asnNumber + ", quantity=" + quantity + ", creationDate=" + creationDate + ", status="
+		return "ASN [asnNumber=" + asnNumber + ", creationDate=" + creationDate + ", status="
 				+ status + ", purchaseOrder=" + purchaseOrder + "]";
 	}
 

@@ -8,16 +8,17 @@ import com.inventory.purchaseorder.entity.PurchaseOrder;
 public class ASNOnLoadDto {
 
 	private int asnNumber;
-	private int quantity;
+	private int totalSKU;
 	private LocalDate creationDate;
 	private String status;
+	private String supplier;
 
-	public int getQuantity() {
-		return quantity;
+	public int getTotalSKU() {
+		return totalSKU;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setTotalSKU(int totalSKU) {
+		this.totalSKU = totalSKU;
 	}
 
 	public LocalDate getCreationDate() {
@@ -44,12 +45,21 @@ public class ASNOnLoadDto {
 		this.asnNumber = asnNumber;
 	}
 
-	public ASNOnLoadDto(int asnNumber, int quantity, LocalDate creationDate, String status) {
+	public String getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(String supplier) {
+		this.supplier = supplier;
+	}
+
+	public ASNOnLoadDto(int asnNumber, int totalSKU, LocalDate creationDate, String status, String supplier) {
 		super();
 		this.asnNumber = asnNumber;
-		this.quantity = quantity;
+		this.totalSKU = totalSKU;
 		this.creationDate = creationDate;
 		this.status = status;
+		this.supplier = supplier;
 	}
 
 	public ASNOnLoadDto() {

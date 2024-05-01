@@ -5,7 +5,7 @@ import java.util.List;
 public class PurchaseOrderCombineddtotoSave {
 
 	private String attachedImage;
-	private List<PurchaseOrderItemsdto> purchaseOrderItemsdto;
+	private List<PurchaseOrderItemsSaveDto> purchaseOrderItemsdto;
 
 	public String getAttachedImage() {
 		return attachedImage;
@@ -15,15 +15,15 @@ public class PurchaseOrderCombineddtotoSave {
 		this.attachedImage = attachedImage;
 	}
 
-	public List<PurchaseOrderItemsdto> getPurchaseOrderItemsdto() {
+	public List<PurchaseOrderItemsSaveDto> getPurchaseOrderItemsdto() {
 		return purchaseOrderItemsdto;
 	}
 
-	public void setPurchaseOrderItemsdto(List<PurchaseOrderItemsdto> purchaseOrderItemsdto) {
+	public void setPurchaseOrderItemsdto(List<PurchaseOrderItemsSaveDto> purchaseOrderItemsdto) {
 		this.purchaseOrderItemsdto = purchaseOrderItemsdto;
 	}
 
-	public PurchaseOrderCombineddtotoSave(String attachedImage, List<PurchaseOrderItemsdto> purchaseOrderItemsdto) {
+	public PurchaseOrderCombineddtotoSave(String attachedImage, List<PurchaseOrderItemsSaveDto> purchaseOrderItemsdto) {
 		super();
 		this.attachedImage = attachedImage;
 		this.purchaseOrderItemsdto = purchaseOrderItemsdto;
@@ -32,6 +32,12 @@ public class PurchaseOrderCombineddtotoSave {
 	public PurchaseOrderCombineddtotoSave() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public String toString() {
+		return "PurchaseOrderCombineddtotoSave [attachedImage=" + attachedImage + ", purchaseOrderItemsdto="
+				+ purchaseOrderItemsdto + "]";
 	}
 
 }

@@ -1,33 +1,20 @@
 
 package com.inventory.purchaseorder.service;
 
-import java.time.LocalDate;
-
 import java.util.List;
-import java.util.Set;
 
-import com.inventory.purchaseorder.dto.DsdReceiveItemsdto;
-import com.inventory.purchaseorder.dto.ProductCombineddto;
-import com.inventory.purchaseorder.entity.DsdInvoice;
-import com.inventory.purchaseorder.entity.DsdSuppliers;
+import com.inventory.purchaseorder.dto.DsdCombinedDto;
+import com.inventory.purchaseorder.dto.DsdItemsGetdto;
+import com.inventory.purchaseorder.entity.DSD;
 
 public interface DSDService {
 
-	List<DsdInvoice> getDsdSupplierInvoices(int id);
+	String saveDsd(DsdCombinedDto dsdCombinedDto);
 
-	DsdReceiveItemsdto saveDsd(DsdReceiveItemsdto DsdReceiveItemsdto);
+	List<DSD> getAllDSd();
 
-	List<ProductCombineddto> saveDSdProducts(List<ProductCombineddto> productCombineddto, int invoiceNumber);
+	List<DsdItemsGetdto> getAllDSdItems(int dsdNumber);
 
-	List<DsdReceiveItemsdto> getInvoiceProducts(int invoiceNumber);
+	List<DsdItemsGetdto> getDamageDSdItems(int dsdNumber);
 
-	List<DsdInvoice> getViewDsd();
-
-	List<DsdInvoice> getViewDsdBySupplier(String name);
-
-	List<DsdInvoice> getViewDsdByDate(LocalDate date);
-
-	Set<String> getAllDSDSuppliers();
-
-	List<DsdSuppliers> getAllSuppliers();
 }

@@ -2,8 +2,6 @@ package com.inventory.purchaseorder.serviceimpl;
 
 import java.util.ArrayList;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -20,14 +18,12 @@ import com.inventory.purchaseorder.dto.ProductsByItemNumberdto;
 import com.inventory.purchaseorder.dto.StoreAndInTransitInventorydto;
 import com.inventory.purchaseorder.dto.categorydto;
 import com.inventory.purchaseorder.entity.Category;
-import com.inventory.purchaseorder.entity.DsdInvoice;
 import com.inventory.purchaseorder.entity.Product;
 import com.inventory.purchaseorder.entity.ProductDetails;
 import com.inventory.purchaseorder.entity.PurchaseOrder;
 import com.inventory.purchaseorder.entity.PurchaseOrderItems;
 import com.inventory.purchaseorder.entity.ReturnToVendorProcessInfo;
 import com.inventory.purchaseorder.repository.CategoryRepo;
-import com.inventory.purchaseorder.repository.DsdInvoiceRepo;
 import com.inventory.purchaseorder.repository.ProductDetailsRepo;
 import com.inventory.purchaseorder.repository.ProductRepo;
 import com.inventory.purchaseorder.repository.PurchaseOrderItemsRepo;
@@ -57,10 +53,6 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private PurchaseOrderItemsRepo itemsRepo;
-	@Autowired
-	private DsdInvoiceRepo dsdInvoiceRepo;
-
-	
 
 	@Override
 	public List<ProductCombineddto> saveProducts(List<ProductCombineddto> productCombineddto) {
@@ -120,7 +112,7 @@ public class ProductServiceImpl implements ProductService {
 					productDetails1.setTotalStock(total_stock);
 					productDetails1.setSellableStock(totalSellable);
 					productDetailsRepo.save(productDetails1);
-					//System.out.println("inside iff");
+					// System.out.println("inside iff");
 				}
 
 				else {
@@ -136,7 +128,7 @@ public class ProductServiceImpl implements ProductService {
 					int total_stock = productCombineddto.get(i).getProductDetailsdto().getSellableStock();
 					productDetails2.setTotalStock(total_stock);
 					productDetailsRepo.save(productDetails2);
-					//System.out.println("inside else");
+					// System.out.println("inside else");
 				}
 
 			}
@@ -269,10 +261,10 @@ public class ProductServiceImpl implements ProductService {
 //			inTransit = inTransit + poList.get(i).getExpected_qty();
 //		}
 		// System.out.println("inTransit after po " + " " + inTransit);
-		List<DsdInvoice> dsdInvoiceList = dsdInvoiceRepo.findAllByStatus("pending");
-		for (int i = 0; i < dsdInvoiceList.size(); i++) {
-			inTransit = inTransit + dsdInvoiceList.get(i).getExpected_qty();
-		}
+//		List<DsdInvoice> dsdInvoiceList = dsdInvoiceRepo.findAllByStatus("pending");
+//		for (int i = 0; i < dsdInvoiceList.size(); i++) {
+//			inTransit = inTransit + dsdInvoiceList.get(i).getExpected_qty();
+//		}
 		// System.out.println("inTransit after dsd " + " " + inTransit);
 //		List<TransferReceiveInfo> transferReceiveList = transferRecieveInfoRepo.findAllByStatus("pending");
 //		for (int i = 0; i < transferReceiveList.size(); i++) {
@@ -360,10 +352,12 @@ public class ProductServiceImpl implements ProductService {
 
 	}
 
+	
+	
 	@Override
-	public ProductDetails getproducDetailstByUPC(String upc) {
-
-		ProductDetails Product = productDetailsRepo.findByUpc(upc);
+	public ProductDetails getproducDetailstByUpc(String upc, String store) {
+		Stores store1 = storeRepo.findByStoreName(store);
+		ProductDetails Product = productDetailsRepo.findByUpcAndStore(upc, store1);
 		System.out.println("productDetail " + " " + Product);
 		return Product;
 

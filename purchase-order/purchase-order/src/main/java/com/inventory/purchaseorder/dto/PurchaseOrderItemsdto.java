@@ -15,8 +15,8 @@ public class PurchaseOrderItemsdto {
 	private String sku;
 	private String taxPercentage;
 	private String taxCode;
-	private int poNumber;
-	private int asnNumber;
+	private int damageQty;
+	private String damageImage;
 
 	public PurchaseOrderItemsdto() {
 		super();
@@ -135,25 +135,25 @@ public class PurchaseOrderItemsdto {
 		this.itemNumber = itemNumber;
 	}
 
-	public int getPoNumber() {
-		return poNumber;
+	public int getDamageQty() {
+		return damageQty;
 	}
 
-	public void setPoNumber(int poNumber) {
-		this.poNumber = poNumber;
+	public void setDamageQty(int damageQty) {
+		this.damageQty = damageQty;
 	}
 
-	public int getAsnNumber() {
-		return asnNumber;
+	public String getDamageImage() {
+		return damageImage;
 	}
 
-	public void setAsnNumber(int asnNumber) {
-		this.asnNumber = asnNumber;
+	public void setDamageImage(String damageImage) {
+		this.damageImage = damageImage;
 	}
 
 	public PurchaseOrderItemsdto(String itemNumber, String itemName, int expectedQty, int receivedQty, int remainingQty,
 			String category, String color, String price, String size, String imageData, String upc, String sku,
-			String taxPercentage, String taxCode, int poNumber, int asnNumber) {
+			String taxPercentage, String taxCode, int damageQty, String damageImage) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -169,8 +169,9 @@ public class PurchaseOrderItemsdto {
 		this.sku = sku;
 		this.taxPercentage = taxPercentage;
 		this.taxCode = taxCode;
-		this.poNumber = poNumber;
-		this.asnNumber = asnNumber;
+		this.damageQty = damageQty;
+		this.damageImage = damageImage;
 	}
 
+	
 }

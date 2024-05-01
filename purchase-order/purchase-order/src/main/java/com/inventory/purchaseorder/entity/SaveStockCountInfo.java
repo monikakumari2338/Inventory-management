@@ -13,10 +13,10 @@ public class SaveStockCountInfo {
 	@Id
 	private int countId;
 	private String countDescription;
-	@JsonFormat(pattern = "MM-dd-yyyy'T'HH:mm:ss")
-	private LocalDateTime startedAt;
-	@JsonFormat(pattern="dd-mm-yyyy HH:mm:ss")
-	private LocalDateTime completedAt;
+	@JsonFormat(pattern = "dd-mm-yyyy HH:mm:ss")
+	private String startedAt;
+	@JsonFormat(pattern = "dd-mm-yyyy HH:mm:ss")
+	private String completedAt;
 	private String status;
 	private int totalBookQty;
 	private int countedQty;
@@ -78,19 +78,19 @@ public class SaveStockCountInfo {
 		this.totalBookQty = totalBookQty;
 	}
 
-	public LocalDateTime getStartedAt() {
+	public String getStartedAt() {
 		return startedAt;
 	}
 
-	public void setStartedAt(LocalDateTime startedAt) {
+	public void setStartedAt(String startedAt) {
 		this.startedAt = startedAt;
 	}
 
-	public LocalDateTime getCompletedAt() {
+	public String getCompletedAt() {
 		return completedAt;
 	}
 
-	public void setCompletedAt(LocalDateTime completedAt) {
+	public void setCompletedAt(String completedAt) {
 		this.completedAt = completedAt;
 	}
 
@@ -118,9 +118,8 @@ public class SaveStockCountInfo {
 		this.reCount = reCount;
 	}
 
-	public SaveStockCountInfo(int countId, String countDescription, LocalDateTime startedAt, LocalDateTime completedAt,
-			String status, int totalBookQty, int countedQty, int varianceQty, int recountVarianceQty, String reCount,
-			int reCountQty) {
+	public SaveStockCountInfo(int countId, String countDescription, String startedAt, String completedAt, String status,
+			int totalBookQty, int countedQty, int varianceQty, int recountVarianceQty, String reCount, int reCountQty) {
 		super();
 		this.countId = countId;
 		this.countDescription = countDescription;
