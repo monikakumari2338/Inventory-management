@@ -17,21 +17,23 @@ const DashboardComp = () => {
   const [pendingPO, setPendingPO] = useState([]);
   const [pendingASN, setPendingASN] = useState([]);
 
-  useEffect(() => {
-    // Fetch pending PO data
-    fetch('http://172.20.10.9:8083/purchaseOrder/findPO/pending')
-      .then(response => response.json())
-      .then(data => setPendingPO(data))
-      .catch(error => console.log('Error fetching pending PO:', error));
+  // useEffect(() => {
+  //   // Fetch pending PO data
+  //   const response = fetch(
+  //     'http://172.20.10.9:8083/purchaseOrder/findPO/pending',
+  //   )
+  //     .then(response => response.json())
+  //     .then(data => setPendingPO(data))
+  //     .catch(error => console.log('Error fetching pending PO:', error));
+  //   console.log('dashboard comp ', response.data);
+  //   // Fetch pending ASN data
+  //   fetch('http://172.20.10.9:8083/purchaseOrder/findASN/pending')
+  //     .then(response => response.json())
+  //     .then(data => setPendingASN(data))
+  //     .catch(error => console.log('Error fetching pending ASN:', error));
+  // }, []);
 
-    // Fetch pending ASN data
-    fetch('http://172.20.10.9:8083/purchaseOrder/findASN/pending')
-      .then(response => response.json())
-      .then(data => setPendingASN(data))
-      .catch(error => console.log('Error fetching pending ASN:', error));
-  }, []);
-
-  const totalpendingtransactions = pendingASN.length + pendingPO.length;
+  //const totalpendingtransactions = pendingASN.length + pendingPO.length;
   return (
     <ScrollView
       style={{flex: 1}}
@@ -42,13 +44,14 @@ const DashboardComp = () => {
         <Card.Content>
           <View style={{top: -18}}>
             <Title style={styles.totaltitle}>Pending Transactions{'  '}</Title>
-            <Text style={styles.totalcontainer}>
+            {/* <Text style={styles.totalcontainer}>
               {`${totalpendingtransactions}`}
-            </Text>
+            </Text> */}
           </View>
 
           {/* <Divider style={styles.divider} /> */}
-          <ScrollView style={{flex: 1}}>
+
+          {/* <ScrollView style={{flex: 1}}>
             <TouchableOpacity
               onPress={() => setIsOpen1(!isOpen1)}
               style={styles.buttonContainer}>
@@ -89,9 +92,10 @@ const DashboardComp = () => {
                 ))}
               </ScrollView>
             </Collapsible>
-          </ScrollView>
+          </ScrollView> */}
           {/* <Divider style={styles.divider} /> */}
-          <ScrollView style={{flex: 1}}>
+
+          {/* <ScrollView style={{flex: 1}}>
             <TouchableOpacity
               onPress={() => setIsOpen2(!isOpen2)}
               style={styles.buttonContainer}>
@@ -137,7 +141,7 @@ const DashboardComp = () => {
                 </Card>
               ))}
             </Collapsible>
-          </ScrollView>
+          </ScrollView> */}
         </Card.Content>
       </Card>
     </ScrollView>

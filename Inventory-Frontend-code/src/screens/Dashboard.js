@@ -31,6 +31,8 @@ import DoughnutChartCard from '../components/DoughnutChartCard.js';
 import Demo from './Demo.js';
 import Pie from 'react-native-pie';
 import {storeContext} from '../StoreContext/LoggedStoreContext';
+import PageTitle from '../components/PageHeader.js';
+
 function Dashboard() {
   const store1 = ['delhi101'];
   const salesData = [10, 20, 15, 30, 25, 20, 30];
@@ -38,7 +40,7 @@ function Dashboard() {
   const [selectedMenuItem, setSelectedMenuItem] = useState(null);
 
   const {value} = storeContext();
-  
+
   const store = [
     'Dashboard',
     'StockCheck',
@@ -107,7 +109,7 @@ function Dashboard() {
   return (
     <SafeAreaView style={{backgroundColor: COLORS.black, flex: 1}}>
       <Header showBackButton={false} />
-
+      <PageTitle title={'Dashboard'} />
       {/* <ScrollView
         style={{flex: 1}}
         contentContainerStyle={{
@@ -118,29 +120,11 @@ function Dashboard() {
         <View style={[styles.iphone14ProMax1]}>
           <TouchableWithoutFeedback onPress={closeMenu}>
             <View style={{top: 1, flex: 1}}>
-              <TouchableOpacity onPress={toggleMenu}>
-                <Icon name="menu" size={45} color="black" />
-              </TouchableOpacity>
-              <Text
-                style={{
-                  top: -45,
-                  left: 50,
-                  fontSize: 30,
-                  color: COLORS.black,
-                }}>
-                Dashboard
-              </Text>
-
-              <Text
-                style={{
-                  top: '-10%',
-                  left: '80%',
-                  fontSize: 16,
-                  color: COLORS.black,
-                  fontWeight: 500,
-                }}>
-                Store Id: 3
-              </Text>
+              <View style={{top: -80, left: 4}}>
+                <TouchableOpacity onPress={toggleMenu}>
+                  <Icon name="menu" size={35} color="white" />
+                </TouchableOpacity>
+              </View>
 
               {/* <View style={styles.viewContainer}>
                   <SelectDropdown

@@ -21,6 +21,8 @@ import com.reactnativecommunity.checkbox.ReactCheckBoxPackage;
 import com.reactnativecommunity.picker.RNCPickerPackage;
 // react-native-camera
 import org.reactnative.camera.RNCameraPackage;
+// react-native-document-picker
+import com.reactnativedocumentpicker.RNDocumentPickerPackage;
 // react-native-fs
 import com.rnfs.RNFSPackage;
 // react-native-gesture-handler
@@ -93,6 +95,7 @@ public class PackageList {
       new ReactCheckBoxPackage(),
       new RNCPickerPackage(),
       new RNCameraPackage(),
+      new RNDocumentPickerPackage(),
       new RNFSPackage(),
       new RNGestureHandlerPackage(),
       new RNHTMLtoPDFPackage(),

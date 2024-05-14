@@ -145,7 +145,7 @@ const AdhocRecount = ({route}) => {
       firstcountedQty: item.firstcountedQty,
       firstvarianceQty: item.firstvarianceQty,
       reCountQty: item.count,
-      recountVarianceQty: item.bookQty - item.count,
+      recountVarianceQty: item.bookQty - (item.count ? item.count : 0),
       reCountStatus: 'complete',
       itemNumber: item.itemNumber,
       itemName: item.itemName,

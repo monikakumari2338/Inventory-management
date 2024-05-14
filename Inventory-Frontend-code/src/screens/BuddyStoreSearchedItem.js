@@ -124,11 +124,7 @@ const BuddyStoreSearchedItem = ({route}) => {
   const selectedProduct = productData.productDetailsdto.find(
     product => product.color === selectedColor && product.size === selectedSize,
   );
-  // console.log('colors :', colors);
-  // console.log('sizes :', sizes);
-  // console.log('selectedColor :', selectedColor);
-  // console.log('selectedSize :', selectedSize);
-  // console.log('selectedProduct :', selectedProduct);
+
   return (
     <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
       <Header showBackButton={true} />
@@ -185,8 +181,8 @@ const BuddyStoreSearchedItem = ({route}) => {
 
                     <Image
                       style={styles.productImage}
-                      contentFit="cover"
                       source={{uri: selectedProduct.imageData}}
+                      resizeMode="contain"
                     />
 
                     <Text
@@ -229,7 +225,7 @@ const BuddyStoreSearchedItem = ({route}) => {
                         styles.iphone13FlexBox,
                         {fontSize: 18},
                       ]}>
-                      Current Stock: {selectedProduct.stock}
+                      Current Stock: {selectedProduct.sellableStock}
                     </Text>
                   </View>
 
@@ -390,7 +386,7 @@ const styles = StyleSheet.create({
   },
 
   productImage: {
-    top: 25,
+    top: 40,
     left: 124,
     width: 150,
     height: 177,

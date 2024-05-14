@@ -1,53 +1,84 @@
-import {View, Text, StyleSheet, Image} from 'react-native';
-import React from 'react';
-import BackButton from '../screens/BackButton';
-import {TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity, Image, Text} from 'react-native';
+import {Header as HeaderRNE, Icon} from '@rneui/themed';
 import {useNavigation} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Ionicons';
+
 export default function Header({showBackButton}) {
   const navigation = useNavigation();
   const handlePress = () => {
     navigation.goBack();
   };
   return (
-    <View style={styles.header}>
-      <Image source={require('./img/kpmg1.png')} style={styles.logo} />
-
-      {showBackButton ? (
-        <TouchableOpacity onPress={handlePress}>
-          <Icon
-            style={{marginTop: '11%', left: '1%'}}
-            name="arrow-back-outline"
-            size={30}
-            color="white"
-          />
-        </TouchableOpacity>
-      ) : (
-        <View style={styles.placeholder} />
-      )}
-    </View>
+    <HeaderRNE
+      containerStyle={styles.header}
+      leftContainerStyle={styles.headerContainer}
+      centerContainerStyle={styles.headerContainer}
+      rightContainerStyle={styles.headerContainer}
+      // leftComponent={
+      //   <TouchableOpacity>
+      //     <Icon name="menu" color="#f0f0f0" size={25} />
+      //   </TouchableOpacity>
+      // }
+      centerComponent={
+        <Image
+          source={require('../components/img/kpmgLogo.png')}
+          style={styles.logo}
+        />
+      }
+      rightComponent={
+        <View>
+          <TouchableOpacity
+            style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Icon name="storefront" type="ionicons" color="#fff" size={25} />
+            <View style={styles.storeInfoContainer}>
+              <Text style={styles.storeId}>101</Text>
+              <Text style={styles.storeName}>Delhi</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      }
+    />
   );
 }
+
 const styles = StyleSheet.create({
-  header: {
-    backgroundColor: '#00338e',
-    height: 120,
-    width: '100%',
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 1000,
-    display: 'flex',
-    alignItems: 'baseline',
+  headerContainer: {
+    marginTop: 10,
   },
   logo: {
-    height: '30%',
-    width: '27%',
-    top: '28%',
-    alignSelf: 'center',
+    height: 25,
+    marginRight: 10,
+    resizeMode: 'contain',
   },
-
-  placeholder: {
-    color: 'red',
+  storeInfoContainer: {
+    marginHorizontal: 5,
+  },
+  storeId: {
+    fontFamily: 'Montserrat-Bold',
+    color: 'white',
+    fontSize: 10,
+  },
+  storeName: {
+    fontFamily: 'Montserrat-Regular',
+    color: 'white',
+    fontSize: 9,
   },
 });
+
+// {showBackButton ? (
+//   <TouchableOpacity onPress={handlePress}>
+//     <Icon
+//       style={{marginTop: '11%', left: '1%'}}
+//       name="arrow-back-outline"
+//       size={30}
+//       color="white"
+//     />
+//   </TouchableOpacity>
+// ) : (
+//   <View style={styles.placeholder} />
+// )}
+
+// export default function Header({showBackButton}) {
+//   const navigation = useNavigation();
+//   const handlePress = () => {
+//     navigation.goBack();
+//   };

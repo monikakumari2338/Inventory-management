@@ -109,7 +109,7 @@ const ItemScanner = () => {
     closeMenu();
   };
   const {value} = storeContext();
-  const val = 'Ambience Mall';
+  const val = 'Pacific Dwarka';
 
   const handleIconClick = async () => {
     const numericRegex = /^[0-9]+$/;
@@ -197,6 +197,7 @@ const ItemScanner = () => {
       } else {
         setProductData(responseData);
         setNoDataFound(false);
+        setInputValue('');
         navigation.navigate('StockCheck', {productData: responseData});
       }
     } catch (error) {

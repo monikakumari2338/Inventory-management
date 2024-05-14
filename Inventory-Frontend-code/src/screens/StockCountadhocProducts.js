@@ -38,7 +38,7 @@ import SyncStorage from 'sync-storage';
 
 const StockCountadhocProducts = ({route}) => {
   const {products, reason, sku} = route.params;
-  //console.log('sku', sku);
+  //console.log('products: ', products);
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [isPopupVisiblesave, setPopupVisiblesave] = useState(false);
   const [showModal, setshowmodal] = useState(false);
@@ -216,10 +216,10 @@ const StockCountadhocProducts = ({route}) => {
 
     const varianceQty = BookQty - countedQty;
     const savearr = products.map((item, index) => ({
-      adhocId: uniqueId,
-      bookQty: item.stock,
+      // adhocId: uniqueId,
+      bookQty: item.sellableStock,
       firstcountedQty: item.count ? item.count : 0,
-      firstvarianceQty: item.stock - (item.count ? item.count : 0),
+      firstvarianceQty: item.sellableStock - (item.count ? item.count : 0),
       reCountQty: 0,
       recountVarianceQty: 0,
       reCountStatus: 'pending',
@@ -250,7 +250,7 @@ const StockCountadhocProducts = ({route}) => {
       });
   };
 
-  console.log('products stock ', products);
+ // console.log('products stock ', products);
   const renderProductCards = () =>
     products?.map((Item, index) => (
       <Pressable
@@ -273,7 +273,8 @@ const StockCountadhocProducts = ({route}) => {
               }>{`${Item.product.itemName} | ${Item.color}`}</Text>
 
             <Text style={styles.productDetails}>
-              Price:{Item.price} | Size: {Item.size} | Stock:{Item.stock}
+              Price:{Item.price} | Size: {Item.size} | Stock:
+              {Item.sellableStock}
             </Text>
 
             {/* {Item.stockcount && ( */}
@@ -329,14 +330,14 @@ const StockCountadhocProducts = ({route}) => {
       </Pressable>
     ));
 
-  function generateUniqueId() {
-    return 'yxxxxyxxxyxxxyxx'.replace(/[xy]/g, function (c) {
-      var r = (Math.random() * 16) | 0,
-        v = c == 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
-  }
-  const uniqueId = generateUniqueId();
+  // function generateUniqueId() {
+  //   return 'yxxxxyx'.replace(/[xy]/g, function (c) {
+  //     var r = (Math.random() * 16) | 0,
+  //       v = c == 'x' ? r : (r & 0x3) | 0x8;
+  //     return v.toString(16);
+  //   });
+  // }
+  // const uniqueId = generateUniqueId();
 
   const handlescan = () => {
     setError(null);
@@ -578,9 +579,9 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   productImage: {
-    width: 100,
-    height: 100,
-    marginRight: 5,
+    width: 65,
+    height: 90,
+    marginRight: 26,
   },
   productInfo: {
     flex: 2,

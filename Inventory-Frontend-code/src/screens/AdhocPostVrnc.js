@@ -280,16 +280,6 @@ const AdhocPostVrnc = ({route}) => {
               }}>
               Post Variance
             </Text>
-            <View style={styles.buttonsContainer}>
-              <TouchableOpacity
-                onPress={openModal}
-                style={styles.downloadButton}>
-                <Text style={styles.buttonText}>Download</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.emailButton} onPress={sharePDF}>
-                <Text style={styles.buttonText}>Receive as Email</Text>
-              </TouchableOpacity>
-            </View>
           </View>
 
           <View style={{height: 600}}>
@@ -302,8 +292,8 @@ const AdhocPostVrnc = ({route}) => {
                     <Text style={[styles.headerText]}>Size</Text>
                     <Text style={[styles.headerText]}>Color</Text>
                     <Text style={[styles.headerText]}>Booked</Text>
-                    <Text style={[styles.headerText]}>First Counted Qty</Text>
-                    <Text style={[styles.headerText]}>First Variance</Text>
+                    <Text style={[styles.headerText]}>Primary Count</Text>
+                    <Text style={[styles.headerText]}>Primary Variance</Text>
                     <Text style={[styles.headerText]}>ReCount Qty</Text>
                     <Text style={[styles.headerText]}>Recount Variance</Text>
                   </View>
@@ -341,6 +331,14 @@ const AdhocPostVrnc = ({route}) => {
                 </View>
               </ScrollView>
             </ScrollView>
+          </View>
+          <View style={styles.buttonsContainer}>
+            <TouchableOpacity onPress={openModal} style={styles.downloadButton}>
+              <Text style={styles.buttonText}>Download</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.emailButton} onPress={sharePDF}>
+              <Text style={styles.buttonText}>Receive as Email</Text>
+            </TouchableOpacity>
           </View>
           <Modal
             animationType="slide"
@@ -417,7 +415,7 @@ const styles = StyleSheet.create({
   tableHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 5,
+    paddingVertical: 4,
     paddingHorizontal: 20,
     backgroundColor: COLORS.primary,
     marginTop: -38,
@@ -425,13 +423,13 @@ const styles = StyleSheet.create({
 
   headerText: {
     color: 'white',
-    paddingHorizontal: 9,
+    paddingHorizontal: 10,
     fontSize: 16,
-    paddingVertical: 5,
+    paddingVertical: 1,
     textAlign: 'center',
     top: 1,
     flex: 1,
-    width: 80,
+    width: 90,
   },
 
   tableRow: {
@@ -453,7 +451,7 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 5,
+    marginTop: '-25%',
   },
   downloadButton: {
     backgroundColor: COLORS.primary,

@@ -267,9 +267,10 @@ const SaveCycle = ({route}) => {
 
     const varianceQty = totalBookQty - countedQty;
     // Get current date and time for startedAt and completedAt
-    const currentDate = new Date();
-    const startedAt = currentDate.toISOString();
-    const completedAt = startedAt; // Set completedAt to the same as startedAt
+    const currentDateAndTime = moment().format('DD-MM-YYYY HH:mm:ss');
+
+    const startedAt = currentDateAndTime;
+    const completedAt = currentDateAndTime; // Set completedAt to the same as startedAt
     const status = varianceQty !== 0 ? 'processing' : 'complete';
     const reCount = varianceQty !== 0 ? 'processing' : 'complete';
     const reCountQty = 0;

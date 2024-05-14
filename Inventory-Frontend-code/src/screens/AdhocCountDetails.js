@@ -39,7 +39,7 @@ const AdhocCountDetails = ({route}) => {
   const navigation = useNavigation();
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [selectedMenuItem, setSelectedMenuItem] = useState(null);
-
+ //console.log(countDetails)
   const store = [
     'Dashboard',
     'StockCheck',
@@ -126,8 +126,8 @@ const AdhocCountDetails = ({route}) => {
                     <Text style={[styles.headerText]}>Size</Text>
                     <Text style={[styles.headerText]}>Color</Text>
                     <Text style={[styles.headerText]}>Booked Qty</Text>
-                    <Text style={[styles.headerText]}>First Counted Qty</Text>
-                    <Text style={[styles.headerText]}>First Variance</Text>
+                    <Text style={[styles.headerText]}>Primary Count</Text>
+                    <Text style={[styles.headerText]}>Primary Variance</Text>
                     <Text style={[styles.headerText]}>Recount Qty</Text>
                     <Text style={[styles.headerText]}>Recount Variance</Text>
                   </View>
@@ -199,12 +199,12 @@ const styles = StyleSheet.create({
 
   headerText: {
     color: 'white',
-    paddingHorizontal: 9,
+    paddingHorizontal: 10,
     fontSize: 16,
     textAlign: 'center',
-    top: 4,
+    top: 1,
     flex: 1,
-    width: 80,
+    width: 90,
   },
 
   tableRow: {

@@ -29,7 +29,6 @@ import ViewDSD from './ViewDSD';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 
-
 const CountDtls = ({route}) => {
   const {countDetails} = route.params || {};
   const [data, setData] = useState([]);
@@ -121,7 +120,7 @@ const CountDtls = ({route}) => {
 
   return (
     <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
-       <Header showBackButton={true} />
+      <Header showBackButton={true} />
       <TouchableWithoutFeedback onPress={handlepress}>
         <View style={{flex: 1}}>
           <View style={{top: 1}}>
@@ -160,8 +159,8 @@ const CountDtls = ({route}) => {
                     <Text style={[styles.headerText]}>Size</Text>
                     <Text style={[styles.headerText]}>Color</Text>
                     <Text style={[styles.headerText]}>Booked Qty</Text>
-                    <Text style={[styles.headerText]}>First Counted Qty</Text>
-                    <Text style={[styles.headerText]}>First Variance</Text>
+                    <Text style={[styles.headerText]}>Primary Count</Text>
+                    <Text style={[styles.headerText]}>Primary Variance</Text>
                     <Text style={[styles.headerText]}>Recount Qty</Text>
                     <Text style={[styles.headerText]}>Recount Variance</Text>
                   </View>
@@ -225,7 +224,7 @@ const styles = StyleSheet.create({
   tableHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 5,
+    paddingVertical: 4,
     paddingHorizontal: 20,
     backgroundColor: COLORS.primary,
     marginTop: -38,
@@ -233,12 +232,12 @@ const styles = StyleSheet.create({
 
   headerText: {
     color: 'white',
-    paddingHorizontal: 9,
+    paddingHorizontal: 10,
     fontSize: 16,
     textAlign: 'center',
-    top: 10,
+    top: 1,
     flex: 1,
-    width: 80,
+    width: 90,
   },
 
   tableRow: {

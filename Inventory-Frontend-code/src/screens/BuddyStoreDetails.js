@@ -336,8 +336,8 @@ const BuddyStoreDetails = ({route}) => {
 
                 <Image
                   style={styles.productImage}
-                  contentFit="cover"
                   source={{uri: selectedProduct?.imageData}}
+                  resizeMode="contain"
                 />
 
                 <Text
@@ -380,7 +380,7 @@ const BuddyStoreDetails = ({route}) => {
                     styles.iphone13FlexBox,
                     {fontSize: 18},
                   ]}>
-                  Current Stock: {selectedProduct?.stock}
+                  Current Stock: {selectedProduct?.sellableStock}
                 </Text>
               </View>
 

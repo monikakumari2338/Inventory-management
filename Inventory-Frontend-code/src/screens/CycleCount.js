@@ -29,7 +29,7 @@ import ViewDSD from './ViewDSD.js';
 import Viewrtv from './Viewrtv.js';
 import InvAdj from './InvAdj.js';
 import ViewInv from './ViewInv';
-
+import moment from 'moment-timezone';
 const CycleCount = ({route}) => {
   const navigation = useNavigation();
   const [apiData, setApiData] = useState([]);
@@ -253,7 +253,7 @@ const CycleCount = ({route}) => {
         );
       });
   };
-  const handleAdhocPostvar = (adhocId) => {
+  const handleAdhocPostvar = adhocId => {
     axios
       .get(`http://172.20.10.9:8083/savestockcount/get/adhoc/${adhocId}`)
       .then(response => {
@@ -265,6 +265,7 @@ const CycleCount = ({route}) => {
       });
   };
 
+  
   const openPostvarModal = countId => {
     setCountId(countId);
     console.log('count id', countId);

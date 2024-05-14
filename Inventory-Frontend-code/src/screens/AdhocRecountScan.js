@@ -28,7 +28,7 @@ const AdhocRecountScan = ({route}) => {
       );
       const responseData = response.data;
       //console.log('responseData ', responseData.sku);
-      console.log('products ', products);
+     // console.log('products ', products);
       const data = products.map(item => {
         if (item.sku === responseData.sku) {
           const countitem = item.count ? item.count : 0;

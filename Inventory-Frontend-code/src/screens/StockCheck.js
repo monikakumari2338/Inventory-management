@@ -195,7 +195,7 @@ const StockCheck = ({route}) => {
 
                   <Image
                     style={styles.productImage}
-                    contentFit="cover"
+                    //contentFit="cover"
                     source={{uri: selectedProduct.imageData}}
                     resizeMode="contain"
                   />
@@ -240,7 +240,7 @@ const StockCheck = ({route}) => {
                       styles.iphone13FlexBox,
                       {fontSize: 18},
                     ]}>
-                    Current Stock: {selectedProduct.stock}
+                    Current Stock: {selectedProduct.sellableStock}
                   </Text>
                 </View>
 
@@ -360,7 +360,8 @@ const styles = StyleSheet.create({
   verticalText3: {
     marginVertical: 40,
     top: -303,
-    right: -278,
+    alignSelf: 'flex-end',
+    paddingRight: 18,
     fontSize: 20,
     color: COLORS.black,
     fontWeight: 'bold',
@@ -394,10 +395,10 @@ const styles = StyleSheet.create({
   },
 
   productImage: {
-    top: 25,
+    top: 40,
     left: 124,
     width: 150,
-    height: 177,
+    height: 170,
     position: 'absolute',
   },
   iphone13Pink: {
