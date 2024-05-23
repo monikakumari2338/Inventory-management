@@ -97,4 +97,17 @@ public class StockCountCreationdto {
 				+ ", status=" + status + ", totalBookQty=" + totalBookQty + "]";
 	}
 
+	public StockCountCreationdto(String countDescription, LocalDate date, String status, int totalBookQty,
+			String reCount, String store) {
+		super();
+		this.countDescription = countDescription;
+		this.date = date;
+		this.status = status;
+		this.totalBookQty = totalBookQty;
+		this.reCount = reCount;
+		this.store = store;
+	}
+	
+	
+
 }

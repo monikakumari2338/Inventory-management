@@ -2,30 +2,26 @@
 package com.inventory.purchaseorder.service;
 
 import java.util.List;
-
-import org.springframework.web.bind.annotation.PathVariable;
+import java.util.UUID;
 
 import com.inventory.purchaseorder.dto.ReturnToVendorCombinedDto;
-import com.inventory.purchaseorder.dto.ReturnToVendorProcessDto;
-import com.inventory.purchaseorder.entity.ReturnToVendorInfo;
-import com.inventory.purchaseorder.entity.ReturnToVendorProcessInfo;
-import com.inventory.purchaseorder.entity.ReturnToVendorProcessProducts;
+import com.inventory.purchaseorder.entity.RTV;
+import com.inventory.purchaseorder.entity.RTVProducts;
+import com.inventory.purchaseorder.entity.RTVReasonCodes;
+import com.inventory.purchaseorder.entity.Suppliers;
 
 public interface ReturnToVendorService {
 
-	String saveProducts(ReturnToVendorCombinedDto RTVCombinedDto);
+	String saveProducts(ReturnToVendorCombinedDto RTVCombinedDto, String id);
 
-	ReturnToVendorCombinedDto getRTVProducts(int rtvId);
+	List<RTV> getAllVendorReturn();
 
-	String saveRTVProcessProducts(ReturnToVendorProcessDto RTVProcessDto, int rtvId);
+	List<Suppliers> getAllSuppliers();
 
-	List<ReturnToVendorProcessInfo> getAllViewVendorReturn();
+	String generatedRandomID();
 
-//	List<ReturnToVendorProcessInfo> getMatchedRTVById(String id);
-//
-//	List<ReturnToVendorProcessInfo> getMatchedRTVBySupplier(String name);
+	List<RTVProducts> getRTVProducts(String rtvId);
 
-	List<ReturnToVendorProcessProducts> getRTVProcessProducts(int rtvId);
+	List<RTVReasonCodes> getAllReasonCodes();
 
-	List<Integer> getAllRTVId();
 }

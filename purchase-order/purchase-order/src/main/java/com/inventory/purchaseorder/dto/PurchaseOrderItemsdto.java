@@ -17,6 +17,7 @@ public class PurchaseOrderItemsdto {
 	private String taxCode;
 	private int damageQty;
 	private String damageImage;
+	private String damageImageBase64;
 
 	public PurchaseOrderItemsdto() {
 		super();
@@ -151,9 +152,17 @@ public class PurchaseOrderItemsdto {
 		this.damageImage = damageImage;
 	}
 
+	public String getDamageImageBase64() {
+		return damageImageBase64;
+	}
+
+	public void setDamageImageBase64(String damageImageBase64) {
+		this.damageImageBase64 = damageImageBase64;
+	}
+
 	public PurchaseOrderItemsdto(String itemNumber, String itemName, int expectedQty, int receivedQty, int remainingQty,
 			String category, String color, String price, String size, String imageData, String upc, String sku,
-			String taxPercentage, String taxCode, int damageQty, String damageImage) {
+			String taxPercentage, String taxCode, int damageQty, String damageImage, String damageImageBase64) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -171,7 +180,28 @@ public class PurchaseOrderItemsdto {
 		this.taxCode = taxCode;
 		this.damageQty = damageQty;
 		this.damageImage = damageImage;
+		this.damageImageBase64 = damageImageBase64;
 	}
 
-	
+	public PurchaseOrderItemsdto(String itemNumber, String itemName, int expectedQty, int receivedQty, int remainingQty,
+			String category, String color, String price, String size, String imageData, String upc, String sku,
+			String taxPercentage, String taxCode, int damageQty) {
+		super();
+		this.itemNumber = itemNumber;
+		this.itemName = itemName;
+		this.expectedQty = expectedQty;
+		this.receivedQty = receivedQty;
+		this.remainingQty = remainingQty;
+		this.category = category;
+		this.color = color;
+		this.price = price;
+		this.size = size;
+		this.imageData = imageData;
+		this.upc = upc;
+		this.sku = sku;
+		this.taxPercentage = taxPercentage;
+		this.taxCode = taxCode;
+		this.damageQty = damageQty;
+	}
+
 }

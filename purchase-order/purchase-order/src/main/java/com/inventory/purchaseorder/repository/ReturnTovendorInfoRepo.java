@@ -1,16 +1,14 @@
 package com.inventory.purchaseorder.repository;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.inventory.purchaseorder.entity.ReturnToVendorInfo;
-import com.inventory.purchaseorder.entity.ReturnToVendorProcessInfo;
+import com.inventory.purchaseorder.entity.RTV;
 
-public interface ReturnTovendorInfoRepo extends JpaRepository<ReturnToVendorInfo, Integer> {
-	
-	ReturnToVendorInfo findByrtvId(int rtvId);
-	
-	List<ReturnToVendorInfo> findAll();
+public interface ReturnTovendorInfoRepo extends JpaRepository<RTV, Integer> {
+
+	RTV findByrtvId(String id);
 
 }

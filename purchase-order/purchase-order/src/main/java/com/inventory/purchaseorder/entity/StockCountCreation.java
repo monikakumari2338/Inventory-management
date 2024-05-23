@@ -6,11 +6,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class StockCountCreation {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Sc_sequence")
+	@SequenceGenerator(name = "Sc_sequence", sequenceName = "Sc_sequence", initialValue = 2000, allocationSize = 1)
 	private int countId;
 	private String countDescription;
 	// private LocalDateTime date;
@@ -81,11 +84,9 @@ public class StockCountCreation {
 		this.store = store;
 	}
 
-	
-	public StockCountCreation(int countId, String countDescription, LocalDate date, String status, int totalBookQty,
-			String reCount, String store) {
+	public StockCountCreation(String countDescription, LocalDate date, String status, int totalBookQty, String reCount,
+			String store) {
 		super();
-		this.countId = countId;
 		this.countDescription = countDescription;
 		this.date = date;
 		this.status = status;

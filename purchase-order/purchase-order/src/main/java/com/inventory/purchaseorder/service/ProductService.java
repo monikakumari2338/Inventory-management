@@ -41,4 +41,6 @@ public interface ProductService {
 	//ProductDetails getproducDetailstByUPC(String upc, String store);
 
 	ProductDetails getproducDetailstByUpc(String upc, String store);
+
+	List<ProductDetails> getSKUByItemNumber(String itemNumber, String color, String size);
 }

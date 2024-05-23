@@ -36,38 +36,30 @@ public class StockCountCreationServiceImpl implements StockCountCreationService 
 	@Override
 	public StockCountCreationCombinedDto saveProducts(StockCountCreationCombinedDto StockCountCreationCombinedDto) {
 
-		StockCountCreation ScCreation = creationRepo
-				.findByCountId(StockCountCreationCombinedDto.getCreationdto().getCountId());
-		if (ScCreation == null) {
-			StockCountCreation stockCountCreation = new StockCountCreation(
-					StockCountCreationCombinedDto.getCreationdto().getCountId(),
-					StockCountCreationCombinedDto.getCreationdto().getCountDescription(),
-					StockCountCreationCombinedDto.getCreationdto().getDate(),
-					StockCountCreationCombinedDto.getCreationdto().getStatus(),
-					StockCountCreationCombinedDto.getCreationdto().getTotalBookQty(),
-					StockCountCreationCombinedDto.getCreationdto().getReCount(),
-					StockCountCreationCombinedDto.getCreationdto().getStore());
+		StockCountCreation stockCountCreation = new StockCountCreation(
+				StockCountCreationCombinedDto.getCreationdto().getCountDescription(),
+				StockCountCreationCombinedDto.getCreationdto().getDate(),
+				StockCountCreationCombinedDto.getCreationdto().getStatus(),
+				StockCountCreationCombinedDto.getCreationdto().getTotalBookQty(),
+				StockCountCreationCombinedDto.getCreationdto().getReCount(),
+				StockCountCreationCombinedDto.getCreationdto().getStore());
 
-			creationRepo.save(stockCountCreation);
+		stockCountCreation = creationRepo.save(stockCountCreation);
 
-			StockCountCreation ScCreation1 = creationRepo
-					.findByCountId(StockCountCreationCombinedDto.getCreationdto().getCountId());
+		for (int i = 0; i < StockCountCreationCombinedDto.getCreationProductsdto().size(); i++) {
+			StockCountCreationProducts stockCountCreationProducts = new StockCountCreationProducts(
+					StockCountCreationCombinedDto.getCreationProductsdto().get(i).getItemNumber(),
+					StockCountCreationCombinedDto.getCreationProductsdto().get(i).getItemName(),
+					StockCountCreationCombinedDto.getCreationProductsdto().get(i).getCategory(),
+					StockCountCreationCombinedDto.getCreationProductsdto().get(i).getColor(),
+					StockCountCreationCombinedDto.getCreationProductsdto().get(i).getPrice(),
+					StockCountCreationCombinedDto.getCreationProductsdto().get(i).getSize(),
+					StockCountCreationCombinedDto.getCreationProductsdto().get(i).getImageData(),
+					StockCountCreationCombinedDto.getCreationProductsdto().get(i).getStore(),
+					StockCountCreationCombinedDto.getCreationProductsdto().get(i).getBookQty(),
+					StockCountCreationCombinedDto.getCreationProductsdto().get(i).getSku(), stockCountCreation);
+			creationProductsRepo.save(stockCountCreationProducts);
 
-			for (int i = 0; i < StockCountCreationCombinedDto.getCreationProductsdto().size(); i++) {
-				StockCountCreationProducts stockCountCreationProducts = new StockCountCreationProducts(
-						StockCountCreationCombinedDto.getCreationProductsdto().get(i).getItemNumber(),
-						StockCountCreationCombinedDto.getCreationProductsdto().get(i).getItemName(),
-						StockCountCreationCombinedDto.getCreationProductsdto().get(i).getCategory(),
-						StockCountCreationCombinedDto.getCreationProductsdto().get(i).getColor(),
-						StockCountCreationCombinedDto.getCreationProductsdto().get(i).getPrice(),
-						StockCountCreationCombinedDto.getCreationProductsdto().get(i).getSize(),
-						StockCountCreationCombinedDto.getCreationProductsdto().get(i).getImageData(),
-						StockCountCreationCombinedDto.getCreationProductsdto().get(i).getStore(),
-						StockCountCreationCombinedDto.getCreationProductsdto().get(i).getBookQty(),
-						StockCountCreationCombinedDto.getCreationProductsdto().get(i).getSku(), ScCreation1);
-				creationProductsRepo.save(stockCountCreationProducts);
-
-			}
 		}
 
 		return StockCountCreationCombinedDto;

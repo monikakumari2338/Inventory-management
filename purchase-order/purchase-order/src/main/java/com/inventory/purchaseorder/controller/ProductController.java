@@ -105,17 +105,24 @@ public class ProductController {
 //		ProductDetails Product = productService.getproducDetailstByUpc(upc, store);
 //		return new ResponseEntity<>(Product, HttpStatus.OK);
 //	}
-	
+
 	@GetMapping("/upcs/{upc}/{store}")
-	public ResponseEntity<ProductDetails> getProduct(@PathVariable String upc, @PathVariable String store){
+	public ResponseEntity<ProductDetails> getProduct(@PathVariable String upc, @PathVariable String store) {
 		ProductDetails product = productService.getproducDetailstByUpc(upc, store);
-		return new ResponseEntity<>(product,HttpStatus.OK);
+		return new ResponseEntity<>(product, HttpStatus.OK);
 	}
 
 	@GetMapping("/findbysku/{sku}/{store}")
 	public ResponseEntity<ProductDetails> getProductBySku(@PathVariable String sku, @PathVariable String store) {
 		ProductDetails Product = productService.getproducDetailstBySKU(sku, store);
 		return new ResponseEntity<>(Product, HttpStatus.OK);
+	}
+
+	@GetMapping("/getsku/{item}/{color}/{size}")
+	public ResponseEntity<List<ProductDetails>> getSku(@PathVariable String item, @PathVariable String color,
+			@PathVariable String size) {
+		List<ProductDetails> list = productService.getSKUByItemNumber(item, color, size);
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 }

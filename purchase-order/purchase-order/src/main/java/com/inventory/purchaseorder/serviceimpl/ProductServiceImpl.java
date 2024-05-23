@@ -22,7 +22,6 @@ import com.inventory.purchaseorder.entity.Product;
 import com.inventory.purchaseorder.entity.ProductDetails;
 import com.inventory.purchaseorder.entity.PurchaseOrder;
 import com.inventory.purchaseorder.entity.PurchaseOrderItems;
-import com.inventory.purchaseorder.entity.ReturnToVendorProcessInfo;
 import com.inventory.purchaseorder.repository.CategoryRepo;
 import com.inventory.purchaseorder.repository.ProductDetailsRepo;
 import com.inventory.purchaseorder.repository.ProductRepo;
@@ -352,8 +351,6 @@ public class ProductServiceImpl implements ProductService {
 
 	}
 
-	
-	
 	@Override
 	public ProductDetails getproducDetailstByUpc(String upc, String store) {
 		Stores store1 = storeRepo.findByStoreName(store);
@@ -369,6 +366,16 @@ public class ProductServiceImpl implements ProductService {
 		ProductDetails Product = productDetailsRepo.findBySkuAndStore(sku, store1);
 		System.out.println("productDetail " + " " + Product);
 		return Product;
+
+	}
+
+	@Override
+	public List<ProductDetails> getSKUByItemNumber(String item, String color, String size) {
+		Product prod = productRepo.findByItemNumberOrItemName(item, item);
+		System.out.println("prod " + " " + prod);
+		List<ProductDetails> itemList = productDetailsRepo.findByProductAndColorAndSize(prod, color, size);
+		System.out.println("itemList " + " " + itemList.get(0).getSku());
+		return itemList;
 
 	}
 

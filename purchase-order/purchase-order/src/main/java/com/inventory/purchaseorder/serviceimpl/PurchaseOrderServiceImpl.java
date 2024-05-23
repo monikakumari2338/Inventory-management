@@ -143,7 +143,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 					combinedDto.getPurchaseOrderItemsdto().get(i).getUpc(),
 					combinedDto.getPurchaseOrderItemsdto().get(i).getSku(),
 					combinedDto.getPurchaseOrderItemsdto().get(i).getTaxPercentage(),
-					combinedDto.getPurchaseOrderItemsdto().get(i).getTaxCode(), po);
+					combinedDto.getPurchaseOrderItemsdto().get(i).getTaxCode(), null, false, po);
 
 			itemsRepo.save(purchaseOrderItems);
 
@@ -170,7 +170,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 						purchaseOrderItems.get(i).getSize(), purchaseOrderItems.get(i).getImageData(),
 						purchaseOrderItems.get(i).getUpc(), purchaseOrderItems.get(i).getSku(),
 						purchaseOrderItems.get(i).getTaxPercentage(), purchaseOrderItems.get(i).getTaxCode(),
-						purchaseOrderItems.get(i).getDamageQty(), purchaseOrderItems.get(i).getDamageImage());
+						purchaseOrderItems.get(i).getDamageQty());
 				PurchaseOrderItemsdto.add(purchaseOrderItemsdto);
 			}
 
@@ -181,7 +181,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 	// Function get PO Summary
 	@Override
 	public List<PurchaseOrderItemsdto> getPoItemsSummaryByPoNumber(int poNumber) {
-	
+
 		PurchaseOrder purchaseOrder = purchaseOrderRepo.findByPoNumber(poNumber);
 		List<PurchaseOrderItems> purchaseOrderItems = itemsRepo.findAllByPurchaseOrder(purchaseOrder);
 		List<PurchaseOrderItemsdto> PurchaseOrderItemsdto = new ArrayList<>();
@@ -195,7 +195,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 					purchaseOrderItems.get(i).getSize(), purchaseOrderItems.get(i).getImageData(),
 					purchaseOrderItems.get(i).getUpc(), purchaseOrderItems.get(i).getSku(),
 					purchaseOrderItems.get(i).getTaxPercentage(), purchaseOrderItems.get(i).getTaxCode(),
-					purchaseOrderItems.get(i).getDamageQty(), purchaseOrderItems.get(i).getDamageImage());
+					purchaseOrderItems.get(i).getDamageQty(), purchaseOrderItems.get(i).getDamageImage(),
+					purchaseOrderItems.get(i).getDamageImageBase64());
 			PurchaseOrderItemsdto.add(purchaseOrderItemsdto);
 
 		}
@@ -246,7 +247,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 				// System.out.println("anyEmpAbove40 " + anyEmpAbove40);
 				if (!anyEmpAbove40.isEmpty()) {
-					System.out.println("ifffffff");
 					purchaseOrderItems.add(new PurchaseOrderItemsGetDto3(pOrderItems.get(j).getItemNumber(),
 							pOrderItems.get(j).getItemName(), pOrderItems.get(j).getExpectedQty(),
 							pOrderItems.get(j).getReceivedQty(), pOrderItems.get(j).getRemainingQty(),
@@ -303,12 +303,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			else {
 				ProductDetails productDetails1 = productDetailsRepo
 						.findBySkuAndStore(combinedDto.getPurchaseOrderItemsdto().get(i).getSku(), store);
-//				System.out.println("productDetails1 : " + productDetails1 + " sku : "
-//						+ combinedDto.getPurchaseOrderItemsdto().get(i).getSku());
-				int Prev_sellableStock;
-				int new_sellableStock;
+				System.out.println("productDetails1 : " + productDetails1 + " sku : "
+						+ combinedDto.getPurchaseOrderItemsdto().get(i).getSku());
+				int Prev_sellableStock = 0;
+				int new_sellableStock = 0;
 				int totalSellable = 0;
-				int new_nonSellableStock;
+				int new_nonSellableStock = 0;
 				int totalNonSellable = 0;
 
 				if (productDetails1 != null) {
@@ -320,12 +320,16 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 					new_nonSellableStock = combinedDto.getPurchaseOrderItemsdto().get(i).getDamageQty();
 					totalNonSellable = nonSellable_stock + new_nonSellableStock;
 
+//					System.out.println("nonSellable_stock :" + nonSellable_stock);
+//					System.out.println("new_nonSellableStock :" + new_nonSellableStock);
+
 					int total_stock = totalSellable + totalNonSellable;
 					productDetails1.setTotalStock(total_stock);
 					productDetails1.setSellableStock(totalSellable);
 					productDetails1.setNonSellableStock(totalNonSellable);
 					productDetailsRepo.save(productDetails1);
-					// System.out.println("inside iff");
+
+//					System.out.println("totalNonSellable :" + totalNonSellable);
 				}
 
 				else {
@@ -354,18 +358,29 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 					.findByPoNumber(combinedDto.getPurchaseOrderItemsdto().get(i).getPoNumber());
 
 			if (PO != null) {
+				// System.out.println("PO : " + PO);
 				PurchaseOrderItems item = itemsRepo
 						.findBySkuAndPurchaseOrder(combinedDto.getPurchaseOrderItemsdto().get(i).getSku(), PO);
 				if (item != null) {
 
 					item.setReceivedQty(
 							item.getReceivedQty() + combinedDto.getPurchaseOrderItemsdto().get(i).getReceivedQty());
-					item.setRemainingQty(Math.abs(
-							item.getRemainingQty() - combinedDto.getPurchaseOrderItemsdto().get(i).getReceivedQty()));
+
 					item.setDamageQty(
 							item.getDamageQty() + combinedDto.getPurchaseOrderItemsdto().get(i).getDamageQty());
 					item.setDamageImage(combinedDto.getPurchaseOrderItemsdto().get(i).getDamageImage());
+
+					item.setRemainingQty(item.getExpectedQty() - (item.getDamageQty() + item.getReceivedQty()));
+					System.out.println("remaining qty : " + item.getRemainingQty());
+
+					if (item.getRemainingQty() <= 0) {
+
+						item.setIsCompleted(true);
+						System.out.println("inside if remaining qty : " + item.getRemainingQty());
+					}
+
 					itemsRepo.save(item);
+
 				}
 			}
 
@@ -386,6 +401,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
 			List<PurchaseOrderItemsdto> purchaseOrderItemsdto = new ArrayList<>();
 
+			// System.out.println("po_list : " + po_list);
 			if (po_list.size() > 1) {
 
 				for (int j = 0; j < recievedItems.size(); j++) {
@@ -398,36 +414,47 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 								recievedItems.get(j).getSize(), recievedItems.get(j).getImageData(),
 								recievedItems.get(j).getUpc(), recievedItems.get(j).getSku(),
 								recievedItems.get(j).getTaxPercentage(), recievedItems.get(j).getTaxCode(),
-								recievedItems.get(j).getDamageQty(), recievedItems.get(j).getDamageImage()));
+								recievedItems.get(j).getDamageQty(), recievedItems.get(j).getDamageImage(),
+								recievedItems.get(j).getDamageImageBase64()));
 					}
-					totalSku = totalSku + 1;
+
 				}
+				totalSku = purchaseOrderItemsdto.size();
+				if (purchaseOrderItemsdto.size() != 0) {
 
-				PurchaseOrder po1 = purchaseOrderRepo.findByPoNumber(po_list.get(0).getPoNumber());
-				PurchaseOrder purchaseOrder = new PurchaseOrder("Complete", po1.getSupplierId(), 0, totalSku, storeName,
-						LocalDate.now(), LocalDate.now(), LocalDate.now(), LocalDate.now(), null, null);
+					PurchaseOrder po1 = purchaseOrderRepo.findByPoNumber(po_list.get(0).getPoNumber());
+					PurchaseOrder purchaseOrder = new PurchaseOrder("Complete", po1.getSupplierId(), 0, totalSku,
+							storeName, LocalDate.now(), LocalDate.now(), LocalDate.now(), LocalDate.now(), null, null);
 
-				purchaseOrderRepo.save(purchaseOrder);
-				PurchaseOrder po2 = purchaseOrderRepo.findFirstByOrderByPoNumberDesc();
+					purchaseOrderRepo.save(purchaseOrder);
 
-				for (int k = 0; k < purchaseOrderItemsdto.size(); k++) {
+					PurchaseOrder po2 = purchaseOrderRepo.findFirstByOrderByPoNumberDesc();
 
-					PurchaseOrderItems purchaseOrderItems = new PurchaseOrderItems(
-							purchaseOrderItemsdto.get(k).getItemNumber(), purchaseOrderItemsdto.get(k).getItemName(),
-							purchaseOrderItemsdto.get(k).getExpectedQty(),
-							purchaseOrderItemsdto.get(k).getReceivedQty(), 0, 0, null,
-							purchaseOrderItemsdto.get(k).getCategory(), purchaseOrderItemsdto.get(k).getColor(),
-							purchaseOrderItemsdto.get(k).getPrice(), purchaseOrderItemsdto.get(k).getSize(),
-							purchaseOrderItemsdto.get(k).getImageData(), purchaseOrderItemsdto.get(k).getUpc(),
-							purchaseOrderItemsdto.get(k).getSku(), purchaseOrderItemsdto.get(k).getTaxPercentage(),
-							purchaseOrderItemsdto.get(k).getTaxCode(), po2);
+					// System.out.println("purchaseOrderItemsdto : " +
+					// purchaseOrderItemsdto.size());
+					for (int k = 0; k < purchaseOrderItemsdto.size(); k++) {
 
-					itemsRepo.save(purchaseOrderItems);
+						PurchaseOrderItems purchaseOrderItems = new PurchaseOrderItems(
+								purchaseOrderItemsdto.get(k).getItemNumber(),
+								purchaseOrderItemsdto.get(k).getItemName(),
+								purchaseOrderItemsdto.get(k).getExpectedQty(),
+								purchaseOrderItemsdto.get(k).getReceivedQty(), 0,
+								purchaseOrderItemsdto.get(k).getDamageQty(),
+								purchaseOrderItemsdto.get(k).getDamageImage(),
+								purchaseOrderItemsdto.get(k).getCategory(), purchaseOrderItemsdto.get(k).getColor(),
+								purchaseOrderItemsdto.get(k).getPrice(), purchaseOrderItemsdto.get(k).getSize(),
+								purchaseOrderItemsdto.get(k).getImageData(), purchaseOrderItemsdto.get(k).getUpc(),
+								purchaseOrderItemsdto.get(k).getSku(), purchaseOrderItemsdto.get(k).getTaxPercentage(),
+								purchaseOrderItemsdto.get(k).getTaxCode(),
+								purchaseOrderItemsdto.get(k).getDamageImageBase64(), false, po2);
+
+						itemsRepo.save(purchaseOrderItems);
+					}
 				}
 			}
 
 			else {
-
+				// System.out.println("po else ");
 				for (int j = 0; j < recievedItems.size(); j++) {
 					if (recievedItems.get(j).getPoNumber() == 0) {
 
@@ -440,7 +467,8 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 								recievedItems.get(j).getPrice(), recievedItems.get(j).getSize(),
 								recievedItems.get(j).getImageData(), recievedItems.get(j).getUpc(),
 								recievedItems.get(j).getSku(), recievedItems.get(j).getTaxPercentage(),
-								recievedItems.get(j).getTaxCode(), po1);
+								recievedItems.get(j).getTaxCode(), recievedItems.get(j).getDamageImageBase64(), false,
+								po1);
 
 						itemsRepo.save(purchaseOrderItems);
 					}
@@ -448,15 +476,27 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 			}
 
 			for (int i = 0; i < po_list.size(); i++) {
+				System.out.println("po_list :" + po_list.size());
 				po_list.get(i).setAttachedImage(combinedDto.getAttachedImage());
 				List<PurchaseOrderItems> items = itemsRepo.findAllByPurchaseOrder(po_list.get(i));
+				System.out.println("items :" + items);
+
 				for (int j = 0; j < items.size(); j++) {
 					int qty = items.get(j).getRemainingQty();
+					System.out.println("qty :" + qty);
 					if (qty != 0) {
-						po_list.get(j).setStatus("Partial Receive");
+						po_list.get(i).setStatus("PartialReceive");
 						purchaseOrderRepo.save(po_list.get(i));
 						break;
 					}
+				}
+
+				boolean allCompleted = items.stream().allMatch(item -> item.getIsCompleted() == true);
+				System.out.println("Completed -> " + allCompleted);
+
+				if (allCompleted == true) {
+					po_list.get(i).setStatus("Complete");
+					purchaseOrderRepo.save(po_list.get(i));
 				}
 			}
 
@@ -467,12 +507,16 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 					.findByPoNumber(combinedDto.getPurchaseOrderItemsdto().get(0).getPoNumber());
 			List<PurchaseOrderItems> itemsList = itemsRepo.findAllByPurchaseOrder(PO);
 
-			System.out.println("inside else po");
 			List<PurchaseOrderItemsSaveDto> recievedItems = combinedDto.getPurchaseOrderItemsdto();
-			for (int j = 0; j < recievedItems.size(); j++) {
-				if (recievedItems.get(j).getAsnNumber() == 0 && recievedItems.get(j).getPoNumber() == 0) {
 
-					PurchaseOrder po1 = purchaseOrderRepo.findByPoNumber(recievedItems.get(0).getPoNumber());
+			for (int j = 0; j < recievedItems.size(); j++) {
+
+				String sku = recievedItems.get(j).getSku();
+				Optional<PurchaseOrderItems> itemPresent = itemsList.stream()
+						.filter(item -> item.getSku().contains(sku)).findAny();
+
+				// System.out.println("itemPresent :" + itemPresent);
+				if (itemPresent.isEmpty()) {
 
 					PurchaseOrderItems purchaseOrderItems = new PurchaseOrderItems(recievedItems.get(j).getItemNumber(),
 							recievedItems.get(j).getItemName(), recievedItems.get(j).getExpectedQty(),
@@ -480,19 +524,28 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 							recievedItems.get(j).getColor(), recievedItems.get(j).getPrice(),
 							recievedItems.get(j).getSize(), recievedItems.get(j).getImageData(),
 							recievedItems.get(j).getUpc(), recievedItems.get(j).getSku(),
-							recievedItems.get(j).getTaxPercentage(), recievedItems.get(j).getTaxCode(), po1);
+							recievedItems.get(j).getTaxPercentage(), recievedItems.get(j).getTaxCode(),
+							recievedItems.get(j).getDamageImageBase64(), false, PO);
 
 					itemsRepo.save(purchaseOrderItems);
 				}
+
 			}
 
 			PO.setAttachedImage(combinedDto.getAttachedImage());
 			for (int j = 0; j < itemsList.size(); j++) {
 				if (itemsList.get(j).getRemainingQty() != 0) {
-					PO.setStatus("Partial Receive");
+					PO.setStatus("PartialReceive");
 					purchaseOrderRepo.save(PO);
 					break;
 				}
+			}
+
+			boolean allCompleted = itemsList.stream().allMatch(item -> item.getIsCompleted() == true);
+
+			if (allCompleted == true) {
+				PO.setStatus("Complete");
+				purchaseOrderRepo.save(PO);
 			}
 		}
 

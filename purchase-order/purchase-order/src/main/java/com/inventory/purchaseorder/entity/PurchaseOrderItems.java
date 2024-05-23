@@ -32,6 +32,9 @@ public class PurchaseOrderItems {
 	private String sku;
 	private String taxPercentage;
 	private String taxCode;
+	@Column(length = 65555)
+	private String damageImageBase64;
+	private boolean isCompleted;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "poNumber", referencedColumnName = "poNumber")
@@ -186,10 +189,30 @@ public class PurchaseOrderItems {
 		this.damageImage = damageImage;
 	}
 
+	public boolean getIsCompleted() {
+		return isCompleted;
+	}
+
+	public void setIsCompleted(boolean isCompleted) {
+		this.isCompleted = isCompleted;
+	}
+
+	public String getDamageImageBase64() {
+		return damageImageBase64;
+	}
+
+	public void setDamageImageBase64(String damageImageBase64) {
+		this.damageImageBase64 = damageImageBase64;
+	}
+
+	public void setCompleted(boolean isCompleted) {
+		this.isCompleted = isCompleted;
+	}
+
 	public PurchaseOrderItems(String itemNumber, String itemName, int expectedQty, int receivedQty, int remainingQty,
 			int damageQty, String damageImage, String category, String color, String price, String size,
-			String imageData, String upc, String sku, String taxPercentage, String taxCode,
-			PurchaseOrder purchaseOrder) {
+			String imageData, String upc, String sku, String taxPercentage, String taxCode, String damageImageBase64,
+			boolean isCompleted, PurchaseOrder purchaseOrder) {
 		super();
 		this.itemNumber = itemNumber;
 		this.itemName = itemName;
@@ -207,6 +230,8 @@ public class PurchaseOrderItems {
 		this.sku = sku;
 		this.taxPercentage = taxPercentage;
 		this.taxCode = taxCode;
+		this.damageImageBase64 = damageImageBase64;
+		this.isCompleted = isCompleted;
 		this.purchaseOrder = purchaseOrder;
 	}
 
